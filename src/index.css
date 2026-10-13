@@ -1,0 +1,35 @@
+@import "tailwindcss";
+
+@font-face {
+  font-family: "Montserrat";
+  src: url("./assets/fonts/Montserrat-VariableFont_wght.ttf") format("truetype");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@theme {
+  --color-dark-main: #202020;
+  --color-dark-second: #2a2828;
+  --color-light-main: #fafafa;
+  --color-light-second: #f5f5f7;
+  --color-link-hover: #e19d3b;
+  --font-montserrat: "Montserrat", sans-serif;
+}
+
+body {
+  font-family: var(--font-montserrat);
+}
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@layer base {
+  html,
+  body {
+    @apply bg-light-main dark:bg-dark-main font-montserrat text-black dark:text-white transition-all duration-300;
+  }
+}
+
+button {
+  cursor: pointer;
+}
