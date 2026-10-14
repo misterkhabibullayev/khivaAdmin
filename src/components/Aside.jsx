@@ -78,7 +78,7 @@ export default function Aside() {
     },
   ];
   return (
-    <aside className="w-64 h-full shrink-0 border-r border-link-hover flex flex-col">
+    <aside className="w-64 min-h-screen shrink-0 border-r border-link-hover flex flex-col">
       <div className="flex items-center justify-center py-2 gap-2">
         <img src="/Images/logo.png" alt="" className="h-10" />
         <h2 className="font-bold text-lg leading-[110%]">KhivaMuseum</h2>

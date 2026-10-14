@@ -26,7 +26,7 @@ body {
 @layer base {
   html,
   body {
-    @apply bg-light-main dark:bg-dark-main font-montserrat text-black dark:text-white transition-all duration-300 outline-none;
+    @apply bg-light-main dark:bg-dark-main font-montserrat text-black dark:text-white transition-all duration-300 outline-none min-h-screen overflow-x-hidden;
   }
 }
 
