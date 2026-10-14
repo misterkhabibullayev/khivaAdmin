@@ -5,6 +5,7 @@ import {
   AdminsPage,
   AnnouncementsPage,
   CollectionsPage,
+  EmployeesAddPage,
   EmployeesPage,
   GalleryPage,
   HomePage,
@@ -48,6 +49,10 @@ export const router = [
           {
             path: "employees",
             element: <EmployeesPage />,
+          },
+          {
+            path: "employees/:employeesAdd",
+            element: <EmployeesAddPage />,
           },
           {
             path: "collections",

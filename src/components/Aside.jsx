@@ -7,8 +7,8 @@ import {
   Megaphone,
   Newspaper,
   Ticket,
-  UserCog,
   Users,
+  UserShield,
 } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
@@ -74,14 +74,14 @@ export default function Aside() {
       id: 10,
       path: "admins",
       name: "Adminlar",
-      icon: UserCog,
+      icon: UserShield,
     },
   ];
   return (
     <aside className="w-64 min-h-screen shrink-0 border-r border-link-hover flex flex-col">
       <div className="flex items-center justify-center py-2 gap-2">
         <img src="/Images/logo.png" alt="" className="h-10" />
-        <h2 className="font-bold text-lg leading-[110%]">KhivaMuseum</h2>
+        <h2 className="font-bold text-lg leading-[110%] text-link-hover pt-2">KhivaMuseum</h2>
       </div>
       <nav className="w-full flex flex-col gap-2 p-4">
         {navbar.map((item) => {
