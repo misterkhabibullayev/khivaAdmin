@@ -58,15 +58,15 @@ export default function LoginPage() {
   };
   return (
     <div>
-      <div className='bg-[url("/Images/image.png")] w-full h-screen bg-no-repeat bg-center bg-cover overflow-hidden flex items-center justify-end'>
-        <div className="flex flex-col gap-4 pr-[15%] items-center">
+      <div className='w-full h-screen overflow-hidden flex items-center justify-center'>
+        <div className="flex flex-col gap-4 items-center">
           <div className="flex items-center mb-7">
             <img
               src="/Images/logo.png"
               alt="KhivaMuseum Logo"
               className="h-17.5"
             />
-            <h2 className="font-bold text-2xl leading-[110%]">
+            <h2 className="font-bold text-2xl leading-[110%] text-link-hover pt-2">
               Khiva
               <br />
               Museum

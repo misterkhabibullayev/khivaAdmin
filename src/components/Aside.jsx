@@ -1,5 +1,7 @@
 import {
   Briefcase,
+  ChevronLeft,
+  ChevronRight,
   Home,
   Image,
   Layers,
@@ -12,9 +14,11 @@ import {
 } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
+import { useState } from "react";
 
 export default function Aside() {
   const location = useLocation();
+  const [isCollapse, setIsCollapse] = useState(false);
   const navbar = [
     {
       id: 1,
@@ -78,12 +82,18 @@ export default function Aside() {
     },
   ];
   return (
-    <aside className="w-64 min-h-screen shrink-0 border-r border-link-hover flex flex-col">
-      <div className="flex items-center justify-center py-2 gap-2">
-        <img src="/Images/logo.png" alt="" className="h-10" />
-        <h2 className="font-bold text-lg leading-[110%] text-link-hover pt-2">KhivaMuseum</h2>
+    <aside
+      className={`min-h-screen shrink-0 border-r border-link-hover transition-all duration-300 ease-in-out select-none ${isCollapse ? "w-21" : "w-64"}`}
+    >
+      <div className="h-16 flex items-center px-5 overflow-hidden">
+        <img src="/Images/logo.png" alt="" className="w-10 h-10 object-contain shrink-0" />
+        <h2
+          className={`font-bold text-xl leading-[110%] text-link-hover pt-1.5 transition-all duration-300 ease-in-out ${isCollapse ? "opacity-0 max-w-0 ml-0" : "opacity-100 max-w-40 ml-2"}`}
+        >
+          KhivaMuseum
+        </h2>
       </div>
-      <nav className="w-full flex flex-col gap-2 p-4">
+      <nav className="w-full flex flex-col gap-2 p-4 relative">
         {navbar.map((item) => {
           const Icon = item.icon;
 
@@ -94,7 +104,7 @@ export default function Aside() {
             <Link
               key={item.id}
               to={item.path}
-              className={`relative z-10 flex items-center gap-2 transition-all duration-300 p-2 rounded-lg hover:bg-light-second text-base ${isActive ? "text-white" : ""}`}
+              className={`relative z-10 h-10 px-3.5 flex items-center transition-all duration-300 rounded-xl hover:bg-light-second text-base ${isActive ? "text-white" : ""}`}
             >
               {isActive && (
                 <motion.div
@@ -103,16 +113,30 @@ export default function Aside() {
                   transition={{
                     type: "spring",
                     stiffness: 350,
-                    damping: 30,
+                    damping: 40,
                   }}
                   className="absolute inset-0 bg-link-hover -z-10 rounded-lg"
                 />
               )}
-              <Icon className="w-5 h-5" />
-              <span>{item.name}</span>
+              <Icon className="w-5 h-5 shrink-0" />
+              <span className={`whitespace-nowrap font-medium text-sm transition-all duration-300 ease-in-out ${isCollapse ? "opacity-0 max-w-0 ml-0" : "opacity-100 max-w-full ml-3"}`}>
+                {item.name}
+              </span>
             </Link>
           );
         })}
+        <div className="absolute top-2 -right-3.5 z-10 rounded-full">
+          <button
+            onClick={() => setIsCollapse((prev) => !prev)}
+            className="border border-link-hover p-1 text-link-hover rounded-full bg-white"
+          >
+            {isCollapse ? (
+              <ChevronRight className="w-4.5 h-4.5" />
+            ) : (
+              <ChevronLeft className="w-4.5 h-4.5" />
+            )}
+          </button>
+        </div>
       </nav>
     </aside>
   );
