@@ -51,7 +51,11 @@ export const router = [
             element: <EmployeesPage />,
           },
           {
-            path: "employees/:employeesAdd",
+            path: "employees/add",
+            element: <EmployeesAddPage />,
+          },
+          {
+            path: "employees/add/:id",
             element: <EmployeesAddPage />,
           },
           {

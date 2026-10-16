@@ -9,7 +9,7 @@ export const useEmployeesStore = create((set) => ({
   getEmployees: async () => {
     set({ loading: true, error: null });
     try {
-      const data = await fetchAPI("/employees");
+      const data = await fetchAPI("/employee");
       set({ employees: data.data, loading: false });
     } catch (error) {
       set({ error: error.message, loading: false });

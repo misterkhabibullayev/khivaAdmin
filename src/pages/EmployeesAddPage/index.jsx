@@ -1,7 +1,6 @@
-import { ArrowLeft, Plus, Upload } from "lucide-react";
+import { ArrowLeft, Loader2, Save, Upload } from "lucide-react";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Icons } from "../../icons/Icons";
 
 export default function EmployeesAddPage() {
   const [name, setName] = useState("");
@@ -124,8 +123,9 @@ export default function EmployeesAddPage() {
       setIsSubmitting(false);
     }
   };
+
   return (
-    <div className="py-6">
+    <div className="">
       <div className="flex flex-col items-center">
         <div className="flex items-center gap-2 w-full xl:w-2/3 pb-6">
           <Link to={"/employees"} className="flex items-center justify-center">
@@ -133,7 +133,7 @@ export default function EmployeesAddPage() {
           </Link>
           <h2 className="font-medium">Xodim qo'shish</h2>
         </div>
-        <div className="w-full xl:w-2/3 bg-white p-6 rounded-xl shadow-lg text-sm">
+        <div className="w-full xl:w-2/3 bg-white p-6 rounded-xl shadow-lg text-sm text-black font-medium">
           <form onSubmit={handleSubmit}>
             <div className="grid grid-cols-6 gap-6">
               <div className="flex flex-col col-span-2">
@@ -224,14 +224,16 @@ export default function EmployeesAddPage() {
                 />
               </div>
               <div className="col-span-6">
-                <label className="block text-sm font-medium text-gray-700 mb-1.5">
+                <label className="block text-sm font-medium mb-1.5">
                   Rasmi
                 </label>
                 <label
                   className={`flex flex-col justify-center w-full h-32 border-2 border-dashed rounded-lg cursor-pointer transition-colors overflow-hidden ${imgError ? "border-red-400 bg-red-50" : "border-gray-300 bg-gray-50/50 hover:border-link-hover hover:bg-link-hover/10"}`}
                 >
                   {isUploading ? (
-                    <p className="text-sm text-gray-500 text-center">Yuklanmoqda...</p>
+                    <p className="text-sm text-gray-500 text-center">
+                      Yuklanmoqda...
+                    </p>
                   ) : imgUrl ? (
                     <div className="w-auto flex items-center gap-3 px-3">
                       <img
@@ -265,7 +267,9 @@ export default function EmployeesAddPage() {
                   />
                 </label>
                 {imgError && (
-                  <p className="text-xs text-red-500 mt-1.5 text-center">{imgError}</p>
+                  <p className="text-xs text-red-500 mt-1.5 text-center">
+                    {imgError}
+                  </p>
                 )}
               </div>
             </div>
@@ -275,12 +279,12 @@ export default function EmployeesAddPage() {
                 disabled={isSubmitting || isUploading}
                 className="font-medium text-white bg-link-hover hover:bg-link-hover/80 transition-colors duration-300 px-4 py-1.5 rounded-lg flex items-center gap-1"
               >
-                Qo'shish
                 {isSubmitting ? (
-                  <Icons.smallLoadingIcon />
+                  <Loader2 className="w-4 h-4" />
                 ) : (
-                  <Plus className="w-4 h-4" />
+                  <Save className="w-4 h-4" />
                 )}
+                Saqlash
               </button>
             </div>
           </form>

@@ -1,14 +1,20 @@
-import { useEmployeesStore } from "../../store/useEmployeesStore";
-import { useEffect } from "react";
 import { Eye, Plus, SquarePen, Trash } from "lucide-react";
-import PageHeader from "../../components/PageHeader";
-import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
 import { PhotoProvider, PhotoView } from "react-photo-view";
 import "react-photo-view/dist/react-photo-view.css";
+import { useNavigate } from "react-router-dom";
 import EmployeesSkeleton from "../../components/EmployeesSkeleton";
+import PageHeader from "../../components/PageHeader";
+import { Icons } from "../../icons/Icons";
+import { useEmployeesStore } from "../../store/useEmployeesStore";
 
 export default function EmployeesPage() {
   const { employees, loading, error, getEmployees } = useEmployeesStore();
+  const [deleteLoading, setDeleteLoading] = useState(false);
+  const [selectedId, setSelectedId] = useState(null);
+  const navigate = useNavigate();
+
+  const [confirm, setConfirm] = useState(false);
 
   useEffect(() => {
     getEmployees();
@@ -16,83 +22,166 @@ export default function EmployeesPage() {
 
   if (loading) return <EmployeesSkeleton />;
   if (error) return <p>Error</p>;
+  const BASE_URL = import.meta.env.VITE_BASE_URL;
+  const token = localStorage.getItem("admin_token");
+
+
+  const handleDelete = async (id) => {
+    try {
+      setDeleteLoading(true);
+
+      const res = await fetch(`${BASE_URL}/employee/${id}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      const data = await res.json();
+      console.log(data);
+
+      if (res.ok) {
+        getEmployees();
+      }
+    } catch (error) {
+      console.error("O'chirishda xatolik", error);
+    } finally {
+      setDeleteLoading(false);
+    }
+  };
   return (
-    <div>
+    <div className="">
       <PageHeader>
         <h1 className="font-medium text-xl leading-[110%]">Xodimlar</h1>
-        <Link
-          to={"/employees/add"}
-          className="flex items-center gap-1 px-4 py-1 bg-link-hover rounded-lg text-white"
+        <button
+          onClick={() => navigate("/employees/add")}
+          className="flex items-center gap-1 px-3 py-1 border border-link-hover rounded-lg text-link-hover font-medium"
         >
           <Plus className="w-5 h-5" />
           Xodim qo'shish
-        </Link>
+        </button>
       </PageHeader>
-      <PhotoProvider>
-        <div className="w-full bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
-          <div className="overflow-x-auto">
-            <table className="w-full text-left">
-              <thead>
-                <tr className="bg-gray-50/50 border-b border-gray-200 text-xs font-semibold text-black uppercase tracking-wider">
-                  <th className="py-3.5 px-4 w-22">Rasm</th>
-                  <th className="py-3.5 px-4">F.I.Sh</th>
-                  <th className="py-3.5 px-4">Tug'ilgan kuni</th>
-                  <th className="py-3.5 px-4">Lavozimi</th>
-                  <th className="py-3.5 px-4 text-center">Amallar</th>
-                </tr>
-              </thead>
-              <tbody className="w-full divide-y divide-gray-200 text-sm text-gray-700">
-                {employees.map((item) => (
-                  <tr
-                    key={item.id}
-                    className="hover:bg-gray-50/50 transition-colors"
-                  >
-                    <td className="py-2 px-4 flex items-start">
-                      <PhotoView src={item.images[0].url}>
-                        <div className="relative w-8 h-8 overflow-hidden rounded-full group transition-all duration-300 cursor-pointer border border-gray-200">
-                          <img
-                            src={item.images[0].url}
-                            alt={item.fullName}
-                            className="w-full h-full object-cover object-top"
-                          />
-                          <div className="absolute top-0 left-0 w-full h-full bg-black/40 items-center justify-center hidden group-hover:flex transition-all duration-300">
-                            <Eye className="text-white w-4 h-4" />
-                          </div>
-                        </div>
-                      </PhotoView>
-                    </td>
-                    <td className="py-2 px-4">
-                      <h3 className="font-medium text-base">{item.fullName}</h3>
-                    </td>
-                    <td className="py-2 px-4">
-                      <span className="text-gray-500 pt-2">
-                        {item.birthDate}
-                      </span>
-                    </td>
-                    <td className="py-2 px-4">
-                      <p className="text-left">
-                        {item.position?.uz || "Ko'rsatilmagan"}
-                      </p>
-                    </td>
-                    <td className="py-2">
-                      <div className="flex gap-2 items-center">
-                        <button className="w-28.5 px-3 py-1 flex items-center justify-center gap-1 border border-link-hover text-link-hover rounded-sm font-medium text-sm">
-                          <SquarePen className="w-4 h-4" />
-                          Tahrirlash
-                        </button>
-                        <button className="w-28.5 px-3 py-1 flex items-center justify-center gap-1 border border-red-500 text-red-500 rounded-sm font-medium text-sm">
-                          <Trash className="w-4 h-4" />
-                          O'chirish
-                        </button>
-                      </div>
-                    </td>
+      {employees.length === 0 ? (
+        <div>Ma'lumot yo'q</div>
+      ) : (
+        <PhotoProvider>
+          <div className="w-full bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden whitespace-nowrap">
+            <div className="overflow-x-auto">
+              <table className="w-full text-left">
+                <thead>
+                  <tr className="bg-gray-50/50 border-b border-gray-200 text-xs font-semibold text-black uppercase tracking-wider">
+                    <th className="py-2 px-3 w-18">Rasm</th>
+                    <th className="py-2 px-3">F.I.Sh</th>
+                    <th className="py-2 px-3">Tug'ilgan kuni</th>
+                    <th className="py-2 px-3">Lavozimi</th>
+                    <th className="py-2 px-3 text-center">Amallar</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody className="w-full divide-y divide-gray-200 text-sm text-gray-700">
+                  {employees.map((item) => (
+                    <tr
+                      key={item.id}
+                      className="hover:bg-gray-50/50 transition-colors"
+                    >
+                      <td className="py-2 px-3 flex items-start justify-center">
+                        <PhotoView src={item.images[0].url}>
+                          <div className="relative w-8 h-8 overflow-hidden rounded-full group transition-all duration-300 cursor-pointer border border-gray-200">
+                            <img
+                              src={item.images[0].url}
+                              alt={item.fullName}
+                              className="w-full h-full object-cover object-top"
+                            />
+                            <div className="absolute top-0 left-0 w-full h-full bg-black/40 items-center justify-center hidden group-hover:flex transition-all duration-300">
+                              <Eye className="text-white w-4 h-4" />
+                            </div>
+                          </div>
+                        </PhotoView>
+                      </td>
+                      <td className="py-2 px-3">
+                        <h3 className="font-medium text-base whitespace-normal">
+                          {item.fullName}
+                        </h3>
+                      </td>
+                      <td className="py-2 px-3">
+                        <span className="text-gray-500 pt-2">
+                          {item.birthDate
+                            ? item.birthDate.split("-").reverse().join("-")
+                            : "Ko'rsatilmagan"}
+                        </span>
+                      </td>
+                      <td className="py-2 px-3">
+                        <p className="text-left whitespace-normal">
+                          {item.position?.uz || "Ko'rsatilmagan"}
+                        </p>
+                      </td>
+                      <td className="py-2 px-3">
+                        <div className="flex gap-2 items-center justify-center">
+                          <button
+                            onClick={() =>
+                              navigate(`/employees/add/${item.id}`)
+                            }
+                            className="w-28.5 px-3 py-1 flex items-center justify-center gap-1 border border-link-hover text-link-hover rounded-sm font-medium text-sm"
+                          >
+                            <SquarePen className="w-4 h-4" />
+                            Tahrirlash
+                          </button>
+                          <button
+                            onClick={() => {
+                              setSelectedId(item.id);
+                              setConfirm(true);
+                            }}
+                            disabled={deleteLoading}
+                            className="w-28.5 px-3 py-1 flex items-center justify-center gap-1 border border-red-500 text-red-500 rounded-sm font-medium text-sm"
+                          >
+                            {deleteLoading ? (
+                              <Icons.smallLoadingIcon className="w-4 h-4" />
+                            ) : (
+                              <Trash className="w-4 h-4" />
+                            )}
+                            O'chirish
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </PhotoProvider>
+      )}
+      <div
+        onClick={() => {
+          setConfirm(false);
+        }}
+        className={`absolute top-0 left-0 z-100 w-full h-full bg-black/70 flex items-center justify-center ${confirm ? "block" : "hidden"}`}
+      >
+        <div
+          onClick={(e) => e.stopPropagation()}
+          className="bg-white p-6 rounded-lg"
+        >
+          <h2 className="font-medium text-xl max-w-50 text-center">
+            Haqiqattan ham o'chirmoqchimisiz?
+          </h2>
+          <div className="flex items-center justify-end gap-3 pt-6">
+            <button
+              onClick={() => setConfirm(false)}
+              className="border border-black text-black px-3 py-1 rounded-sm"
+            >
+              Yo'q
+            </button>
+            <button
+              onClick={() => {
+                handleDelete(selectedId);
+                setConfirm(false);
+              }}
+              className="border border-link-hover text-white bg-link-hover px-3 py-1 rounded-sm"
+            >
+              Ha
+            </button>
           </div>
         </div>
-      </PhotoProvider>
+      </div>
     </div>
   );
 }
