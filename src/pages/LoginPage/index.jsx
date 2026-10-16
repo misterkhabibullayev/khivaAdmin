@@ -29,7 +29,7 @@ export default function LoginPage() {
     setError(null);
 
     try {
-      const res = await fetch(`${BASE_URL}/admin/login`, {
+      const res = await fetch(`${BASE_URL}/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
