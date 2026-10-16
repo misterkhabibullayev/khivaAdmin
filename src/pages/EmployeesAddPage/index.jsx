@@ -54,7 +54,7 @@ export default function EmployeesAddPage() {
       setIsUploading(true);
 
       const token = localStorage.getItem("admin_token");
-      const res = await fetch(`${BASE_URL}/admin/upload`, {
+      const res = await fetch(`${BASE_URL}/upload`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -101,7 +101,7 @@ export default function EmployeesAddPage() {
       setIsSubmitting(true);
       const token = localStorage.getItem("admin_token");
 
-      const res = await fetch(`${BASE_URL}/admin/employee`, {
+      const res = await fetch(`${BASE_URL}/employee`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
