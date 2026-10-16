@@ -49,7 +49,7 @@ export default function EmployeesSkeleton() {
                   </td>
 
                   <td className="py-2 px-4">
-                    <div className="flex flex-col gap-2 items-center">
+                    <div className="flex gap-2 items-center">
                       <div className="w-28.5 h-6 bg-gray-200 dark:bg-gray-700 rounded-sm"></div>
                       <div className="w-28.5 h-6 bg-gray-200 dark:bg-gray-700 rounded-sm"></div>
                     </div>

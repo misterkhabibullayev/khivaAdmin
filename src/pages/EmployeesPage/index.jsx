@@ -35,7 +35,8 @@ export default function EmployeesPage() {
               <thead>
                 <tr className="bg-gray-50/50 border-b border-gray-200 text-xs font-semibold text-black uppercase tracking-wider">
                   <th className="py-3.5 px-4 w-22">Rasm</th>
-                  <th className="py-3.5 px-4">F.I.Sh / Tug'ilgan kuni</th>
+                  <th className="py-3.5 px-4">F.I.Sh</th>
+                  <th className="py-3.5 px-4">Tug'ilgan kuni</th>
                   <th className="py-3.5 px-4">Lavozimi</th>
                   <th className="py-3.5 px-4 text-center">Amallar</th>
                 </tr>
@@ -48,20 +49,22 @@ export default function EmployeesPage() {
                   >
                     <td className="py-2 px-4 flex items-start">
                       <PhotoView src={item.images[0].url}>
-                        <div className="relative w-13 h-13 overflow-hidden rounded-full group transition-all duration-300 cursor-pointer">
+                        <div className="relative w-8 h-8 overflow-hidden rounded-full group transition-all duration-300 cursor-pointer border border-gray-200">
                           <img
                             src={item.images[0].url}
                             alt={item.fullName}
-                            className="w-full h-full object-cover border border-gray-200"
+                            className="w-full h-full object-cover object-top"
                           />
                           <div className="absolute top-0 left-0 w-full h-full bg-black/40 items-center justify-center hidden group-hover:flex transition-all duration-300">
-                            <Eye className="text-white w-4.5 h-4.5" />
+                            <Eye className="text-white w-4 h-4" />
                           </div>
                         </div>
                       </PhotoView>
                     </td>
                     <td className="py-2 px-4">
                       <h3 className="font-medium text-base">{item.fullName}</h3>
+                    </td>
+                    <td className="py-2 px-4">
                       <span className="text-gray-500 pt-2">
                         {item.birthDate}
                       </span>
@@ -72,13 +75,13 @@ export default function EmployeesPage() {
                       </p>
                     </td>
                     <td className="py-2">
-                      <div className="flex flex-col gap-2 items-center">
-                        <button className="w-28.5 px-3 py-0.5 flex items-center justify-center gap-1 bg-link-hover text-white rounded-sm text-sm">
-                          <SquarePen className="w-4.5 h-4.5" />
+                      <div className="flex gap-2 items-center">
+                        <button className="w-28.5 px-3 py-1 flex items-center justify-center gap-1 border border-link-hover text-link-hover rounded-sm font-medium text-sm">
+                          <SquarePen className="w-4 h-4" />
                           Tahrirlash
                         </button>
-                        <button className="w-28.5 px-3 py-0.5 flex items-center justify-center gap-1 bg-red-500 text-white rounded-sm">
-                          <Trash className="w-4.5 h-4.5" />
+                        <button className="w-28.5 px-3 py-1 flex items-center justify-center gap-1 border border-red-500 text-red-500 rounded-sm font-medium text-sm">
+                          <Trash className="w-4 h-4" />
                           O'chirish
                         </button>
                       </div>
