@@ -104,7 +104,7 @@ export default function Aside() {
             <Link
               key={item.id}
               to={item.path}
-              className={`relative z-10 h-10 px-3.5 flex items-center transition-all duration-300 rounded-xl hover:bg-light-second text-base ${isActive ? "text-white" : ""}`}
+              className={`relative z-10 h-10 px-3.5 flex items-center transition-all duration-300 rounded-xl hover:bg-light-second dark:hover:bg-dark-second text-base ${isActive ? "text-white" : ""}`}
             >
               {isActive && (
                 <motion.div
@@ -118,7 +118,7 @@ export default function Aside() {
                   className="absolute inset-0 bg-link-hover -z-10 rounded-lg"
                 />
               )}
-              <Icon className="w-5 h-5 shrink-0" />
+              <Icon className="w-5 h-5 shrink-0 transition-all duration-300" />
               <span className={`whitespace-nowrap font-medium text-sm transition-all duration-300 ease-in-out ${isCollapse ? "opacity-0 max-w-0 ml-0" : "opacity-100 max-w-full ml-3"}`}>
                 {item.name}
               </span>
@@ -128,7 +128,7 @@ export default function Aside() {
         <div className="absolute top-2 -right-3.5 z-10 rounded-full">
           <button
             onClick={() => setIsCollapse((prev) => !prev)}
-            className="border border-link-hover p-1 text-link-hover rounded-full bg-white"
+            className="border border-link-hover p-1 text-link-hover rounded-full bg-light-main dark:bg-dark-main"
           >
             {isCollapse ? (
               <ChevronRight className="w-4.5 h-4.5" />

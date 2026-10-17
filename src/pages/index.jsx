@@ -7,6 +7,7 @@ const LoginPage = lazy(() => import("./LoginPage"));
 const EmployeesPage = lazy(() => import("./EmployeesPage"));
 const EmployeesAddPage = lazy(() => import("./EmployeesAddPage"));
 const CollectionsPage = lazy(() => import("./CollectionsPage"));
+const CollectionsAddPage = lazy(() => import("./CollectionsAddPage"));
 const AnnouncementsPage = lazy(() => import("./Announcements"));
 const GalleryPage = lazy(() => import("./GalleryPage"));
 const UsersPage = lazy(() => import("./UsersPage"));
@@ -14,16 +15,17 @@ const InquiriesPage = lazy(() => import("./InquiriesPage"));
 const TicketsPage = lazy(() => import("./TicketsPage"));
 
 export {
-  HomePage,
   AdminsPage,
-  NewsPage,
-  LoginPage,
-  EmployeesPage,
-  EmployeesAddPage,
-  CollectionsPage,
   AnnouncementsPage,
+  CollectionsAddPage,
+  CollectionsPage,
+  EmployeesAddPage,
+  EmployeesPage,
   GalleryPage,
-  UsersPage,
+  HomePage,
   InquiriesPage,
+  LoginPage,
+  NewsPage,
   TicketsPage,
+  UsersPage,
 };

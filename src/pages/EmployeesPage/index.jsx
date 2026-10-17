@@ -9,8 +9,9 @@ import { Icons } from "../../icons/Icons";
 import { useEmployeesStore } from "../../store/useEmployeesStore";
 
 export default function EmployeesPage() {
-  const { employees, loading, error, getEmployees } = useEmployeesStore();
-  const [deleteLoading, setDeleteLoading] = useState(false);
+  const { employees, loading, error, getEmployees, deleteEmployee } =
+    useEmployeesStore();
+  const [deleteLoading] = useState(false);
   const [selectedId, setSelectedId] = useState(null);
   const navigate = useNavigate();
 
@@ -22,32 +23,7 @@ export default function EmployeesPage() {
 
   if (loading) return <Loading />;
   if (error) return <p>Error</p>;
-  const BASE_URL = import.meta.env.VITE_BASE_URL;
-  const token = localStorage.getItem("admin_token");
 
-  const handleDelete = async (id) => {
-    try {
-      setDeleteLoading(true);
-
-      const res = await fetch(`${BASE_URL}/employee/${id}`, {
-        method: "DELETE",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      const data = await res.json();
-      console.log(data);
-
-      if (res.ok) {
-        getEmployees();
-      }
-    } catch (error) {
-      console.error("O'chirishda xatolik", error);
-    } finally {
-      setDeleteLoading(false);
-    }
-  };
   return (
     <div className="">
       <PageHeader>
@@ -64,11 +40,11 @@ export default function EmployeesPage() {
         <div>Ma'lumot yo'q</div>
       ) : (
         <PhotoProvider>
-          <div className="w-full bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden whitespace-nowrap">
+          <div className="w-full bg-light-main dark:bg-dark-main rounded-xl shadow-sm border border-link-hover overflow-hidden whitespace-nowrap">
             <div className="overflow-x-auto">
               <table className="w-full text-left">
                 <thead>
-                  <tr className="bg-gray-50/50 border-b border-gray-200 text-xs font-semibold text-black uppercase tracking-wider">
+                  <tr className="bg-gray-50/50 dark:bg-link-hover/50 border-b border-link-hover text-xs font-semibold text-white uppercase tracking-wider ">
                     <th className="py-2 px-3 w-18">Rasm</th>
                     <th className="py-2 px-3">F.I.Sh</th>
                     <th className="py-2 px-3">Tug'ilgan kuni</th>
@@ -76,11 +52,11 @@ export default function EmployeesPage() {
                     <th className="py-2 px-3 text-center">Amallar</th>
                   </tr>
                 </thead>
-                <tbody className="w-full divide-y divide-gray-200 text-sm text-gray-700">
+                <tbody className="w-full divide-y divide-link-hover text-sm text-gray-700 dark:text-white">
                   {employees.map((item) => (
                     <tr
                       key={item.id}
-                      className="hover:bg-gray-50/50 transition-colors"
+                      className="hover:bg-gray-50/50 dark:hover:bg-dark-second transition-colors"
                     >
                       <td className="py-2 px-3 flex items-start justify-center">
                         <PhotoView src={item.images[0].url}>
@@ -102,7 +78,7 @@ export default function EmployeesPage() {
                         </h3>
                       </td>
                       <td className="py-2 px-3">
-                        <span className="text-gray-500 pt-2">
+                        <span className="text-gray-500 dark:text-light-second pt-2">
                           {item.birthDate
                             ? item.birthDate.split("-").reverse().join("-")
                             : "Ko'rsatilmagan"}
@@ -170,8 +146,8 @@ export default function EmployeesPage() {
               Yo'q
             </button>
             <button
-              onClick={() => {
-                handleDelete(selectedId);
+              onClick={async () => {
+                await deleteEmployee(selectedId);
                 setConfirm(false);
               }}
               className="border border-link-hover text-white bg-link-hover px-3 py-1 rounded-sm"

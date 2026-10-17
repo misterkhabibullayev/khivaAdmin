@@ -4,6 +4,7 @@ import MainLayout from "../layout/MainLayout";
 import {
   AdminsPage,
   AnnouncementsPage,
+  CollectionsAddPage,
   CollectionsPage,
   EmployeesAddPage,
   EmployeesPage,
@@ -61,6 +62,10 @@ export const router = [
           {
             path: "collections",
             element: <CollectionsPage />,
+          },
+          {
+            path: "collections/add",
+            element: <CollectionsAddPage />
           },
           {
             path: "announcements",

@@ -44,7 +44,7 @@ export const useEmployeesStore = create((set, get) => ({
         cache: "no-store",
       });
       const data = await res.json();
-      return res.ok ? (data.employee || data) : null;
+      return res.ok ? data.employee || data : null;
     } catch (err) {
       set({ error: err.message });
       return null;
@@ -99,7 +99,7 @@ export const useEmployeesStore = create((set, get) => ({
         }));
       }
       return res.ok;
-    } catch (err) {
+    } catch {
       return false;
     }
   },
@@ -120,7 +120,7 @@ export const useEmployeesStore = create((set, get) => ({
         return { ok: true, url: data.files[0].url };
       }
       return { ok: false, message: data.message || "Rasm yuklanmadi" };
-    } catch (err) {
+    } catch {
       return { ok: false, message: "Server bilan xatolik" };
     } finally {
       set({ uploading: false });

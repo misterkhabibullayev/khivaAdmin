@@ -2,6 +2,7 @@ import { ArrowLeft, Loader2, Save, Upload } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate, useParams } from "react-router-dom";
+import PageHeader from "../../components/PageHeader";
 import { useEmployeesStore } from "../../store/useEmployeesStore";
 
 export default function EmployeesAddPage() {
@@ -136,16 +137,17 @@ export default function EmployeesAddPage() {
 
   return (
     <div className="">
+      <PageHeader>
+        <h1 className="font-medium text-xl leading-[110%]">Xodim qo'shish</h1>
+      </PageHeader>
       <div className="flex flex-col items-center">
         <div className="flex items-center gap-2 w-full xl:w-2/3 pb-6">
-          <Link to={"/employees"} className="flex items-center justify-center">
+          <Link to={"/employees"} className="flex items-center gap-2 justify-center">
             <ArrowLeft />
+            Qaytish
           </Link>
-          <h2 className="font-medium">
-            {isEdit ? "Xodim tahrirlash" : "Xodim qo'shish"}
-          </h2>
         </div>
-        <div className="w-full xl:w-2/3 bg-white p-6 rounded-xl shadow-lg text-sm text-black font-medium">
+        <div className="w-full xl:w-2/3 bg-light-main dark:bg-dark-main p-6 rounded-xl shadow-lg text-sm text-black dark:text-white font-medium">
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="grid grid-cols-6 gap-6">
               <div className="flex flex-col col-span-2">
@@ -157,7 +159,7 @@ export default function EmployeesAddPage() {
                   type="text"
                   placeholder="Masalan: Ibrohim"
                   {...register("name", { required: true })}
-                  className="outline-none border border-gray-300 rounded-lg p-2 bg-gray-50/50 focus:bg-white focus:border-link-hover hover:bg-link-hover/10 hover:border-link-hover transition-colors duration-300"
+                  className="outline-none border border-gray-300 rounded-lg p-2 bg-gray-50/50 dark:bg-dark-second focus:bg-white dark:focus:bg-dark-main focus:border-link-hover hover:bg-link-hover/10 hover:border-link-hover transition-colors duration-300"
                 />
               </div>
               <div className="flex flex-col col-span-2">
@@ -169,7 +171,7 @@ export default function EmployeesAddPage() {
                   type="text"
                   placeholder="Masalan: Xabibullayev"
                   {...register("surName", { required: true })}
-                  className="outline-none border border-gray-300 rounded-lg p-2 bg-gray-50/50 focus:bg-white focus:border-link-hover hover:bg-link-hover/10 hover:border-link-hover transition-colors duration-300"
+                  className="outline-none border border-gray-300 rounded-lg p-2 bg-gray-50/50 dark:bg-dark-second focus:bg-white dark:focus:bg-dark-main focus:border-link-hover hover:bg-link-hover/10 hover:border-link-hover transition-colors duration-300"
                 />
               </div>
               <div className="flex flex-col col-span-2">
@@ -181,7 +183,7 @@ export default function EmployeesAddPage() {
                   type="text"
                   placeholder="Masalan: Mahmujon o'g'li"
                   {...register("fatherName", { required: true })}
-                  className="outline-none border border-gray-300 rounded-lg p-2 bg-gray-50/50 focus:bg-white focus:border-link-hover hover:bg-link-hover/10 hover:border-link-hover transition-colors duration-300"
+                  className="outline-none border border-gray-300 rounded-lg p-2 bg-gray-50/50 dark:bg-dark-second focus:bg-white dark:focus:bg-dark-main focus:border-link-hover hover:bg-link-hover/10 hover:border-link-hover transition-colors duration-300"
                 />
               </div>
               <div className="flex flex-col col-span-3">
@@ -192,7 +194,7 @@ export default function EmployeesAddPage() {
                   id="birthDate"
                   type="date"
                   {...register("birthDate", { required: true })}
-                  className="outline-none border border-gray-300 rounded-lg p-2 bg-gray-50/50 focus:bg-white focus:border-link-hover hover:bg-link-hover/10 hover:border-link-hover transition-colors duration-300"
+                  className="outline-none border border-gray-300 rounded-lg p-2 bg-gray-50/50 dark:bg-dark-second focus:bg-white dark:focus:bg-dark-main focus:border-link-hover hover:bg-link-hover/10 hover:border-link-hover transition-colors duration-300"
                 />
               </div>
               <div className="flex flex-col col-span-3">
@@ -207,7 +209,7 @@ export default function EmployeesAddPage() {
                         className={`px-2 py-0.5 text-xs rounded-sm cursor-pointer flex items-center ${
                           activeLang === lang
                             ? "bg-link-hover text-white"
-                            : "bg-gray-100 text-gray-600"
+                            : "bg-gray-100 dark:bg-link-hover/40 text-gray-600 dark:text-white"
                         }`}
                       >
                         {lang}
@@ -222,7 +224,7 @@ export default function EmployeesAddPage() {
                     type="text"
                     placeholder={`${lang.toUpperCase()} tilida lavozimni kiriting`}
                     {...register(`position.${lang}`)}
-                    className={`outline-none border border-gray-300 rounded-lg py-2 px-3 bg-gray-50/50 focus:bg-white focus:border-link-hover hover:bg-link-hover/10 hover:border-link-hover transition-colors duration-300 ${activeLang === lang ? "block" : "hidden"}`}
+                    className={`outline-none border border-gray-300 rounded-lg p-2 bg-gray-50/50 dark:bg-dark-second focus:bg-white dark:focus:bg-dark-main focus:border-link-hover hover:bg-link-hover/10 hover:border-link-hover transition-colors duration-300 ${activeLang === lang ? "block" : "hidden"}`}
                   />
                 ))}
               </div>
@@ -231,7 +233,7 @@ export default function EmployeesAddPage() {
                   Rasmi
                 </label>
                 <label
-                  className={`flex flex-col justify-center w-full h-32 border-2 border-dashed rounded-lg cursor-pointer transition-colors overflow-hidden ${imgError ? "border-red-400 bg-red-50" : "border-gray-300 bg-gray-50/50 hover:border-link-hover hover:bg-link-hover/10"}`}
+                  className={`flex flex-col justify-center w-full h-32 border-2 border-dashed rounded-lg cursor-pointer transition-colors overflow-hidden ${imgError ? "border-red-400 bg-red-50" : "border-gray-300 bg-gray-50/50 dark:bg-dark-second hover:border-link-hover hover:bg-link-hover/10"}`}
                 >
                   {isUploading ? (
                     <p className="text-sm text-gray-500 text-center">
