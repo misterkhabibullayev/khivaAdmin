@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { PhotoProvider, PhotoView } from "react-photo-view";
 import "react-photo-view/dist/react-photo-view.css";
 import { useNavigate } from "react-router-dom";
-import EmployeesSkeleton from "../../components/EmployeesSkeleton";
+import Loading from "../../components/Loading";
 import PageHeader from "../../components/PageHeader";
 import { Icons } from "../../icons/Icons";
 import { useEmployeesStore } from "../../store/useEmployeesStore";
@@ -20,11 +20,10 @@ export default function EmployeesPage() {
     getEmployees();
   }, [getEmployees]);
 
-  if (loading) return <EmployeesSkeleton />;
+  if (loading) return <Loading />;
   if (error) return <p>Error</p>;
   const BASE_URL = import.meta.env.VITE_BASE_URL;
   const token = localStorage.getItem("admin_token");
-
 
   const handleDelete = async (id) => {
     try {

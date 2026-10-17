@@ -2,10 +2,8 @@ import { Loader2 } from "lucide-react";
 
 export default function Loading() {
   return (
-    <div className="fixed inset-0 top-0 left-0 z-50 w-full h-full bg-light-main flex items-center justify-center">
-      <div className="text-link-hover">
-        <Loader2 className="w-8 h-8 animate-spin" />
-      </div>
+    <div className="flex items-center justify-center min-h-100">
+      <Loader2 className="w-8 h-8 animate-spin text-link-hover" />
     </div>
   );
 }
