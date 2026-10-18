@@ -18,10 +18,10 @@ export default function UsersPage() {
   return (
     <>
       <PageHeader>
-        <h1 className="font-medium text-xl leading-[110%]">Foydalanuvchilar</h1>
-        <span className="text-xs text-zinc-400">
-          Jami: {Array.isArray(users) ? users.length : 0} ta
-        </span>
+        <h1 className="font-medium text-xl leading-[110%] flex items-center gap-4">
+          Foydalanuvchilar{" "}
+          <span className="text-base text-gray-300">Jami: {users.length} ta</span>
+        </h1>
       </PageHeader>
       <div className="mt-4">
         {!Array.isArray(users) || users.length === 0 ? (

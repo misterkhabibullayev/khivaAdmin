@@ -58,8 +58,8 @@ export default function LoginPage() {
   };
   return (
     <div>
-      <div className='w-full h-screen overflow-hidden flex items-center justify-center'>
-        <div className="flex flex-col gap-4 items-center">
+      <div className='w-full h-screen overflow-hidden flex items-center justify-center bg-light-second dark:bg-dark-second'>
+        <div className="flex flex-col gap-4 items-center bg-light-main dark:bg-dark-main p-5 rounded-lg">
           <div className="flex items-center mb-7">
             <img
               src="/Images/logo.png"
@@ -73,7 +73,7 @@ export default function LoginPage() {
             </h2>
           </div>
           <div>
-            <h1 className="font-semibold text-2xl leading-[110%]">Kirish</h1>
+            <h1 className="font-semibold text-2xl leading-[110%] text-link-hover">Kirish</h1>
           </div>
           {error && (
             <p className="text-red-500 text-sm max-w-xs text-center">{error}</p>
@@ -87,7 +87,7 @@ export default function LoginPage() {
                 value={formData.email}
                 onChange={handleChange}
                 required
-                className="outline-none border border-black rounded-lg px-4 py-2 focus:border-link-hover hover:border-link-hover text-black"
+                className="outline-none border border-black dark:border-gray-300 rounded-lg px-4 py-2 focus:border-link-hover hover:border-link-hover text-black dark:text-white dark:placeholder:text-gray-300"
               />
               <div className="relative">
                 <input
@@ -97,7 +97,7 @@ export default function LoginPage() {
                   value={formData.password}
                   onChange={handleChange}
                   required
-                  className="outline-none border border-black rounded-lg px-4 py-2 focus:border-link-hover hover:border-link-hover text-black"
+                  className="outline-none border border-black dark:border-gray-300 rounded-lg px-4 py-2 focus:border-link-hover hover:border-link-hover text-black dark:text-white dark:placeholder:text-gray-300"
                 />
                 <button
                   type="button"
