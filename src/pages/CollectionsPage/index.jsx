@@ -58,7 +58,7 @@ export default function CollectionsPage() {
                     {item.description.uz}
                   </p>
                   <div className="flex items-center">
-                    <div className="w-full flex flex-col lg:flex-row gap-2 items-center justify-center lg:justify-end">
+                    <div className="w-full grid grid-cols-1 lg:grid-cols-2 gap-2">
                       <button
                         onClick={() => navigate(`/collections/add/${item.id}`)}
                         className="w-full lg:w-auto px-2 py-1 flex items-center justify-center gap-1 border border-link-hover text-link-hover rounded-sm font-medium text-sm"

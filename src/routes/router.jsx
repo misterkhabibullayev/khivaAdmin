@@ -3,6 +3,7 @@ import { PublicRoute } from "../components/Routes/PublicRoute";
 import MainLayout from "../layout/MainLayout";
 import {
   AdminsPage,
+  AnnouncementsAddPage,
   AnnouncementsPage,
   CollectionsAddPage,
   CollectionsPage,
@@ -83,6 +84,14 @@ export const router = [
           {
             path: "announcements",
             element: <AnnouncementsPage />,
+          },
+          {
+            path: "announcements/add",
+            element: <AnnouncementsAddPage />,
+          },
+          {
+            path: "announcements/add/:anId",
+            element: <AnnouncementsAddPage />
           },
           {
             path: "gallery",
