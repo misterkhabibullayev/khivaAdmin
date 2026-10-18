@@ -26,13 +26,10 @@ export const useCollectionsStore = create((set, get) => ({
   uploading: false,
   error: null,
 
-  getCollections: async (page = 1, limit = 10, search = "") => {
+  getCollections: async () => {
     set({ loading: true, error: null });
     try {
-      let url = `${BASE_URL}/collection?page=${page}&limit=${limit}`;
-      if (search) {
-        url += `&search=${encodeURIComponent(search)}`;
-      }
+      let url = `${BASE_URL}/collection`;
 
       const res = await fetch(url, {
         headers: getHeaders(false),
@@ -43,7 +40,6 @@ export const useCollectionsStore = create((set, get) => ({
       if (res.ok) {
         set({
           collections: result.data || [],
-          meta: result.meta || { page, limit, total: 0, lastPage: 1 },
         });
       } else {
         set({ error: result.message || "Yuklashda xatolik" });
@@ -69,6 +65,40 @@ export const useCollectionsStore = create((set, get) => ({
       return null;
     } finally {
       set({ loading: false });
+    }
+  },
+
+  createCollection: async (payload) => {
+    set({ submitting: true, error: null });
+    try {
+      const res = await fetch(`${BASE_URL}/collection`, {
+        method: "POST",
+        headers: getHeaders(true),
+        body: JSON.stringify(payload),
+      });
+      const data = await res.json();
+      return { ok: res.ok, data };
+    } catch (err) {
+      return { ok: false, error: err.message };
+    } finally {
+      set({ submitting: false });
+    }
+  },
+
+  updateCollection: async (id, payload) => {
+    set({ submitting: true, error: null });
+    try {
+      const res = await fetch(`${BASE_URL}/collection/${id}`, {
+        method: "PATCH",
+        headers: getHeaders(true),
+        body: JSON.stringify(payload),
+      });
+      const data = await res.json();
+      return { ok: res.ok, data };
+    } catch (err) {
+      return { ok: false, error: err.message };
+    } finally {
+      set({ submitting: false });
     }
   },
 

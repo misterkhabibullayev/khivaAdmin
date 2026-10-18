@@ -293,7 +293,6 @@ export default function EmployeesAddPage() {
             </div>
           </form>
         </div>
-        <div className="w-6 h-6"></div>
       </div>
     </div>
   );

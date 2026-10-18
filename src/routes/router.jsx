@@ -65,7 +65,11 @@ export const router = [
           },
           {
             path: "collections/add",
-            element: <CollectionsAddPage />
+            element: <CollectionsAddPage />,
+          },
+          {
+            path: "collections/add/:cid",
+            element: <CollectionsAddPage />,
           },
           {
             path: "announcements",
