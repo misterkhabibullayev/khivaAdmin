@@ -3,6 +3,7 @@ import { lazy } from "react";
 const HomePage = lazy(() => import("./HomePage"));
 const AdminsPage = lazy(() => import("./AdminsPage"));
 const NewsPage = lazy(() => import("./NewsPage"));
+const NewsAddPage = lazy(() => import("./NewsAddPage"));
 const LoginPage = lazy(() => import("./LoginPage"));
 const EmployeesPage = lazy(() => import("./EmployeesPage"));
 const EmployeesAddPage = lazy(() => import("./EmployeesAddPage"));
@@ -25,6 +26,7 @@ export {
   HomePage,
   InquiriesPage,
   LoginPage,
+  NewsAddPage,
   NewsPage,
   TicketsPage,
   UsersPage,

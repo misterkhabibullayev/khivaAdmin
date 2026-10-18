@@ -12,6 +12,7 @@ import {
   HomePage,
   InquiriesPage,
   LoginPage,
+  NewsAddPage,
   NewsPage,
   TicketsPage,
   UsersPage,
@@ -42,6 +43,14 @@ export const router = [
           {
             path: "/news",
             element: <NewsPage />,
+          },
+          {
+            path: "/news/add",
+            element: <NewsAddPage />,
+          },
+          {
+            path: "/news/add/:newsId",
+            element: <NewsAddPage />,
           },
           {
             path: "/admins",

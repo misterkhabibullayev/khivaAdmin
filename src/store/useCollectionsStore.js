@@ -15,12 +15,6 @@ const getHeaders = (isJson = true) => {
 
 export const useCollectionsStore = create((set, get) => ({
   collections: [],
-  meta: {
-    page: 1,
-    limit: 10,
-    total: 0,
-    lastPage: 1,
-  },
   loading: false,
   submitting: false,
   uploading: false,
