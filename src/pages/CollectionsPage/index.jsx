@@ -57,11 +57,11 @@ export default function CollectionsPage() {
                   <p className="line-clamp-3 text-sm leading-[130%] my-2">
                     {item.description.uz}
                   </p>
-                  <div className="flex items-center justify-end">
-                    <div className="flex gap-2 items-center justify-center">
+                  <div className="flex items-center">
+                    <div className="w-full flex flex-col lg:flex-row gap-2 items-center justify-center lg:justify-end">
                       <button
                         onClick={() => navigate(`/collections/add/${item.id}`)}
-                        className="px-2 py-1 flex items-center justify-center gap-1 border border-link-hover text-link-hover rounded-sm font-medium text-sm"
+                        className="w-full lg:w-auto px-2 py-1 flex items-center justify-center gap-1 border border-link-hover text-link-hover rounded-sm font-medium text-sm"
                       >
                         <SquarePen className="w-4 h-4" />
                         Tahrirlash
@@ -72,7 +72,7 @@ export default function CollectionsPage() {
                           setConfirm(true);
                         }}
                         disabled={deleteLoading}
-                        className="px-2 py-1 flex items-center justify-center gap-1 border border-red-500 text-red-500 rounded-sm font-medium text-sm"
+                        className="w-full lg:w-auto px-2 py-1 flex items-center justify-center gap-1 border border-red-500 text-red-500 rounded-sm font-medium text-sm"
                       >
                         <Trash className="w-4 h-4" />
                         O'chirish
