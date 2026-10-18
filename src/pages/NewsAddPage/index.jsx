@@ -22,7 +22,7 @@ export default function NewsAdd() {
     getNewsById,
     createNews,
     updateNews,
-    uploadImage,
+    uploadImages,
     submitting: isSubmitting,
     uploading: isUploading,
   } = useNewsStore();
@@ -72,13 +72,19 @@ export default function NewsAdd() {
   }, [newsId, isEdit, reset, getNewsById]);
 
   const handleMultipleImageUpload = async (e) => {
-    const files = Array.from(e.target.files || []);
-    if (!files.length) return;
+    const selectedFiles = Array.from(e.target.files || []);
+    if (!selectedFiles.length) return;
 
     setImgError("");
 
+    if (imagesList.length + selectedFiles.length > 10) {
+      setImgError("Maksimal 10 tagacha rasm yuklash mumkin!");
+      e.target.value = "";
+      return;
+    }
+
     const imgType = ["image/png", "image/jpeg", "image/jpg", "image/webp"];
-    const validFiles = files.filter((file) => {
+    const validFiles = selectedFiles.filter((file) => {
       if (!imgType.includes(file.type)) {
         setImgError("Faqat PNG, JPG yoki WEBP formatdagi rasmlar mumkin!");
         return false;
@@ -95,24 +101,16 @@ export default function NewsAdd() {
       return;
     }
 
-    try {
-      const results = await Promise.all(
-        validFiles.map((file) => uploadImage(file)),
-      );
-      const successfulUrls = results
-        .filter((res) => res && res.ok && res.url)
-        .map((res) => ({ url: res.url }));
+    const res = await uploadImages(validFiles);
 
-      if (successfulUrls.length > 0) {
-        setImagesList((prev) => [...prev, ...successfulUrls]);
-      } else {
-        setImgError("Rasm yuklanmadi");
-      }
-    } catch {
-      setImgError("Yuklashda server bilan xatolik yuz berdi");
-    } finally {
-      e.target.value = "";
+    if (res.ok && res.urls) {
+      const newItems = res.urls.map((url) => ({ url }));
+      setImagesList((prev) => [...prev, ...newItems]);
+    } else {
+      setImgError(res.message || "Yuklashda xatolik yuz berdi");
     }
+
+    e.target.value = "";
   };
 
   const removeImage = (idxToRemove) => {

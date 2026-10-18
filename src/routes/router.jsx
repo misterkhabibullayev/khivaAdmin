@@ -9,6 +9,7 @@ import {
   CollectionsPage,
   EmployeesAddPage,
   EmployeesPage,
+  GalleryAddPage,
   GalleryPage,
   HomePage,
   InquiriesPage,
@@ -96,6 +97,13 @@ export const router = [
           {
             path: "gallery",
             element: <GalleryPage />,
+          },
+          {
+            path: "gallery/add",
+            element: <GalleryAddPage />
+          },
+          {
+            path: ""
           },
           {
             path: "users",

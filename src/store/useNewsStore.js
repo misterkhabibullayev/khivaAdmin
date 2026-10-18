@@ -115,10 +115,12 @@ export const useNewsStore = create((set, get) => ({
     }
   },
 
-  uploadImage: async (file) => {
+  uploadImages: async (files) => {
     set({ uploading: true });
     const formData = new FormData();
-    formData.append("file", file);
+    Array.from(files).forEach((file) => {
+      formData.append("files", file);
+    });
 
     try {
       const res = await fetch(`${BASE_URL}/upload`, {
@@ -127,8 +129,9 @@ export const useNewsStore = create((set, get) => ({
         body: formData,
       });
       const data = await res.json();
-      if (res.ok && data.files?.[0]?.url) {
-        return { ok: true, url: data.files[0].url };
+      if (res.ok && Array.isArray(data.files)) {
+        const urls = data.files.map((f) => f.url);
+        return { ok: true, urls };
       }
       return { ok: false, message: data.message || "Rasm yuklanmadi" };
     } catch {

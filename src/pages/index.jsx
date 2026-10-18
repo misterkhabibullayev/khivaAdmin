@@ -12,6 +12,7 @@ const CollectionsAddPage = lazy(() => import("./CollectionsAddPage"));
 const AnnouncementsPage = lazy(() => import("./Announcements"));
 const AnnouncementsAddPage = lazy(() => import("./AnnounCementsAddPage"));
 const GalleryPage = lazy(() => import("./GalleryPage"));
+const GalleryAddPage = lazy(() => import("./GalleryAddPage"));
 const UsersPage = lazy(() => import("./UsersPage"));
 const InquiriesPage = lazy(() => import("./InquiriesPage"));
 const TicketsPage = lazy(() => import("./TicketsPage"));
@@ -24,6 +25,7 @@ export {
   CollectionsPage,
   EmployeesAddPage,
   EmployeesPage,
+  GalleryAddPage,
   GalleryPage,
   HomePage,
   InquiriesPage,
