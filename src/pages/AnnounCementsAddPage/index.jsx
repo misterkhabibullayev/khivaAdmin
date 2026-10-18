@@ -303,7 +303,7 @@ export default function NewsAdd() {
                                     e.stopPropagation();
                                     removeImage(index);
                                   }}
-                                  className="p-1.5 rounded-lg bg-black/60 backdrop-blur-md text-zinc-300 hover:text-white hover:bg-rose-500 transition-colors cursor-pointer"
+                                  className="p-1.5 rounded-full bg-black/60 backdrop-blur-md text-zinc-300 hover:text-white hover:bg-rose-500 transition-colors cursor-pointer"
                                   title="O'chirish"
                                 >
                                   <Trash2 className="w-3.5 h-3.5" />
