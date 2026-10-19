@@ -20,19 +20,21 @@ export default function UsersPage() {
       <PageHeader>
         <h1 className="font-medium text-xl leading-[110%] flex items-center gap-4">
           Foydalanuvchilar{" "}
-          <span className="text-base text-gray-300">Jami: {users.length} ta</span>
+          <span className="text-base text-black/50 dark:text-white/50">
+            Jami: {users.length} ta
+          </span>
         </h1>
       </PageHeader>
       <div className="mt-4">
-        {!Array.isArray(users) || users.length === 0 ? (
+        {users.length === 0 ? (
           <div className="text-center py-12 text-zinc-500 bg-light-main dark:bg-dark-main rounded-xl border border-zinc-800">
             Foydalanuvchilar topilmadi
           </div>
         ) : (
-          <div className="overflow-x-auto rounded-xl border border-zinc-800 bg-light-main dark:bg-dark-main">
+          <div className="overflow-x-auto rounded-xl border border-link-hover bg-light-main dark:bg-dark-main">
             <table className="w-full text-left">
               <thead>
-                <tr className="bg-gray-50/50 dark:bg-link-hover/50 border-b border-link-hover text-xs font-semibold text-white uppercase tracking-wider ">
+                <tr className="bg-gray-50/50 dark:bg-link-hover/50 border-b border-link-hover text-xs font-semibold text-black dark:text-white uppercase tracking-wider ">
                   <th className="py-2 px-3">
                     <Hash className="w-3.5 h-3.5" />
                   </th>

@@ -2,6 +2,7 @@ import { lazy } from "react";
 
 const HomePage = lazy(() => import("./HomePage"));
 const AdminsPage = lazy(() => import("./AdminsPage"));
+const AdminAddPage = lazy(() => import("./AdminAddPage"));
 const NewsPage = lazy(() => import("./NewsPage"));
 const NewsAddPage = lazy(() => import("./NewsAddPage"));
 const LoginPage = lazy(() => import("./LoginPage"));
@@ -16,8 +17,10 @@ const GalleryAddPage = lazy(() => import("./GalleryAddPage"));
 const UsersPage = lazy(() => import("./UsersPage"));
 const InquiriesPage = lazy(() => import("./InquiriesPage"));
 const TicketsPage = lazy(() => import("./TicketsPage"));
+const ProfilePage = lazy(() => import("./ProfilePage"));
 
 export {
+  AdminAddPage,
   AdminsPage,
   AnnouncementsAddPage,
   AnnouncementsPage,
@@ -32,6 +35,7 @@ export {
   LoginPage,
   NewsAddPage,
   NewsPage,
+  ProfilePage,
   TicketsPage,
   UsersPage,
 };

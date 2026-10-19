@@ -16,6 +16,7 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import Profile from "./Profile";
 
 export default function Aside() {
   const navigate = useNavigate();
@@ -148,21 +149,20 @@ export default function Aside() {
           </div>
         </nav>
         <div className="flex-1 flex flex-col justify-end gap-2 pb-20 px-4">
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-link-hover rounded-full p-2 flex items-center justify-center">
-              X
-            </div>
-            <div>Xabibullayev</div>
-          </div>
+          <Profile isCollapse={isCollapse} />
           <button
             onClick={() => {
               localStorage.removeItem("admin_token");
               navigate("/login");
             }}
-            className="flex items-center justify-center border border-red-50 w-full py-1 px-3 rounded-xl"
+            className="flex items-center justify-center border border-link-hover w-full py-1 px-3 rounded-xl"
           >
             <LogOut className="w-5 h-5" />
-            Chiqish
+            <span
+              className={`whitespace-nowrap font-medium text-sm transition-all duration-300 ease-in-out ${isCollapse ? "opacity-0 max-w-0 ml-0" : "opacity-100 max-w-full ml-3"}`}
+            >
+              Chiqish
+            </span>
           </button>
         </div>
       </div>

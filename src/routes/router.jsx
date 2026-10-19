@@ -2,6 +2,7 @@ import { ProtectedRoute } from "../components/Routes/ProtectedRoute";
 import { PublicRoute } from "../components/Routes/PublicRoute";
 import MainLayout from "../layout/MainLayout";
 import {
+  AdminAddPage,
   AdminsPage,
   AnnouncementsAddPage,
   AnnouncementsPage,
@@ -16,6 +17,7 @@ import {
   LoginPage,
   NewsAddPage,
   NewsPage,
+  ProfilePage,
   TicketsPage,
   UsersPage,
 } from "../pages";
@@ -59,6 +61,10 @@ export const router = [
             element: <AdminsPage />,
           },
           {
+            path: "/admins/add",
+            element: <AdminAddPage />,
+          },
+          {
             path: "employees",
             element: <EmployeesPage />,
           },
@@ -92,7 +98,7 @@ export const router = [
           },
           {
             path: "announcements/add/:anId",
-            element: <AnnouncementsAddPage />
+            element: <AnnouncementsAddPage />,
           },
           {
             path: "gallery",
@@ -100,10 +106,10 @@ export const router = [
           },
           {
             path: "gallery/add",
-            element: <GalleryAddPage />
+            element: <GalleryAddPage />,
           },
           {
-            path: ""
+            path: "",
           },
           {
             path: "users",
@@ -116,6 +122,10 @@ export const router = [
           {
             path: "tickets",
             element: <TicketsPage />,
+          },
+          {
+            path: "profile",
+            element: <ProfilePage />,
           },
         ],
       },
