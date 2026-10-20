@@ -351,7 +351,11 @@ export default function ProfilePage() {
                     }}
                     className="absolute right-2 top-1/2 -translate-y-1/2 p-1"
                   >
-                    {showPassword ? <Eye className="w-4 h-4" /> : <EyeClosed className="w-4 h-4" />}
+                    {showPassword ? (
+                      <Eye className="w-4 h-4" />
+                    ) : (
+                      <EyeClosed className="w-4 h-4" />
+                    )}
                   </button>
                 </div>
               </div>
@@ -442,6 +446,7 @@ export default function ProfilePage() {
                   <input
                     type="text"
                     placeholder="6 xonali kod"
+                    maxLength={6}
                     {...registerEmail("otp", { required: emailStep === 2 })}
                     className="w-full outline-none bg-transparent border border-gray-600 focus:border-link-hover rounded-lg px-3.5 py-2 text-sm text-white tracking-widest text-center"
                   />
