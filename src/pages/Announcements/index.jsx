@@ -26,10 +26,10 @@ export default function AnnouncementsPage() {
         <h1 className="font-medium text-xl leading-[110%]">E'lonlar</h1>
         <button
           onClick={() => navigate("/announcements/add")}
-          className="flex items-center gap-1 px-3 py-1 border border-link-hover rounded-lg text-link-hover font-medium"
+          className="h-8 md:h-auto flex items-center gap-1 px-3 py-1 border border-link-hover rounded-lg text-link-hover font-medium"
         >
           <Plus className="w-5 h-5" />
-          E'lon qo'shish
+          <span className="hidden md:block">E'lon qo'shish</span>
         </button>
       </PageHeader>
       {announcements.length === 0 ? (
@@ -60,7 +60,9 @@ export default function AnnouncementsPage() {
                   <div className="flex items-center">
                     <div className="w-full grid grid-cols-1 lg:grid-cols-2 gap-2">
                       <button
-                        onClick={() => navigate(`/announcements/add/${item.id}`)}
+                        onClick={() =>
+                          navigate(`/announcements/add/${item.id}`)
+                        }
                         className="w-full lg:w-auto px-2 py-1 flex items-center justify-center gap-1 border border-link-hover text-link-hover rounded-sm font-medium text-sm"
                       >
                         <SquarePen className="w-4 h-4" />

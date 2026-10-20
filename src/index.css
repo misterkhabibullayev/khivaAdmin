@@ -21,6 +21,21 @@ body {
   font-family: var(--font-montserrat);
 }
 
+@media (min-width: 768px) {
+  ::-webkit-scrollbar {
+    width: 4px;
+    height: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: rgb(222, 154, 59);
+    border-radius: 4px;
+  }
+}
+
 @custom-variant dark (&:where(.dark, .dark *));
 
 @layer base {

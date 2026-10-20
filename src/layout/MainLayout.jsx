@@ -11,7 +11,7 @@ export default function MainLayout() {
         <Aside />
         <div className="flex flex-1 flex-col h-full min-w-0">
           <Header />
-          <main className="flex-1 overflow-y-auto bg-light-second dark:bg-dark-second p-6">
+          <main className="flex-1 overflow-y-overlay overflow-x-hidden bg-light-second dark:bg-dark-second p-6">
             <Suspense fallback={<MainLoading />}>
               <Outlet />
             </Suspense>

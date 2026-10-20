@@ -30,10 +30,10 @@ export default function EmployeesPage() {
         <h1 className="font-medium text-xl leading-[110%]">Xodimlar</h1>
         <button
           onClick={() => navigate("/employees/add")}
-          className="flex items-center gap-1 px-3 py-1 border border-link-hover rounded-lg text-link-hover font-medium"
+          className="h-8 md:h-auto flex items-center gap-1 px-3 py-1 border border-link-hover rounded-lg text-link-hover font-medium"
         >
           <Plus className="w-5 h-5" />
-          Xodim qo'shish
+          <span className="hidden md:block">Xodim qo'shish</span>
         </button>
       </PageHeader>
       {employees.length === 0 ? (
@@ -44,7 +44,7 @@ export default function EmployeesPage() {
             <div className="overflow-x-auto">
               <table className="w-full text-left">
                 <thead>
-                  <tr className="bg-gray-50/50 dark:bg-link-hover/50 border-b border-link-hover text-xs font-semibold text-white uppercase tracking-wider ">
+                  <tr className="bg-gray-50/50 dark:bg-link-hover/50 border-b border-link-hover text-xs font-semibold text-black dark:text-white uppercase tracking-wider ">
                     <th className="py-2 px-3 w-18">Rasm</th>
                     <th className="py-2 px-3">F.I.Sh</th>
                     <th className="py-2 px-3">Tug'ilgan kuni</th>

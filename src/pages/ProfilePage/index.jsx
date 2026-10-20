@@ -298,7 +298,7 @@ export default function ProfilePage() {
                   type="email"
                   disabled
                   value={profile.email}
-                  className="w-full outline-none bg-gray-800/40 border border-gray-600/50 text-gray-400 rounded-lg px-3.5 py-2 text-sm cursor-not-allowed"
+                  className="w-full outline-none bg-gray-800/40 border border-gray-600/50 text-white rounded-lg px-3.5 py-2 text-sm cursor-not-allowed"
                 />
               </div>
               <div className="w-full flex items-center justify-end">

@@ -20,7 +20,7 @@ export default function UsersPage() {
       <PageHeader>
         <h1 className="font-medium text-xl leading-[110%] flex items-center gap-4">
           Foydalanuvchilar{" "}
-          <span className="text-base text-black/50 dark:text-white/50">
+          <span className="hidden md:block text-base text-black/50 dark:text-white/50">
             Jami: {users.length} ta
           </span>
         </h1>

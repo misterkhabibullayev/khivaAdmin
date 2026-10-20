@@ -25,10 +25,10 @@ export default function NewsPage() {
         <h1 className="font-medium text-xl leading-[110%]">Yangiliklar</h1>
         <button
           onClick={() => navigate("/news/add")}
-          className="flex items-center gap-1 px-3 py-1 border border-link-hover rounded-lg text-link-hover font-medium"
+          className="h-8 md:h-auto flex items-center gap-1 px-3 py-1 border border-link-hover rounded-lg text-link-hover font-medium"
         >
           <Plus className="w-5 h-5" />
-          Yangilik qo'shish
+          <span className="hidden md:block">Yangilik qo'shish</span>
         </button>
       </PageHeader>
       {news.length === 0 ? (

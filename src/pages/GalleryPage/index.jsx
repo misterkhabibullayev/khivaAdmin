@@ -26,10 +26,10 @@ export default function GalleryPage() {
         <h1 className="font-medium text-xl leading-[110%]">Galereya</h1>
         <button
           onClick={() => navigate("/gallery/add")}
-          className="flex items-center gap-1 px-3 py-1 border border-link-hover rounded-lg text-link-hover font-medium"
+          className="h-8 md:h-auto flex items-center gap-1 px-3 py-1 border border-link-hover rounded-lg text-link-hover font-medium"
         >
           <Plus className="w-5 h-5" />
-          Rasm qo'shish
+          <span className="hidden md:block">Rasm qo'shish</span>
         </button>
       </PageHeader>
       {gallery.length === 0 ? (

@@ -19,7 +19,9 @@ export default function InquiriesPage() {
         <h1 className="font-medium text-xl leading-[110%]">So'rovlar</h1>
       </PageHeader>
       {inquiries.length === 0 ? (
-        <div></div>
+        <div>
+          <p>So'rovlar topilmadi</p>
+        </div>
       ) : (
         <div>
           <div>
