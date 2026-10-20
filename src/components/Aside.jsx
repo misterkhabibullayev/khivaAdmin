@@ -169,6 +169,7 @@ export default function Aside() {
               onClick={() => {
                 localStorage.removeItem("admin_token");
                 navigate("/login");
+                setIsCollapse(false);
               }}
               className="flex items-center justify-center border border-link-hover w-full py-1 px-3 rounded-xl"
             >

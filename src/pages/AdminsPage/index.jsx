@@ -34,7 +34,7 @@ export default function AdminsPage() {
       {admins.length === 0 ? (
         <div>Adminlar topilmadi</div>
       ) : (
-        <div className="overflow-x-auto rounded-xl border border-link-hover bg-light-main dark:bg-dark-main">
+        <div className="overflow-x-auto rounded-t-xl border border-link-hover bg-light-main dark:bg-dark-main">
           <table className="w-full text-left">
             <thead>
               <tr className="bg-gray-50/50 dark:bg-link-hover/50 border-b border-link-hover text-xs font-semibold text-black dark:text-white uppercase tracking-wider ">
