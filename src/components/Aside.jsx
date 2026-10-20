@@ -148,7 +148,7 @@ export default function Aside() {
             </button>
           </div>
         </nav>
-        <div className="flex-1 flex flex-col justify-end gap-2 pb-20 px-4">
+        <div className={`flex-1 flex flex-col justify-end gap-2 pb-20 px-4`}>
           <Profile isCollapse={isCollapse} />
           <button
             onClick={() => {
