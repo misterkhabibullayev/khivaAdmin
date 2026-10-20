@@ -1,5 +1,6 @@
-import { Hash, Mail, Trash, UserCheck, UserShield } from "lucide-react";
+import { Hash, Mail, Plus, Trash, UserCheck, UserShield } from "lucide-react";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Loading from "../../components/Loading";
 import PageHeader from "../../components/PageHeader";
 import { useAdminsStore } from "../../store/useAdminsStore";
@@ -10,7 +11,7 @@ export default function AdminsPage() {
   const [deleteLoading] = useState(false);
   const [selectedId, setSelectedId] = useState(null);
   const [confirm, setConfirm] = useState(false);
-  console.log(admins);
+  const navigate = useNavigate();
 
   useEffect(() => {
     getAdmins();
@@ -22,6 +23,13 @@ export default function AdminsPage() {
     <div>
       <PageHeader>
         <h1 className="font-medium text-xl leading-[110%]">Adminlar</h1>
+        <button
+          onClick={() => navigate("/admins/add")}
+          className="flex items-center gap-1 px-3 py-1 border border-link-hover rounded-lg text-link-hover font-medium"
+        >
+          <Plus className="w-5 h-5" />
+          Admin qo'shish
+        </button>
       </PageHeader>
       {admins.length === 0 ? (
         <div>Adminlar topilmadi</div>

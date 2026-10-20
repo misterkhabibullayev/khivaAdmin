@@ -13,7 +13,7 @@ const getHeaders = (isJson = true) => {
   return headers;
 };
 
-export const useAdminsStore = create((set) => ({
+export const useAdminsStore = create((set, get) => ({
   admins: [],
   loading: false,
   submitting: false,
@@ -61,6 +61,33 @@ export const useAdminsStore = create((set) => ({
     }
   },
 
+  createAdmin: async (payload) => {
+    set({ submitting: true, error: null });
+    try {
+      const res = await fetch(`${BASE_URL}`, {
+        method: "POST",
+        headers: getHeaders(true),
+        body: JSON.stringify(payload),
+      });
+      const data = await res.json();
+
+      if (res.ok) {
+        if (data.admin) {
+          set((state) => ({ admins: [data.admin, ...state.admins] }));
+        } else {
+          await get().getAdmins();
+        }
+        return { ok: true, data };
+      }
+
+      return { ok: false, error: data.message || "Admin yaratishda xatolik" };
+    } catch (err) {
+      return { ok: false, error: err.message };
+    } finally {
+      set({ submitting: false });
+    }
+  },
+
   updateAdmin: async (id, payload) => {
     set({ submitting: true, error: null });
     try {
@@ -80,14 +107,14 @@ export const useAdminsStore = create((set) => ({
 
   deleteAdmin: async (id) => {
     try {
-      const res = await fetch(`${BASE_URL}/announcement/${id}`, {
+      const res = await fetch(`${BASE_URL}/${id}`, {
         method: "DELETE",
         headers: getHeaders(false),
       });
 
       if (res.ok) {
         set((state) => ({
-          announcements: state.announcements.filter((item) => item.id !== id),
+          admins: state.admins.filter((item) => item.id !== id),
         }));
         return true;
       }
