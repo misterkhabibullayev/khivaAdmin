@@ -22,7 +22,7 @@ export default function EmployeesPage() {
   }, [getEmployees]);
 
   if (loading) return <Loading />;
-  if (error) return <p>Error</p>;
+  if (error) return <p>{error}</p>;
 
   return (
     <div className="">

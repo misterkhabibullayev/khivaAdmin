@@ -3,8 +3,6 @@ import {
   Camera,
   CircleCheck,
   CircleX,
-  Eye,
-  EyeClosed,
   KeyRound,
   Loader2,
   Mail,
@@ -18,6 +16,7 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import Loading from "../../components/Loading";
 import PageHeader from "../../components/PageHeader";
+import { Icons } from "../../icons/Icons";
 import { useProfileStore } from "../../store/useProfileStore";
 import { formatDate } from "../../utils/formDate";
 
@@ -41,7 +40,7 @@ export default function ProfilePage() {
   const [targetEmail, setTargetEmail] = useState("");
   const [statusMessage, setStatusMessage] = useState(null);
   const [showPassword, setShowPassword] = useState(false);
-  const [selectedId, setSelectedId] = useState(null);
+  const [, setSelectedId] = useState(null);
   const [confirm, setConfirm] = useState(false);
 
   const showNotification = (type, text) => {
@@ -115,7 +114,7 @@ export default function ProfilePage() {
         setTargetEmail(data.email);
         setEmailStep(2);
       } else {
-        showNotification("error", res.message);
+        showNotification("error", res.error);
       }
     } else {
       const res = await confirmEmailChange({
@@ -126,7 +125,7 @@ export default function ProfilePage() {
         await getProfile();
         showNotification("success", "Emailingiz muvaffaqiyatli yangilandi!");
       } else {
-        showNotification("error", res.message || "Kod noto'g'ri kiritildi");
+        showNotification("error", res.error || "Kod noto'g'ri kiritildi");
       }
     }
   };
@@ -245,45 +244,47 @@ export default function ProfilePage() {
         <h1 className="font-medium text-xl leading-[110%]">Profilim</h1>
       </PageHeader>
 
-      <div className="flex flex-col lg:flex-row gap-6 h-[85vh]">
+      <div className="flex flex-col lg:flex-row gap-6">
         <div className="w-full lg:w-[320px] shrink-0 bg-light-main dark:bg-dark-main p-6 rounded-2xl border border-link-hover flex flex-col items-center text-center">
-          <div className="relative group w-20 h-20 rounded-full overflow-hidden bg-link-hover border-2 border-link-hover flex items-center justify-center font-bold text-3xl text-white">
-            {profile?.images?.length ? (
-              <img
-                src={profile.images[0].url}
-                alt="profile"
-                className="w-full h-full object-cover"
-              />
-            ) : (
-              <span>
-                {profile.firstName?.[0]}
-                {profile.lastName?.[0]}
-              </span>
-            )}
-
-            <div className="absolute z-10 bottom-0 right-0 transition flex items-center justify-center gap-0.5">
-              {profile?.images?.length > 0 ? (
-                <button
-                  type="button"
-                  onClick={() => {
-                    setSelectedId(profile.id);
-                    setConfirm(true);
-                  }}
-                  className="p-2 rounded-full text-white bg-link-hover"
-                >
-                  <Trash className="w-5 h-5" />
-                </button>
+          <div className="relative">
+            <div className="w-20 h-20 rounded-full overflow-hidden bg-link-hover border-2 border-link-hover flex items-center justify-center font-bold text-3xl text-white">
+              {profile?.images?.length ? (
+                <img
+                  src={profile.images[0].url}
+                  alt="profile"
+                  className="w-full h-full object-cover"
+                />
               ) : (
-                <label className="cursor-pointer p-2 rounded-full text-white transition">
-                  <Camera className="w-5 h-5" />
-                  <input
-                    type="file"
-                    className="hidden"
-                    accept="image/*"
-                    onChange={handleAvatarChange}
-                  />
-                </label>
+                <span>
+                  {profile.firstName?.[0]}
+                  {profile.lastName?.[0]}
+                </span>
               )}
+
+              <div className="absolute z-10 bottom-0 right-0 flex items-center justify-center">
+                {profile?.images?.length > 0 ? (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setSelectedId(profile.id);
+                      setConfirm(true);
+                    }}
+                    className="p-1 rounded-full text-white bg-link-hover border border-light-main dark:border-dark-main"
+                  >
+                    <Trash className="w-4 h-4" />
+                  </button>
+                ) : (
+                  <label className="cursor-pointer p-1 rounded-full text-white bg-link-hover border border-light-main dark:border-dark-main">
+                    <Camera className="w-4 h-4" />
+                    <input
+                      type="file"
+                      className="hidden"
+                      accept="image/*"
+                      onChange={handleAvatarChange}
+                    />
+                  </label>
+                )}
+              </div>
             </div>
           </div>
 
@@ -295,6 +296,18 @@ export default function ProfilePage() {
           </span>
 
           <div className="w-full mt-6 pt-6 border-t border-link-hover space-y-3 text-sm text-left">
+            <div className="flex justify-between">
+              <span className="text-gray-400">Ism:</span>
+              <span className="truncate max-w-42.5" title={profile.email}>
+                {profile.firstName}
+              </span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-gray-400">Familiya:</span>
+              <span className="truncate max-w-42.5" title={profile.email}>
+                {profile.lastName}
+              </span>
+            </div>
             <div className="flex justify-between">
               <span className="text-gray-400">Email:</span>
               <span className="truncate max-w-42.5" title={profile.email}>
@@ -391,12 +404,14 @@ export default function ProfilePage() {
                 <label className="text-xs text-black dark:text-white block pb-1.5">
                   Eski parol
                 </label>
-                <input
-                  type="password"
-                  placeholder="••••••••"
-                  {...registerPassword("oldPassword", { required: true })}
-                  className="w-full outline-none bg-transparent border border-gray-600 focus:border-link-hover rounded-xl px-3.5 py-2 text-sm"
-                />
+                <div>
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    placeholder="••••••••"
+                    {...registerPassword("oldPassword", { required: true })}
+                    className="w-full outline-none bg-transparent border border-gray-600 focus:border-link-hover rounded-xl px-3.5 py-2 text-sm text-black dark:text-white"
+                  />
+                </div>
               </div>
               <div>
                 <label className="text-xs text-black dark:text-white block pb-1.5">
@@ -407,7 +422,7 @@ export default function ProfilePage() {
                     type={showPassword ? "text" : "password"}
                     placeholder="••••••••"
                     {...registerPassword("newPassword", { required: true })}
-                    className="w-full outline-none bg-transparent border border-gray-600 focus:border-link-hover rounded-xl px-3.5 py-2 text-sm"
+                    className="w-full outline-none bg-transparent border border-gray-600 focus:border-link-hover rounded-xl px-3.5 py-2 text-sm text-black dark:text-white"
                   />
                   <button
                     type="button"
@@ -419,9 +434,9 @@ export default function ProfilePage() {
                     className="absolute right-2 top-1/2 -translate-y-1/2 p-1"
                   >
                     {showPassword ? (
-                      <Eye className="w-4 h-4" />
+                      <Icons.eyeOpenIcon />
                     ) : (
-                      <EyeClosed className="w-4 h-4" />
+                      <Icons.eyeCloseIcon />
                     )}
                   </button>
                 </div>
@@ -482,7 +497,7 @@ export default function ProfilePage() {
                     type="email"
                     placeholder="yangi@pochta.uz"
                     {...registerEmail("email", { required: emailStep === 1 })}
-                    className="w-full outline-none bg-transparent border border-gray-600 focus:border-link-hover rounded-lg px-3.5 py-2 text-sm text-white"
+                    className="w-full outline-none bg-transparent border border-gray-600 focus:border-link-hover rounded-lg px-3.5 py-2 text-sm text-black dark:text-white"
                   />
                   <div className="w-full flex items-center justify-center gap-2 pt-5">
                     <button
@@ -515,7 +530,7 @@ export default function ProfilePage() {
                     placeholder="6 xonali kod"
                     maxLength={6}
                     {...registerEmail("otp", { required: emailStep === 2 })}
-                    className="w-full outline-none bg-transparent border border-gray-600 focus:border-link-hover rounded-lg px-3.5 py-2 text-sm text-white tracking-widest text-center"
+                    className="w-full outline-none bg-transparent border border-gray-600 focus:border-link-hover rounded-lg px-3.5 py-2 text-sm text-black dark:text-white tracking-widest text-center"
                   />
                   <div className="w-full flex items-center justify-center pt-5">
                     <button

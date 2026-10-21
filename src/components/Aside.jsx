@@ -98,7 +98,7 @@ export default function Aside() {
         />
       )}
       <aside
-        className={`fixed md:static inset-y-0 left-0 z-50 h-screen shrink-0 bg-light-main dark:bg-dark-main border-r border-link-hover transition-all duration-300 ease-in-out select-none flex flex-col
+        className={`fixed md:static inset-y-0 left-0 z-50 h-screen shrink-0 bg-light-main dark:bg-dark-main border-r border-link-hover transition-[width,transform] duration-300 ease-in-out select-none flex flex-col
           ${isCollapse ? "translate-x-0" : "-translate-x-full md:translate-x-0"}
           w-64 ${isCollapse ? "md:w-21" : "md:w-64"}
         `}
@@ -124,8 +124,8 @@ export default function Aside() {
             <X className="w-5 h-5" />
           </button>
         </div>
-        <div className="flex flex-col h-full">
-          <div className="w-full h-full overflow-y-auto overflow-x-hidden p-4">
+        <div className="flex flex-col flex-1 min-h-0">
+          <div className="w-full flex-1 min-h-0 overflow-y-auto overflow-x-hidden p-4">
             <nav className="w-full flex flex-col gap-2 relative">
               {navbar.map((item) => {
                 const Icon = item.icon;
