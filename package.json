@@ -28,6 +28,7 @@
     "react-hook-form": "^7.90.0",
     "react-photo-view": "^1.2.7",
     "react-router-dom": "^7.18.4",
+    "sweetalert2": "^11.26.25",
     "tailwindcss": "^4.3.3",
     "zustand": "^5.0.15"
   },

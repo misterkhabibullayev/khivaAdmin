@@ -174,7 +174,7 @@ export default function NewsAdd() {
               <div className="grid grid-cols-6 gap-4">
                 <div className="flex flex-col col-span-6">
                   <div className="flex items-center gap-2 pb-2">
-                    <label htmlFor="position">Sarlavha</label>
+                    <label htmlFor="title">Sarlavha</label>
                     <div className="flex items-center gap-1">
                       {["uz", "ru", "en"].map((lang) => (
                         <button
@@ -193,19 +193,25 @@ export default function NewsAdd() {
                     </div>
                   </div>
                   {["uz", "ru", "en"].map((lang) => (
-                    <input
+                    <Controller
                       key={lang}
-                      id={`position-${lang}`}
-                      type="text"
-                      placeholder={`${lang.toUpperCase()} tilida sarlavhani kiriting`}
-                      {...register(`title.${lang}`)}
-                      className={`outline-none border border-gray-300 rounded-lg p-2 bg-gray-50/50 dark:bg-dark-second focus:bg-white dark:focus:bg-dark-main focus:border-link-hover hover:bg-link-hover/10 hover:border-link-hover transition-colors duration-300 ${activeLangN === lang ? "block" : "hidden"}`}
+                      name={`title-${lang}`}
+                      control={control}
+                      render={() => (
+                        <input
+                          id={`title-${lang}`}
+                          type="text"
+                          placeholder={`${lang.toUpperCase()} tilida sarlavhani kiriting`}
+                          {...register(`title.${lang}`)}
+                          className={`outline-none border border-gray-300 rounded-lg p-2 bg-gray-50/50 dark:bg-dark-second focus:bg-white dark:focus:bg-dark-main focus:border-link-hover hover:bg-link-hover/10 hover:border-link-hover transition-colors duration-300 ${activeLangN === lang ? "block" : "hidden"}`}
+                        />
+                      )}
                     />
                   ))}
                 </div>
                 <div className="flex flex-col col-span-6">
                   <div className="flex items-center gap-2 pb-2">
-                    <label htmlFor="position">Tavsif</label>
+                    <label htmlFor="description">Tavsif</label>
                     <div className="flex items-center gap-1">
                       {["uz", "ru", "en"].map((lang) => (
                         <button

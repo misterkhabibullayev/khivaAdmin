@@ -32,7 +32,7 @@ export default function Profile({ isCollapse, setIsCollapse }) {
         )}
       </div>
       <span
-        className={`whitespace-nowrap font-medium text-base text-black dark:text-white transition-all duration-300 ease-in-out truncate ${isCollapse ? "md:opacity-0 md:max-w-0 md:ml-0 ml-2" : "md:opacity-100 md:max-w-full md:ml-2"}`}
+        className={`whitespace-nowrap font-medium text-base text-white transition-all duration-300 ease-in-out truncate ${isCollapse ? "md:opacity-0 md:max-w-0 md:ml-0 ml-2" : "md:opacity-100 md:max-w-full md:ml-2"}`}
       >
         {profile.firstName} {profile.lastName}
       </span>

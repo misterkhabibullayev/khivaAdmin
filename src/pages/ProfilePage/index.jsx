@@ -1,6 +1,8 @@
 import {
   ArrowLeft,
   Camera,
+  CircleCheck,
+  CircleX,
   Eye,
   EyeClosed,
   KeyRound,
@@ -39,6 +41,8 @@ export default function ProfilePage() {
   const [targetEmail, setTargetEmail] = useState("");
   const [statusMessage, setStatusMessage] = useState(null);
   const [showPassword, setShowPassword] = useState(false);
+  const [selectedId, setSelectedId] = useState(null);
+  const [confirm, setConfirm] = useState(false);
 
   const showNotification = (type, text) => {
     setStatusMessage({ type, text });
@@ -88,9 +92,12 @@ export default function ProfilePage() {
 
   const onUpdateName = async (data) => {
     const res = await updateProfileName(data);
-    alert(res.message);
     if (res.success) {
       await getProfile();
+      showNotification(
+        "success",
+        "Ism Familiyangiz muvaffaqiyatli yangilandi!",
+      );
     }
   };
 
@@ -133,24 +140,41 @@ export default function ProfilePage() {
 
   const onPasswordSubmit = async (data) => {
     const res = await updatePassword(data);
-    alert(res.message);
     if (res.success) {
+      showNotification("success", "Parolingiz muvaffaqiyatli yangilandi!");
       resetPassword();
     }
   };
 
   const handleAvatarChange = async (e) => {
     const file = e.target.files?.[0];
-    if (file) {
+    if (!file) return;
+
+    try {
       const res = await updateAvatar(file);
-      alert(res.message);
+
+      if (res.success) {
+        await getProfile();
+        showNotification("success", "Avataringiz muvaffaqiyatli yangilandi!");
+      }
+    } catch (error) {
+      showNotification("error", "Avatarni yuklashda xatolik yuz berdi!");
+      console.error("Avatar yuklash xatosi:", error);
     }
   };
 
   const handleAvatarDelete = async () => {
-    if (window.confirm("Avatarni o'chirishni xohlaysizmi?")) {
+    try {
       const res = await deleteAvatar();
-      alert(res.message);
+
+      if (res && res.ok === false) {
+        throw new Error("O'chirishda xatolik yuz berdi!");
+      }
+      await getProfile();
+      showNotification("success", "Avataringiz muvaffaqiyatli o'chirildi!");
+    } catch (error) {
+      showNotification("error", "Avatarni o'chirishda xatolik yuz berdi!");
+      console.error("Avatar o'chirish xatosi:", error);
     }
   };
 
@@ -162,29 +186,68 @@ export default function ProfilePage() {
     <div className="space-y-6">
       {statusMessage && (
         <div
-          className={`fixed top-6 right-6 z-60 px-4 py-3 rounded-lg shadow-xl flex items-center gap-3 border transition-all duration-300 ${
-            statusMessage.type === "error"
-              ? "bg-red-950/90 border-red-500 text-white"
-              : "bg-green-950/90 border-green-500 text-white"
-          }`}
+          className={`fixed top-6 right-6 z-60 px-4 py-3 rounded-lg shadow-xl flex gap-3 border border-link-hover transition-all duration-300 bg-light-main dark:bg-dark-main`}
         >
-          <span className="text-sm font-medium">{statusMessage.text}</span>
-          <button
-            type="button"
-            onClick={() => setStatusMessage(null)}
-            className="text-gray-400 hover:text-white"
-          >
-            <X className="w-4 h-4" />
-          </button>
+          <div className="pt-1">
+            {statusMessage.type === "error" ? (
+              <CircleX className="w-4 h-4 text-red-600" />
+            ) : (
+              <CircleCheck className="w-4 h-4 text-green-600" />
+            )}
+          </div>
+          <span className="text-sm font-medium max-w-50">
+            {statusMessage.text}
+          </span>
+          <div>
+            <button
+              type="button"
+              onClick={() => setStatusMessage(null)}
+              className="text-gray-400 hover:text-white"
+            >
+              <X className="w-4 h-4" />
+            </button>
+          </div>
         </div>
       )}
+      <div
+        onClick={() => {
+          setConfirm(false);
+        }}
+        className={`absolute top-0 left-0 z-100 w-full h-full bg-black/70 flex items-center justify-center ${confirm ? "block" : "hidden"}`}
+      >
+        <div
+          onClick={(e) => e.stopPropagation()}
+          className="bg-light-main dark:bg-dark-main p-6 rounded-lg"
+        >
+          <h2 className="font-medium text-xl max-w-50 text-center text-black dark:text-white">
+            Haqiqattan ham o'chirmoqchimisiz?
+          </h2>
+          <div className="flex items-center justify-end gap-3 pt-6">
+            <button
+              onClick={() => setConfirm(false)}
+              className="border border-black dark:border-white text-black dark:text-white px-3 py-1 rounded-sm"
+            >
+              Yo'q
+            </button>
+            <button
+              onClick={async () => {
+                handleAvatarDelete();
+                setConfirm(false);
+              }}
+              className="border border-link-hover text-white bg-link-hover px-3 py-1 rounded-sm"
+            >
+              Ha
+            </button>
+          </div>
+        </div>
+      </div>
       <PageHeader>
         <h1 className="font-medium text-xl leading-[110%]">Profilim</h1>
       </PageHeader>
 
       <div className="flex flex-col lg:flex-row gap-6 h-[85vh]">
         <div className="w-full lg:w-[320px] shrink-0 bg-light-main dark:bg-dark-main p-6 rounded-2xl border border-link-hover flex flex-col items-center text-center">
-          <div className="relative group w-20 h-20 rounded-full overflow-hidden bg-link-hover flex items-center justify-center font-bold text-3xl text-white">
+          <div className="relative group w-20 h-20 rounded-full overflow-hidden bg-link-hover border-2 border-link-hover flex items-center justify-center font-bold text-3xl text-white">
             {profile?.images?.length ? (
               <img
                 src={profile.images[0].url}
@@ -198,24 +261,28 @@ export default function ProfilePage() {
               </span>
             )}
 
-            <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition flex items-center justify-center gap-2">
-              <label className="cursor-pointer p-2 rounded-full text-white transition">
-                <Camera className="w-5 h-5" />
-                <input
-                  type="file"
-                  className="hidden"
-                  accept="image/*"
-                  onChange={handleAvatarChange}
-                />
-              </label>
-              {profile?.images?.length > 0 && (
+            <div className="absolute z-10 bottom-0 right-0 transition flex items-center justify-center gap-0.5">
+              {profile?.images?.length > 0 ? (
                 <button
                   type="button"
-                  onClick={handleAvatarDelete}
-                  className="p-2 rounded-full text-white transition"
+                  onClick={() => {
+                    setSelectedId(profile.id);
+                    setConfirm(true);
+                  }}
+                  className="p-2 rounded-full text-white bg-link-hover"
                 >
                   <Trash className="w-5 h-5" />
                 </button>
+              ) : (
+                <label className="cursor-pointer p-2 rounded-full text-white transition">
+                  <Camera className="w-5 h-5" />
+                  <input
+                    type="file"
+                    className="hidden"
+                    accept="image/*"
+                    onChange={handleAvatarChange}
+                  />
+                </label>
               )}
             </div>
           </div>
