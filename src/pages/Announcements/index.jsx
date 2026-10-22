@@ -2,6 +2,7 @@ import { Plus, SquarePen, Trash } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Loading from "../../components/Loading";
+import NoData from "../../components/NoData";
 import PageHeader from "../../components/PageHeader";
 import { useAnnouncementStore } from "../../store/useAnnouncementStore";
 
@@ -33,10 +34,10 @@ export default function AnnouncementsPage() {
         </button>
       </PageHeader>
       {announcements.length === 0 ? (
-        <div>Ma'lumot yo'q</div>
+        <NoData />
       ) : (
         <div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 min-[1800px]:grid-cols-5! min-[2500px]:grid-cols-7! gap-4">
             {announcements.map((item) => (
               <div
                 key={item.id}

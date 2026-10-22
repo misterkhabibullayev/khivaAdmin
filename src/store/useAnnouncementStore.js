@@ -15,15 +15,16 @@ const getHeaders = (isJson = true) => {
 
 export const useAnnouncementStore = create((set, get) => ({
   announcements: [],
+  totalPages: 1,
   loading: false,
   submitting: false,
   uploading: false,
   error: null,
 
-  getAnnouncements: async () => {
+  getAnnouncements: async (page = 1) => {
     set({ loading: true, error: null });
     try {
-      let url = `${BASE_URL}/announcement`;
+      let url = `${BASE_URL}/announcement?page=${page}`;
 
       const res = await fetch(url, {
         headers: getHeaders(false),
@@ -34,6 +35,7 @@ export const useAnnouncementStore = create((set, get) => ({
       if (res.ok) {
         set({
           announcements: result.data || [],
+          totalPages: result.meta?.lastPage || 1,
         });
       } else {
         set({ error: result.message || "Yuklashda xatolik" });
@@ -131,7 +133,7 @@ export const useAnnouncementStore = create((set, get) => ({
       const data = await res.json();
       if (res.ok && Array.isArray(data.files)) {
         const urls = data.files.map((f) => f.url);
-        return { ok: true, urls};
+        return { ok: true, urls };
       }
       return { ok: false, message: data.message || "Rasm yuklanmadi" };
     } catch {

@@ -1,24 +1,33 @@
 import { Plus, SquarePen, Trash } from "lucide-react";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import Loading from "../../components/Loading";
+import NoData from "../../components/NoData";
 import PageHeader from "../../components/PageHeader";
+import Pagination from "../../components/Pagination";
 import { useNewsStore } from "../../store/useNewsStore";
 
 export default function NewsPage() {
   const navigate = useNavigate();
   const [deleteLoading] = useState(false);
   const [selectedId, setSelectedId] = useState(null);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const currentPage = Number(searchParams.get("page")) || 1;
 
   const [confirm, setConfirm] = useState(false);
-  const { news, loading, error, getNews, deleteNews } = useNewsStore();
+  const { news, totalPages, loading, error, getNews, deleteNews } =
+    useNewsStore();
 
   useEffect(() => {
-    getNews();
-  }, [getNews]);
+    getNews(currentPage);
+  }, [currentPage, getNews]);
+
+  const handlePageChange = (newPage) => {
+    setSearchParams({ page: newPage });
+  };
 
   if (loading) return <Loading />;
-  if (error) return <p>Error</p>;
+  if (error) return <p>{error}</p>;
   return (
     <div>
       <PageHeader>
@@ -32,10 +41,10 @@ export default function NewsPage() {
         </button>
       </PageHeader>
       {news.length === 0 ? (
-        <div>Ma'lumot yo'q</div>
+        <NoData />
       ) : (
         <div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 min-[1800px]:grid-cols-5! min-[2500px]:grid-cols-7! gap-4">
             {news.map((item) => (
               <div
                 key={item.id}
@@ -84,6 +93,13 @@ export default function NewsPage() {
           </div>
         </div>
       )}
+      <div className="flex items-center justify-center pt-6">
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onChangePage={handlePageChange}
+        />
+      </div>
       <div
         onClick={() => {
           setConfirm(false);

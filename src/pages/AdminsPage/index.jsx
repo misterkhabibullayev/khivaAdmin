@@ -2,6 +2,7 @@ import { Hash, Mail, Plus, Trash, UserCheck, UserShield } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Loading from "../../components/Loading";
+import NoData from "../../components/NoData";
 import PageHeader from "../../components/PageHeader";
 import { useAdminsStore } from "../../store/useAdminsStore";
 
@@ -32,7 +33,7 @@ export default function AdminsPage() {
         </button>
       </PageHeader>
       {admins.length === 0 ? (
-        <div>Adminlar topilmadi</div>
+        <NoData />
       ) : (
         <div className="overflow-x-auto rounded-t-xl border border-link-hover bg-light-main dark:bg-dark-main">
           <table className="w-full text-left">
@@ -82,7 +83,7 @@ export default function AdminsPage() {
                       ? new Date(item.createdAt).toLocaleDateString()
                       : "-"}
                   </td>
-                  <td>
+                  <td className="py-2 px-3">
                     <button
                       onClick={() => {
                         setSelectedId(item.id);

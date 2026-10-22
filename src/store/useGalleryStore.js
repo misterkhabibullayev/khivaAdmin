@@ -15,15 +15,16 @@ const getHeaders = (isJson = true) => {
 
 export const useGalleryStore = create((set, get) => ({
   gallery: [],
+  totalPages: 1,
   loading: false,
   submitting: false,
   uploading: false,
   error: null,
 
-  getGallery: async () => {
+  getGallery: async (page = 1) => {
     set({ loading: true, error: null });
     try {
-      let url = `${BASE_URL}/gallery`;
+      let url = `${BASE_URL}/gallery?page=${page}`;
 
       const res = await fetch(url, {
         headers: getHeaders(false),
@@ -34,6 +35,7 @@ export const useGalleryStore = create((set, get) => ({
       if (res.ok) {
         set({
           gallery: result.data || [],
+          totalPages: result.meta?.lastPage || 1,
         });
       } else {
         set({ error: result.message || "Yuklashda xatolik" });

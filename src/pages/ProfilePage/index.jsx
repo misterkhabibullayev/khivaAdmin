@@ -6,8 +6,8 @@ import {
   KeyRound,
   Loader2,
   Mail,
-  RefreshCw,
   Save,
+  SquarePen,
   Trash,
   User,
   X,
@@ -321,7 +321,7 @@ export default function ProfilePage() {
           </div>
         </div>
 
-        <div className="flex-1 grid grid-rows-3 gap-y-6">
+        <div className="flex-1 flex flex-col gap-6">
           <form
             onSubmit={handleSubmitName(onUpdateName)}
             className="row-span-1 bg-light-main dark:bg-dark-main rounded-2xl p-4 border border-link-hover"
@@ -386,7 +386,7 @@ export default function ProfilePage() {
                   onClick={() => setOnEmail(true)}
                   className="bg-link-hover hover:opacity-90 text-white px-4 py-1.5 rounded-lg text-sm font-medium flex items-center gap-2 transition"
                 >
-                  <RefreshCw className="w-4 h-4" /> Emailni o'zgartirish
+                  <SquarePen className="w-4 h-4" /> Emailni o'zgartirish
                 </button>
               </div>
             </div>

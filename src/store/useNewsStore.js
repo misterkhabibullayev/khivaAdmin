@@ -15,15 +15,16 @@ const getHeaders = (isJson = true) => {
 
 export const useNewsStore = create((set, get) => ({
   news: [],
+  totalPages: 1,
   loading: false,
   submitting: false,
   uploading: false,
   error: null,
 
-  getNews: async () => {
+  getNews: async (page = 1) => {
     set({ loading: true, error: null });
     try {
-      let url = `${BASE_URL}/news`;
+      let url = `${BASE_URL}/news?page=${page}`;
 
       const res = await fetch(url, {
         headers: getHeaders(false),
@@ -34,6 +35,7 @@ export const useNewsStore = create((set, get) => ({
       if (res.ok) {
         set({
           news: result.data || [],
+          totalPages: result.meta?.lastPage || 1
         });
       } else {
         set({ error: result.message || "Yuklashda xatolik" });

@@ -1,8 +1,10 @@
 import { Plus, Trash } from "lucide-react";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import Loading from "../../components/Loading";
+import NoData from "../../components/NoData";
 import PageHeader from "../../components/PageHeader";
+import Pagination from "../../components/Pagination";
 import { useGalleryStore } from "../../store/useGalleryStore";
 
 export default function GalleryPage() {
@@ -11,15 +13,21 @@ export default function GalleryPage() {
   const [selectedId, setSelectedId] = useState(null);
 
   const [confirm, setConfirm] = useState(false);
-  const { gallery, loading, error, getGallery, deleteGallery } =
+  const [searchParams, setSearchParams] = useSearchParams();
+  const currentPage = Number(searchParams.get("page")) || 1;
+  const { gallery, totalPages, loading, error, getGallery, deleteGallery } =
     useGalleryStore();
 
   useEffect(() => {
-    getGallery();
-  }, [getGallery]);
+    getGallery(currentPage);
+  }, [currentPage, getGallery]);
+
+  const handlePageChange = (newPage) => {
+    setSearchParams({ page: newPage });
+  };
 
   if (loading) return <Loading />;
-  if (error) return <p>Error</p>;
+  if (error) return <p>{error}</p>;
   return (
     <div>
       <PageHeader>
@@ -33,7 +41,7 @@ export default function GalleryPage() {
         </button>
       </PageHeader>
       {gallery.length === 0 ? (
-        <div>Ma'lumot yo'q</div>
+        <NoData />
       ) : (
         <div>
           <div className="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-5 gap-4">
@@ -67,6 +75,13 @@ export default function GalleryPage() {
           </div>
         </div>
       )}
+      <div className="flex items-center justify-center pt-6">
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onChangePage={handlePageChange}
+        />
+      </div>
       <div
         onClick={() => {
           setConfirm(false);

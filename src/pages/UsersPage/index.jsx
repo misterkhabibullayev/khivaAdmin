@@ -1,17 +1,24 @@
 import { Hash, Mail, Shield, UserCheck } from "lucide-react";
 import { useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
 import Loading from "../../components/Loading";
+import NoData from "../../components/NoData";
 import PageHeader from "../../components/PageHeader";
+import Pagination from "../../components/Pagination";
 import { useUsersStore } from "../../store/useUsersStore";
 
 export default function UsersPage() {
-  const { users, loading, error, getUsers } = useUsersStore();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const currentPage = Number(searchParams.get("page")) || 1;
+  const { users, totalPages, loading, error, getUsers } = useUsersStore();
 
   useEffect(() => {
-    getUsers();
-  }, [getUsers]);
+    getUsers(currentPage);
+  }, [currentPage, getUsers]);
 
-  console.log(users);
+  const handlePageChange = (newPage) => {
+    setSearchParams({ page: newPage });
+  };
 
   if (loading) return <Loading />;
   if (error) return <div className="p-4">Xatolik yuz berdi {error}</div>;
@@ -27,9 +34,7 @@ export default function UsersPage() {
       </PageHeader>
       <div className="mt-4">
         {users.length === 0 ? (
-          <div className="text-center py-12 text-zinc-500 bg-light-main dark:bg-dark-main rounded-xl border border-zinc-800">
-            Foydalanuvchilar topilmadi
-          </div>
+          <NoData />
         ) : (
           <div className="overflow-x-auto rounded-xl border border-link-hover bg-light-main dark:bg-dark-main">
             <table className="w-full text-left">
@@ -84,6 +89,13 @@ export default function UsersPage() {
             </table>
           </div>
         )}
+        <div className="flex items-center justify-center pt-6">
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onChangePage={handlePageChange}
+          />
+        </div>
       </div>
     </>
   );

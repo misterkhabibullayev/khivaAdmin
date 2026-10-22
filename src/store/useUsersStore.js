@@ -15,13 +15,14 @@ const getHeaders = (isJson = true) => {
 
 export const useUsersStore = create((set) => ({
   users: [],
+  totalPages: 1,
   loading: false,
   error: null,
 
-  getUsers: async () => {
+  getUsers: async (page = 1) => {
     set({ loading: true, error: null });
     try {
-      let url = `${BASE_URL}/user`;
+      let url = `${BASE_URL}/user?page=${page}`;
 
       const res = await fetch(url, {
         headers: getHeaders(false),
@@ -32,6 +33,7 @@ export const useUsersStore = create((set) => ({
       if (res.ok) {
         set({
           users: result.users.data || result.users || result || [],
+          totalPages: result.meta?.lastPage || 1,
         });
       } else {
         set({

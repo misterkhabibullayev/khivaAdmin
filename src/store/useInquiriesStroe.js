@@ -15,14 +15,15 @@ const getHeaders = (isJson = true) => {
 
 export const useInquiriesStore = create((set) => ({
   inquiries: [],
+  totalPages: 1,
   loading: false,
   submitting: false,
   error: null,
 
-  getInquiries: async () => {
+  getInquiries: async (page = 1) => {
     set({ loading: true, error: null });
     try {
-      let url = `${BASE_URL}/contact`;
+      let url = `${BASE_URL}/contact?page=${page}`;
 
       const res = await fetch(url, {
         headers: getHeaders(true),
@@ -33,6 +34,7 @@ export const useInquiriesStore = create((set) => ({
       if (res.ok) {
         set({
           inquiries: result.data || [],
+          totalPages: result.meta?.lastPage || 1,
         });
       } else {
         set({ error: result.message || "Yuklashda xatolik" });

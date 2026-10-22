@@ -163,7 +163,7 @@ export default function CollectionsAdd() {
           <div className="bg-light-main dark:bg-dark-main p-3 rounded-lg">
             <form onSubmit={handleSubmit(onSubmit)}>
               <div className="grid grid-cols-6 gap-4">
-                <div className="flex flex-col col-span-3">
+                <div className="flex flex-col col-span-6 lg:col-span-3">
                   <div className="flex items-center gap-2 pb-2">
                     <label htmlFor="title">Kolleksiya nomi</label>
                     <div className="flex items-center gap-1">
@@ -200,7 +200,7 @@ export default function CollectionsAdd() {
                     />
                   ))}
                 </div>
-                <div className="flex flex-col col-span-3">
+                <div className="flex flex-col col-span-6 lg:col-span-3">
                   <div className="flex items-center gap-2 pb-2">
                     <label htmlFor="position">Tavsif</label>
                     <div className="flex items-center gap-1">

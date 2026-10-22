@@ -61,7 +61,7 @@ const MenuBar = ({ editor }) => {
   });
 
   return (
-    <div className="p-2 bg-dark-second rounded-t-lg">
+    <div className="p-2 bg-light-second dark:bg-dark-second rounded-t-lg overflow-x-auto">
       <div className="flex items-center gap-1">
         <Btn
           onClick={() => editor.chain().focus().undo().run()}

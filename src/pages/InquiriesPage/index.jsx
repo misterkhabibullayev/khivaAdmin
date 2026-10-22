@@ -1,15 +1,24 @@
 import { useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
 import Loading from "../../components/Loading";
+import NoData from "../../components/NoData";
 import PageHeader from "../../components/PageHeader";
+import Pagination from "../../components/Pagination";
 import { useInquiriesStore } from "../../store/useInquiriesStroe";
 
 export default function InquiriesPage() {
-  const { inquiries, loading, error, getInquiries } = useInquiriesStore();
-  console.log(inquiries);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const currentPage = Number(searchParams.get("page")) || 1;
+  const { inquiries, totalPages, loading, error, getInquiries } =
+    useInquiriesStore();
 
   useEffect(() => {
-    getInquiries();
-  }, [getInquiries]);
+    getInquiries(currentPage);
+  }, [currentPage, getInquiries]);
+
+  const handlePageChange = (newPage) => {
+    setSearchParams({ page: newPage });
+  };
 
   if (loading) return <Loading />;
   if (error) return <p>{error}</p>;
@@ -19,9 +28,7 @@ export default function InquiriesPage() {
         <h1 className="font-medium text-xl leading-[110%]">So'rovlar</h1>
       </PageHeader>
       {inquiries.length === 0 ? (
-        <div>
-          <p>So'rovlar topilmadi</p>
-        </div>
+        <NoData />
       ) : (
         <div>
           <div>
@@ -35,6 +42,13 @@ export default function InquiriesPage() {
           </div>
         </div>
       )}
+      <div className="flex items-center justify-center pt-6">
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onChangePage={handlePageChange}
+        />
+      </div>
     </div>
   );
 }

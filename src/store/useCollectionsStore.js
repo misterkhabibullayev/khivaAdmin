@@ -15,15 +15,16 @@ const getHeaders = (isJson = true) => {
 
 export const useCollectionsStore = create((set, get) => ({
   collections: [],
+  totalPages: 1,
   loading: false,
   submitting: false,
   uploading: false,
   error: null,
 
-  getCollections: async () => {
+  getCollections: async (page = 1) => {
     set({ loading: true, error: null });
     try {
-      let url = `${BASE_URL}/collection`;
+      let url = `${BASE_URL}/collection?page=${page}`;
 
       const res = await fetch(url, {
         headers: getHeaders(false),
@@ -34,6 +35,7 @@ export const useCollectionsStore = create((set, get) => ({
       if (res.ok) {
         set({
           collections: result.data || [],
+          totalPages: result.meta?.lastPage || 1,
         });
       } else {
         set({ error: result.message || "Yuklashda xatolik" });

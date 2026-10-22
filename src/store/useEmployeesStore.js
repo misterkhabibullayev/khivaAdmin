@@ -15,20 +15,24 @@ const getHeaders = (isJson = true) => {
 
 export const useEmployeesStore = create((set, get) => ({
   employees: [],
+  totalPages: 1,
   loading: false,
   submitting: false,
   uploading: false,
   error: null,
 
-  getEmployees: async () => {
+  getEmployees: async (page = 1) => {
     set({ loading: true, error: null });
     try {
-      const res = await fetch(`${BASE_URL}/employee`, {
+      const res = await fetch(`${BASE_URL}/employee?page=${page}`, {
         headers: getHeaders(false),
         cache: "no-store",
       });
       const data = await res.json();
-      set({ employees: Array.isArray(data) ? data : data.data || [] });
+      set({
+        employees: Array.isArray(data) ? data : data.data || [],
+        totalPages: data.meta?.lastPage || 1,
+      });
     } catch (err) {
       set({ error: err.message });
     } finally {

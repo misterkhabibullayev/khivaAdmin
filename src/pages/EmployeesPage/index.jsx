@@ -2,24 +2,33 @@ import { Eye, Plus, SquarePen, Trash } from "lucide-react";
 import { useEffect, useState } from "react";
 import { PhotoProvider, PhotoView } from "react-photo-view";
 import "react-photo-view/dist/react-photo-view.css";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import Loading from "../../components/Loading";
+import NoData from "../../components/NoData";
 import PageHeader from "../../components/PageHeader";
+import Pagination from "../../components/Pagination";
 import { Icons } from "../../icons/Icons";
 import { useEmployeesStore } from "../../store/useEmployeesStore";
 
 export default function EmployeesPage() {
-  const { employees, loading, error, getEmployees, deleteEmployee } =
+  const { employees, totalPages, loading, error, getEmployees, deleteEmployee } =
     useEmployeesStore();
   const [deleteLoading] = useState(false);
   const [selectedId, setSelectedId] = useState(null);
   const navigate = useNavigate();
 
   const [confirm, setConfirm] = useState(false);
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const currentPage = Number(searchParams.get("page")) || 1;
 
   useEffect(() => {
-    getEmployees();
-  }, [getEmployees]);
+    getEmployees(currentPage);
+  }, [currentPage, getEmployees]);
+
+  const handlePageChange = (newPage) => {
+    setSearchParams({ page: newPage });
+  };
 
   if (loading) return <Loading />;
   if (error) return <p>{error}</p>;
@@ -37,7 +46,7 @@ export default function EmployeesPage() {
         </button>
       </PageHeader>
       {employees.length === 0 ? (
-        <div>Ma'lumot yo'q</div>
+        <NoData />
       ) : (
         <PhotoProvider>
           <div className="w-full bg-light-main dark:bg-dark-main rounded-xl shadow-sm border border-link-hover overflow-hidden whitespace-nowrap">
@@ -125,6 +134,13 @@ export default function EmployeesPage() {
           </div>
         </PhotoProvider>
       )}
+      <div className="flex items-center justify-center pt-6">
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onChangePage={handlePageChange}
+        />
+      </div>
       <div
         onClick={() => {
           setConfirm(false);
