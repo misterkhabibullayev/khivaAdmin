@@ -46,24 +46,7 @@ export const useInquiriesStore = create((set) => ({
     }
   },
 
-  getInquiriesById: async (id) => {
-    set({ loading: true, error: null });
-    try {
-      const res = await fetch(`${BASE_URL}/contact/${id}`, {
-        headers: getHeaders(false),
-        cache: "no-store",
-      });
-      const result = await res.json();
-      return res.ok ? result.contact || result.data || result : null;
-    } catch (err) {
-      set({ error: err.message });
-      return null;
-    } finally {
-      set({ loading: false });
-    }
-  },
-
-  deleteAnnouncement: async (id) => {
+  deleteInquiries: async (id) => {
     try {
       const res = await fetch(`${BASE_URL}/contact/${id}`, {
         method: "DELETE",

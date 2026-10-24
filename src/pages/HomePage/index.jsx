@@ -1,11 +1,14 @@
-import { Briefcase, Layers, Megaphone, Newspaper, Users } from "lucide-react";
+import { Briefcase, Image, Layers, Mail, Megaphone, Newspaper, Users, UserShield } from "lucide-react";
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import Loading from "../../components/Loading";
 import PageHeader from "../../components/PageHeader";
+import { useAdminsStore } from "../../store/useAdminsStore";
 import { useAnnouncementStore } from "../../store/useAnnouncementStore";
 import { useCollectionsStore } from "../../store/useCollectionsStore";
 import { useEmployeesStore } from "../../store/useEmployeesStore";
+import { useGalleryStore } from "../../store/useGalleryStore";
+import { useInquiriesStore } from "../../store/useInquiriesStroe";
 import { useNewsStore } from "../../store/useNewsStore";
 import { useUsersStore } from "../../store/useUsersStore";
 
@@ -15,6 +18,9 @@ export default function HomePage() {
   const { collections, getCollections } = useCollectionsStore();
   const { announcements, getAnnouncements } = useAnnouncementStore();
   const { news, getNews } = useNewsStore();
+  const { gallery, getGallery } = useGalleryStore();
+  const { inquiries, getInquiries } = useInquiriesStore();
+  const { admins, getAdmins } = useAdminsStore();
 
   useEffect(() => {
     getUsers?.();
@@ -22,7 +28,19 @@ export default function HomePage() {
     getCollections?.();
     getAnnouncements?.();
     getNews?.();
-  }, [getUsers, getEmployees, getCollections, getAnnouncements, getNews]);
+    getGallery?.();
+    getInquiries?.();
+    getAdmins?.();
+  }, [
+    getUsers,
+    getEmployees,
+    getCollections,
+    getAnnouncements,
+    getNews,
+    getGallery,
+    getInquiries,
+    getAdmins,
+  ]);
 
   const stats = [
     {
@@ -60,6 +78,27 @@ export default function HomePage() {
       icon: Users,
       path: "/users",
     },
+    {
+      id: 6,
+      title: "Galereya",
+      count: gallery.length || 0,
+      icon: Image,
+      path: "/gallery",
+    },
+    {
+      id: 7,
+      title: "So'rovlar",
+      count: inquiries.length || 0,
+      icon: Mail,
+      path: "/inquiries",
+    },
+    {
+      id: 8,
+      title: "Adminlar",
+      count: admins.length || 0,
+      icon: UserShield,
+      path: "/admins",
+    },
   ];
 
   if (loading) return <Loading />;
@@ -95,35 +134,8 @@ export default function HomePage() {
             </Link>
           ))}
         </div>
-        <div className="mt-6">
-          <div>
-            <h1 className="font-bold text-xl mb-2">Yangi kolleksiya</h1>
-          </div>
-          {collections.slice(0, 1).map((item) => (
-            <div
-              key={item.id}
-              className="w-full bg-light-main dark:bg-dark-main rounded-lg shadow overflow-hidden md:flex md:items-center"
-            >
-              <div className="w-full mb-2 md:mb-0 md:w-50 aspect-video overflow-hidden">
-                <img
-                  src={item.images[0].url}
-                  alt={item.title.uz}
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <div className="px-2 pb-2 flex-1">
-                <h1 className="font-medium text-lg leading-[110%] line-clamp-2 mb-2">
-                  {item.title.uz}
-                </h1>
-                <p className="line-clamp-3 text-sm leading-[130%] my-2">
-                  {item.description.uz}
-                </p>
-              </div>
-            </div>
-          ))}
-        </div>
-        <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-y-4 md:divide-x divide-link-hover">
-          <div className="md:pr-3">
+        <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-y-4 gap-x-6">
+          <div className="">
             <h1 className="font-bold text-xl mb-2">So'nggi yangiliklar</h1>
             <div className="flex flex-col xl:flex-row items-center gap-4">
               {news.slice(0, 2).map((item) => (
@@ -151,7 +163,7 @@ export default function HomePage() {
               ))}
             </div>
           </div>
-          <div className="md:pl-3">
+          <div className="">
             <h1 className="font-bold text-xl mb-2">So'nggi e'lonlar</h1>
             <div className="flex flex-col xl:flex-row items-center gap-4">
               {announcements.slice(0, 2).map((item) => (

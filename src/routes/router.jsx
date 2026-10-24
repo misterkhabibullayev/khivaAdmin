@@ -21,6 +21,7 @@ import {
   TicketsPage,
   UsersPage,
 } from "../pages";
+import TicketsAddPage from "../pages/TicketsAddPage";
 
 export const router = [
   {
@@ -122,6 +123,10 @@ export const router = [
           {
             path: "tickets",
             element: <TicketsPage />,
+          },
+          {
+            path: "tickets/add",
+            element: <TicketsAddPage />,
           },
           {
             path: "profile",

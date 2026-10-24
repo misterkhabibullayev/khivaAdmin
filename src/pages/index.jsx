@@ -17,6 +17,7 @@ const GalleryAddPage = lazy(() => import("./GalleryAddPage"));
 const UsersPage = lazy(() => import("./UsersPage"));
 const InquiriesPage = lazy(() => import("./InquiriesPage"));
 const TicketsPage = lazy(() => import("./TicketsPage"));
+const TicketsAddPage = lazy(() => import("./TicketsAddPage"));
 const ProfilePage = lazy(() => import("./ProfilePage"));
 
 export {
@@ -36,6 +37,7 @@ export {
   NewsAddPage,
   NewsPage,
   ProfilePage,
+  TicketsAddPage,
   TicketsPage,
   UsersPage,
 };
