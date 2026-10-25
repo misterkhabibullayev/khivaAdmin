@@ -17,6 +17,7 @@ import {
   LoginPage,
   NewsAddPage,
   NewsPage,
+  OrderTicketsPage,
   ProfilePage,
   TicketsPage,
   UsersPage,
@@ -125,7 +126,15 @@ export const router = [
             element: <TicketsPage />,
           },
           {
+            path: "ordertickets",
+            element: <OrderTicketsPage />,
+          },
+          {
             path: "tickets/add",
+            element: <TicketsAddPage />,
+          },
+          {
+            path: "tickets/add/:tickID",
             element: <TicketsAddPage />,
           },
           {

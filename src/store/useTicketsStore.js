@@ -25,7 +25,7 @@ export const useTicketsStore = create((set, get) => ({
   getTickets: async (page = 1) => {
     set({ loading: true, error: null });
     try {
-      const res = await fetch(`${BASE_URL}/api/admin/tickets?page=${page}`, {
+      const res = await fetch(`${BASE_URL}/tickets?page=${page}`, {
         headers: getHeaders(false),
         cache: "no-store",
       });
@@ -33,8 +33,7 @@ export const useTicketsStore = create((set, get) => ({
 
       if (res.ok) {
         set({
-          tickets:
-            result.data,
+          tickets: result.data,
           ticketsTotalPages: result.meta?.lastPage,
         });
       } else {
@@ -49,10 +48,45 @@ export const useTicketsStore = create((set, get) => ({
     }
   },
 
+  getTicketById: async (id) => {
+    const existing = get().tickets.find(
+      (t) => String(t.id || t._id) === String(id),
+    );
+    if (existing) return existing;
+
+    set({ loading: true, error: null });
+    try {
+      const res = await fetch(`${BASE_URL}/tickets/${id}`, {
+        headers: getHeaders(false),
+        cache: "no-store",
+      });
+      const result = await res.json();
+
+      if (res.ok) {
+        return result.data || result;
+      }
+
+      const listRes = await fetch(`${BASE_URL}/tickets`, {
+        headers: getHeaders(false),
+        cache: "no-store",
+      });
+      const listResult = await listRes.json();
+      const list = listResult.data || listResult || [];
+
+      set({ tickets: list });
+      return list.find((t) => String(t.id || t._id) === String(id)) || null;
+    } catch (err) {
+      set({ error: err.message });
+      return null;
+    } finally {
+      set({ loading: false });
+    }
+  },
+
   createTicket: async (payload) => {
     set({ submitting: true, error: null });
     try {
-      const res = await fetch(`${BASE_URL}/api/admin/tickets`, {
+      const res = await fetch(`${BASE_URL}/tickets`, {
         method: "POST",
         headers: getHeaders(true),
         body: JSON.stringify(payload),
@@ -77,7 +111,7 @@ export const useTicketsStore = create((set, get) => ({
   updateTicket: async (id, payload) => {
     set({ submitting: true, error: null });
     try {
-      const res = await fetch(`${BASE_URL}/api/admin/tickets/${id}`, {
+      const res = await fetch(`${BASE_URL}/tickets/${id}`, {
         method: "PATCH",
         headers: getHeaders(true),
         body: JSON.stringify(payload),
@@ -103,7 +137,7 @@ export const useTicketsStore = create((set, get) => ({
 
   deleteTicket: async (id) => {
     try {
-      const res = await fetch(`${BASE_URL}/api/admin/tickets/${id}`, {
+      const res = await fetch(`${BASE_URL}/tickets/${id}`, {
         method: "DELETE",
         headers: getHeaders(false),
       });
@@ -123,13 +157,10 @@ export const useTicketsStore = create((set, get) => ({
   getOrders: async (page = 1) => {
     set({ loading: true, error: null });
     try {
-      const res = await fetch(
-        `${BASE_URL}/api/admin/tickets/orders?page=${page}`,
-        {
-          headers: getHeaders(false),
-          cache: "no-store",
-        },
-      );
+      const res = await fetch(`${BASE_URL}/tickets/orders?page=${page}`, {
+        headers: getHeaders(false),
+        cache: "no-store",
+      });
       const result = await res.json();
 
       if (res.ok) {
@@ -155,14 +186,11 @@ export const useTicketsStore = create((set, get) => ({
   updateOrderStatus: async (id, status) => {
     set({ submitting: true, error: null });
     try {
-      const res = await fetch(
-        `${BASE_URL}/api/admin/tickets/orders/${id}/status`,
-        {
-          method: "PATCH",
-          headers: getHeaders(true),
-          body: JSON.stringify({ status }),
-        },
-      );
+      const res = await fetch(`${BASE_URL}/tickets/orders/${id}/status`, {
+        method: "PATCH",
+        headers: getHeaders(true),
+        body: JSON.stringify({ status }),
+      });
       const data = await res.json();
 
       if (res.ok) {

@@ -9,6 +9,7 @@ import {
   Megaphone,
   Newspaper,
   Ticket,
+  TicketCheck,
   Users,
   UserShield,
   X,
@@ -73,11 +74,17 @@ export default function Aside() {
     {
       id: 9,
       path: "tickets",
-      name: "Chiptalar",
+      name: "Chipta Ta'riflari",
       icon: Ticket,
     },
     {
       id: 10,
+      path: "ordertickets",
+      name: "Sotilgan Chiptalar",
+      icon: TicketCheck,
+    },
+    {
+      id: 11,
       path: "admins",
       name: "Adminlar",
       icon: UserShield,

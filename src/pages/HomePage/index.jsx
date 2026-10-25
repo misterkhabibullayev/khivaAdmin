@@ -1,4 +1,15 @@
-import { Briefcase, Image, Layers, Mail, Megaphone, Newspaper, Users, UserShield } from "lucide-react";
+import {
+  Briefcase,
+  Image,
+  Layers,
+  Mail,
+  Megaphone,
+  Newspaper,
+  Ticket,
+  TicketCheck,
+  Users,
+  UserShield,
+} from "lucide-react";
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import Loading from "../../components/Loading";
@@ -10,6 +21,7 @@ import { useEmployeesStore } from "../../store/useEmployeesStore";
 import { useGalleryStore } from "../../store/useGalleryStore";
 import { useInquiriesStore } from "../../store/useInquiriesStroe";
 import { useNewsStore } from "../../store/useNewsStore";
+import { useTicketsStore } from "../../store/useTicketsStore";
 import { useUsersStore } from "../../store/useUsersStore";
 
 export default function HomePage() {
@@ -20,6 +32,8 @@ export default function HomePage() {
   const { news, getNews } = useNewsStore();
   const { gallery, getGallery } = useGalleryStore();
   const { inquiries, getInquiries } = useInquiriesStore();
+  const { tickets, getTickets } = useTicketsStore();
+  const { orders, getOrders } = useTicketsStore();
   const { admins, getAdmins } = useAdminsStore();
 
   useEffect(() => {
@@ -30,6 +44,8 @@ export default function HomePage() {
     getNews?.();
     getGallery?.();
     getInquiries?.();
+    getTickets?.();
+    getOrders?.();
     getAdmins?.();
   }, [
     getUsers,
@@ -39,6 +55,8 @@ export default function HomePage() {
     getNews,
     getGallery,
     getInquiries,
+    getTickets,
+    getOrders,
     getAdmins,
   ]);
 
@@ -94,6 +112,20 @@ export default function HomePage() {
     },
     {
       id: 8,
+      title: "Chipta Ta'riflari",
+      count: tickets.length || 0,
+      icon: Ticket,
+      path: "/tickets",
+    },
+    {
+      id: 9,
+      title: "Sotilgan Chiptalar",
+      count: orders.length || 0,
+      icon: TicketCheck,
+      path: "/ordertickets"
+    },
+    {
+      id: 10,
       title: "Adminlar",
       count: admins.length || 0,
       icon: UserShield,
