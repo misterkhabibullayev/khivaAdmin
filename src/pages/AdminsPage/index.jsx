@@ -62,9 +62,11 @@ export default function AdminsPage() {
                       {item.firstName} {item.lastName}
                     </h3>
                   </td>
-                  <td className="py-2 px-3 flex items-center gap-1">
-                    <Mail className="w-3.5 h-3.5" />
-                    {item.email}
+                  <td className="py-2 px-3">
+                    <span className="text-gray-500 dark:text-light-second flex items-center gap-1">
+                      <Mail className="w-3.5 h-3.5" />
+                      {item.email}
+                    </span>
                   </td>
                   <td className="py-2 px-3">
                     <span className="text-gray-500 dark:text-light-second flex items-center gap-1 capitalize">

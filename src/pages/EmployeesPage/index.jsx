@@ -11,8 +11,14 @@ import { Icons } from "../../icons/Icons";
 import { useEmployeesStore } from "../../store/useEmployeesStore";
 
 export default function EmployeesPage() {
-  const { employees, totalPages, loading, error, getEmployees, deleteEmployee } =
-    useEmployeesStore();
+  const {
+    employees,
+    totalPages,
+    loading,
+    error,
+    getEmployees,
+    deleteEmployee,
+  } = useEmployeesStore();
   const [deleteLoading] = useState(false);
   const [selectedId, setSelectedId] = useState(null);
   const navigate = useNavigate();
@@ -143,21 +149,21 @@ export default function EmployeesPage() {
       </div>
       <div
         onClick={() => {
-          setConfirm(false);
+          if (!deleteLoading) setConfirm(false);
         }}
         className={`absolute top-0 left-0 z-100 w-full h-full bg-black/70 flex items-center justify-center ${confirm ? "block" : "hidden"}`}
       >
         <div
           onClick={(e) => e.stopPropagation()}
-          className="bg-white p-6 rounded-lg"
+          className="bg-light-main dark:bg-dark-main p-6 rounded-lg"
         >
-          <h2 className="font-medium text-xl max-w-50 text-center">
+          <h2 className="font-medium text-xl max-w-50 text-center text-black dark:text-white">
             Haqiqattan ham o'chirmoqchimisiz?
           </h2>
           <div className="flex items-center justify-end gap-3 pt-6">
             <button
               onClick={() => setConfirm(false)}
-              className="border border-black text-black px-3 py-1 rounded-sm"
+              className="border border-black dark:border-white text-black dark:text-white px-3 py-1 rounded-sm"
             >
               Yo'q
             </button>

@@ -37,12 +37,12 @@ export default function ProfilePage() {
 
   const [onEmail, setOnEmail] = useState(false);
   const [emailStep, setEmailStep] = useState(1);
-  const [targetEmail, setTargetEmail] = useState("");
   const [statusMessage, setStatusMessage] = useState(null);
   const [showPassword, setShowPassword] = useState(false);
   const [, setSelectedId] = useState(null);
   const [confirm, setConfirm] = useState(false);
-
+  
+  const [targetEmail, setTargetEmail] = useState("");
   const showNotification = (type, text) => {
     setStatusMessage({ type, text });
     setTimeout(() => {

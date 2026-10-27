@@ -6,11 +6,12 @@ import NoData from "../../components/NoData";
 import PageHeader from "../../components/PageHeader";
 import Pagination from "../../components/Pagination";
 import { useNewsStore } from "../../store/useNewsStore";
+import { useNotificationStore } from "../../store/useNotificationStore";
 
 export default function NewsPage() {
   const navigate = useNavigate();
-  const [deleteLoading] = useState(false);
   const [selectedId, setSelectedId] = useState(null);
+  const [deleteLoading, setDeleteLoading] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
   const currentPage = Number(searchParams.get("page")) || 1;
 
@@ -18,12 +19,33 @@ export default function NewsPage() {
   const { news, totalPages, loading, error, getNews, deleteNews } =
     useNewsStore();
 
+  const { showNotification } = useNotificationStore();
+
   useEffect(() => {
     getNews(currentPage);
   }, [currentPage, getNews]);
 
   const handlePageChange = (newPage) => {
     setSearchParams({ page: newPage });
+  };
+
+  const handleDelete = async () => {
+    if (!selectedId) return;
+
+    setDeleteLoading(true);
+    const res = await deleteNews(selectedId);
+    setDeleteLoading(false);
+    setConfirm(false);
+
+    if (res?.ok ?? true) {
+      showNotification("success", "Yangilik muvaffaqiyatli o'chirildi");
+      getNews(currentPage);
+    } else {
+      showNotification(
+        "error",
+        res?.data?.message || res?.message || "O'chirishda xatolik yuz berdi",
+      );
+    }
   };
 
   if (loading) return <Loading />;
@@ -102,7 +124,7 @@ export default function NewsPage() {
       </div>
       <div
         onClick={() => {
-          setConfirm(false);
+          if (!deleteLoading) setConfirm(false);
         }}
         className={`absolute top-0 left-0 z-100 w-full h-full bg-black/70 flex items-center justify-center ${confirm ? "block" : "hidden"}`}
       >
@@ -115,7 +137,8 @@ export default function NewsPage() {
           </h2>
           <div className="flex items-center justify-end gap-3 pt-6">
             <button
-              onClick={() => setConfirm(false)}
+              disabled={deleteLoading}
+              onClick={handleDelete}
               className="border border-black dark:border-white text-black dark:text-white px-3 py-1 rounded-sm"
             >
               Yo'q

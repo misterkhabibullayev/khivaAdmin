@@ -69,7 +69,7 @@ export default function InquiriesPage() {
                     <tr className="hover:bg-gray-50/50 dark:hover:bg-dark-second transition-colors">
                       <td className="py-2 px-3">{index + 1}</td>
                       <td className="py-2 px-3">
-                        <h3 className="font-medium text-base whitespace-normal">
+                        <h3 className="font-medium text-base whitespace-nowrap">
                           {item.firstName} {item.lastName}
                         </h3>
                       </td>

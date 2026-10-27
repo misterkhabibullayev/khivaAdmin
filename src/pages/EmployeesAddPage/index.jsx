@@ -1,9 +1,10 @@
 import { ArrowLeft, Loader2, Save, Upload } from "lucide-react";
 import { useEffect, useState } from "react";
-import { Controller, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import PageHeader from "../../components/PageHeader";
 import { useEmployeesStore } from "../../store/useEmployeesStore";
+import { useNotificationStore } from "../../store/useNotificationStore";
 
 export default function EmployeesAddPage() {
   const { id } = useParams();
@@ -12,7 +13,10 @@ export default function EmployeesAddPage() {
 
   const [activeLang, setActiveLang] = useState("uz");
   const [imgUrl, setImgUrl] = useState("");
+  const [initialImgUrl, setInitialImgUrl] = useState("");
   const [imgError, setImgError] = useState("");
+
+  const { showNotification } = useNotificationStore();
 
   const {
     getEmployeeById,
@@ -24,7 +28,12 @@ export default function EmployeesAddPage() {
     uploading: isUploading,
   } = useEmployeesStore();
 
-  const { register, handleSubmit, reset, control } = useForm({
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { isDirty },
+  } = useForm({
     defaultValues: {
       name: "",
       surName: "",
@@ -50,22 +59,25 @@ export default function EmployeesAddPage() {
             name,
             surName,
             fatherName: fatherParts.join(" "),
-            birthDate: emp.birthDate || "",
+            birthDate: emp.birthDate ? emp.birthDate.slice(0, 10) : "",
             position: {
               uz: emp.position?.uz || "",
               ru: emp.position?.ru || "",
               en: emp.position?.en || "",
             },
           });
-          if (emp.images?.[0]?.url) {
-            setImgUrl(emp.images[0].url);
-          }
+          const currentImg = emp.images?.[0]?.url || "";
+          setImgUrl(currentImg);
+          setInitialImgUrl(currentImg);
         }
       };
 
       loadEmployee();
     }
   }, [id, isEdit, reset, getEmployeeById]);
+
+  const isImageDirty = isEdit ? imgUrl !== initialImgUrl : Boolean(imgUrl);
+  const hasChanges = isEdit ? isDirty || isImageDirty : true;
 
   const handleImageUp = async (e) => {
     const file = e.target.files?.[0];
@@ -121,9 +133,16 @@ export default function EmployeesAddPage() {
       : await createEmployee(payload);
 
     if (res.ok) {
+      showNotification(
+        "success",
+        isEdit ? "Xodim muvaffaqiyatli tahrirlandi" : "Xodim yaratildi",
+      );
       navigate("/employees");
     } else {
-      alert(res.data?.message || res.data?.error || "Xatolik yuz berdi!");
+      showNotification(
+        "error",
+        res.data?.message || res.data?.error || "Xatolik yuz berdi!",
+      );
     }
   };
 
@@ -138,7 +157,9 @@ export default function EmployeesAddPage() {
   return (
     <div className="">
       <PageHeader>
-        <h1 className="font-medium text-xl leading-[110%]">Xodim qo'shish</h1>
+        <h1 className="font-medium text-xl leading-[110%]">
+          {isEdit ? "Xodimni tahrirlash" : "Xodim qo'shish"}
+        </h1>
       </PageHeader>
       <div className="flex flex-col items-center">
         <div className="flex items-center gap-2 w-full xl:w-2/3 pb-6">
@@ -157,71 +178,47 @@ export default function EmployeesAddPage() {
                 <label htmlFor="name" className="pb-2">
                   Ism
                 </label>
-                <Controller
-                  name={"name"}
-                  control={control}
-                  render={() => (
-                    <input
-                      id="name"
-                      type="text"
-                      placeholder="Masalan: Ibrohim"
-                      {...register("name", { required: true })}
-                      className="outline-none border border-gray-300 rounded-lg p-2 bg-gray-50/50 dark:bg-dark-second focus:bg-white dark:focus:bg-dark-main focus:border-link-hover hover:bg-link-hover/10 hover:border-link-hover transition-colors duration-300"
-                    />
-                  )}
+                <input
+                  id="name"
+                  type="text"
+                  placeholder="Masalan: Ibrohim"
+                  {...register("name", { required: true })}
+                  className="outline-none border border-gray-300 rounded-lg p-2 bg-gray-50/50 dark:bg-dark-second focus:bg-white dark:focus:bg-dark-main focus:border-link-hover hover:bg-link-hover/10 hover:border-link-hover transition-colors duration-300"
                 />
               </div>
               <div className="flex flex-col col-span-2">
                 <label htmlFor="surName" className="pb-2">
                   Familya
                 </label>
-                <Controller
-                  name="surName"
-                  control={control}
-                  render={() => (
-                    <input
-                      id="surName"
-                      type="text"
-                      placeholder="Masalan: Xabibullayev"
-                      {...register("surName", { required: true })}
-                      className="outline-none border border-gray-300 rounded-lg p-2 bg-gray-50/50 dark:bg-dark-second focus:bg-white dark:focus:bg-dark-main focus:border-link-hover hover:bg-link-hover/10 hover:border-link-hover transition-colors duration-300"
-                    />
-                  )}
+                <input
+                  id="surName"
+                  type="text"
+                  placeholder="Masalan: Xabibullayev"
+                  {...register("surName", { required: true })}
+                  className="outline-none border border-gray-300 rounded-lg p-2 bg-gray-50/50 dark:bg-dark-second focus:bg-white dark:focus:bg-dark-main focus:border-link-hover hover:bg-link-hover/10 hover:border-link-hover transition-colors duration-300"
                 />
               </div>
               <div className="flex flex-col col-span-2">
                 <label htmlFor="fatherName" className="pb-2">
                   Otasining ismi
                 </label>
-                <Controller
-                  name="fatherName"
-                  control={control}
-                  render={() => (
-                    <input
-                      id="fatherName"
-                      type="text"
-                      placeholder="Masalan: Mahmujon o'g'li"
-                      {...register("fatherName", { required: true })}
-                      className="outline-none border border-gray-300 rounded-lg p-2 bg-gray-50/50 dark:bg-dark-second focus:bg-white dark:focus:bg-dark-main focus:border-link-hover hover:bg-link-hover/10 hover:border-link-hover transition-colors duration-300"
-                    />
-                  )}
+                <input
+                  id="fatherName"
+                  type="text"
+                  placeholder="Masalan: Mahmujon o'g'li"
+                  {...register("fatherName", { required: true })}
+                  className="outline-none border border-gray-300 rounded-lg p-2 bg-gray-50/50 dark:bg-dark-second focus:bg-white dark:focus:bg-dark-main focus:border-link-hover hover:bg-link-hover/10 hover:border-link-hover transition-colors duration-300"
                 />
               </div>
               <div className="flex flex-col col-span-3">
                 <label htmlFor="birthDate" className="pb-2">
                   Tug'ilgan kuni
                 </label>
-                <Controller
-                  name="birthDate"
-                  control={control}
-                  render={() => (
-                    <input
-                      id="birthDate"
-                      type="date"
-                      {...register("birthDate", { required: true })}
-                      className="outline-none border border-gray-300 rounded-lg p-2 bg-gray-50/50 dark:bg-dark-second focus:bg-white dark:focus:bg-dark-main focus:border-link-hover hover:bg-link-hover/10 hover:border-link-hover transition-colors duration-300"
-                    />
-                  )}
+                <input
+                  id="birthDate"
+                  type="date"
+                  {...register("birthDate", { required: true })}
+                  className="outline-none border border-gray-300 rounded-lg p-2 bg-gray-50/50 dark:bg-dark-second focus:bg-white dark:focus:bg-dark-main focus:border-link-hover hover:bg-link-hover/10 hover:border-link-hover transition-colors duration-300"
                 />
               </div>
               <div className="flex flex-col col-span-3">
@@ -244,22 +241,14 @@ export default function EmployeesAddPage() {
                     ))}
                   </div>
                 </div>
-                {["uz", "ru", "en"].map((lang) => (
-                  <Controller
-                    key={lang}
-                    name={`position-${lang}`}
-                    control={control}
-                    render={() => (
-                      <input
-                        id={`position-${lang}`}
-                        type="text"
-                        placeholder={`${lang.toUpperCase()} tilida lavozimni kiriting`}
-                        {...register(`position.${lang}`)}
-                        className={`outline-none border border-gray-300 rounded-lg p-2 bg-gray-50/50 dark:bg-dark-second focus:bg-white dark:focus:bg-dark-main focus:border-link-hover hover:bg-link-hover/10 hover:border-link-hover transition-colors duration-300 ${activeLang === lang ? "block" : "hidden"}`}
-                      />
-                    )}
-                  />
-                ))}
+                <input
+                  key={activeLang}
+                  id={`position-${activeLang}`}
+                  type="text"
+                  placeholder={`${activeLang.toUpperCase()} tilida lavozimni kiriting`}
+                  {...register(`position.${activeLang}`)}
+                  className="outline-none border border-gray-300 rounded-lg p-2 bg-gray-50/50 dark:bg-dark-second focus:bg-white dark:focus:bg-dark-main focus:border-link-hover hover:bg-link-hover/10 hover:border-link-hover transition-colors duration-300 block"
+                />
               </div>
               <div className="col-span-6">
                 <label className="block text-sm font-medium mb-1.5">
@@ -299,6 +288,7 @@ export default function EmployeesAddPage() {
                   <input
                     type="file"
                     accept="image/png, image/jpeg, image/jpg, image/webp"
+                    disabled={isUploading}
                     onChange={handleImageUp}
                     className="hidden"
                   />
@@ -313,8 +303,8 @@ export default function EmployeesAddPage() {
             <div className="flex items-center justify-end pt-6">
               <button
                 type="submit"
-                disabled={isSubmitting || isUploading}
-                className="font-medium text-white bg-link-hover hover:bg-link-hover/80 transition-colors duration-300 px-4 py-1.5 rounded-lg flex items-center gap-1"
+                disabled={!hasChanges || isSubmitting || isUploading}
+                className="font-medium text-white bg-link-hover hover:bg-link-hover/80 transition-colors duration-300 px-4 py-1.5 rounded-lg flex items-center gap-1 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
               >
                 {isSubmitting ? (
                   <Loader2 className="w-4 h-4 animate-spin" />

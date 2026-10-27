@@ -22,6 +22,9 @@ export const useTicketsStore = create((set, get) => ({
   submitting: false,
   error: null,
 
+  ordersMeta: null,
+  ordersLoading: false,
+
   getTickets: async (page = 1) => {
     set({ loading: true, error: null });
     try {
@@ -45,6 +48,42 @@ export const useTicketsStore = create((set, get) => ({
       set({ error: err.message });
     } finally {
       set({ loading: false });
+    }
+  },
+
+  getOrders: async (page = 1) => {
+    set({ ordersLoading: true });
+    try {
+      const params = new URLSearchParams({
+        page: String(page),
+      });
+
+      const res = await fetch(
+        `${BASE_URL}/tickets/orders?${params.toString()}`,
+        {
+          method: "GET",
+          headers: getHeaders(true),
+          cache: "no-store",
+        },
+      );
+      const result = await res.json();
+
+      if (res.ok) {
+        set({
+          orders: result.data || [],
+          ordersMeta: result.meta || null,
+        });
+        return { success: true, data: result.data, meta: result.meta };
+      }
+
+      return {
+        success: false,
+        message: result.message || "Chiptalarni yuklab bo'lmadi",
+      };
+    } catch (err) {
+      return { success: false, message: err.message };
+    } finally {
+      set({ ordersLoading: false });
     }
   },
 
@@ -154,34 +193,6 @@ export const useTicketsStore = create((set, get) => ({
     }
   },
 
-  getOrders: async (page = 1) => {
-    set({ loading: true, error: null });
-    try {
-      const res = await fetch(`${BASE_URL}/tickets/orders?page=${page}`, {
-        headers: getHeaders(false),
-        cache: "no-store",
-      });
-      const result = await res.json();
-
-      if (res.ok) {
-        set({
-          orders:
-            result.data ||
-            result.orders ||
-            (Array.isArray(result) ? result : []),
-          ordersTotalPages: result.meta?.lastPage || result.totalPages || 1,
-        });
-      } else {
-        set({
-          error: result.message || "Buyurtmalarni yuklashda xatolik yuz berdi",
-        });
-      }
-    } catch (err) {
-      set({ error: err.message });
-    } finally {
-      set({ loading: false });
-    }
-  },
 
   updateOrderStatus: async (id, status) => {
     set({ submitting: true, error: null });

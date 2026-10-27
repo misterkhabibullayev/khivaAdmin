@@ -1,10 +1,13 @@
-import { Outlet } from "react-router-dom";
-import Header from "../components/Header";
-import Aside from "../components/Aside";
 import { Suspense } from "react";
+import { Outlet } from "react-router-dom";
+import Aside from "../components/Aside";
+import Header from "../components/Header";
 import MainLoading from "../components/MainLoading";
+import Notification from "../components/Notifications";
+import { useNotificationStore } from "../store/useNotificationStore";
 
 export default function MainLayout() {
+  const { notification, closeNotification } = useNotificationStore();
   return (
     <>
       <div className="flex w-full h-screen overflow-hidden bg-light-main dark:bg-dark-main">
@@ -17,6 +20,7 @@ export default function MainLayout() {
             </Suspense>
           </main>
         </div>
+        <Notification message={notification} onClose={closeNotification} />
       </div>
     </>
   );

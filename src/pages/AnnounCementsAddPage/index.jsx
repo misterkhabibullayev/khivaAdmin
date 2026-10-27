@@ -1,12 +1,13 @@
 import { ArrowLeft, Loader2, Plus, Save, Trash2, Upload } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
 import PageHeader from "../../components/PageHeader";
 import TextEditor from "../../components/TextEditor";
 import { useAnnouncementStore } from "../../store/useAnnouncementStore";
+import { useNotificationStore } from "../../store/useNotificationStore";
 
-export default function NewsAdd() {
+export default function AnnouncementAdd() {
   const navigate = useNavigate();
   const { anId } = useParams();
   const isEdit = Boolean(anId);
@@ -16,7 +17,13 @@ export default function NewsAdd() {
 
   const [imagesList, setImagesList] = useState([]);
   const [mainIndex, setMainIndex] = useState(0);
+
+  const [initialImages, setInitialImages] = useState([]);
+  const [initialMainIndex, setInitialMainIndex] = useState(0);
+
   const [imgError, setImgError] = useState("");
+
+  const { showNotification } = useNotificationStore();
 
   const {
     getAnnouncementById,
@@ -27,7 +34,13 @@ export default function NewsAdd() {
     uploading: isUploading,
   } = useAnnouncementStore();
 
-  const { register, handleSubmit, reset, control } = useForm({
+  const {
+    register,
+    handleSubmit,
+    reset,
+    control,
+    formState: { isDirty },
+  } = useForm({
     defaultValues: {
       title: {
         en: "",
@@ -47,7 +60,7 @@ export default function NewsAdd() {
       const loadAnnouncement = async () => {
         const item = await getAnnouncementById(anId);
         if (item) {
-          reset({
+          const loadedData = {
             title: {
               en: item.title?.en || "",
               ru: item.title?.ru || "",
@@ -58,11 +71,20 @@ export default function NewsAdd() {
               ru: item.description?.ru || "",
               uz: item.description?.uz || "",
             },
-          });
+          };
+
+          reset(loadedData);
+
           if (Array.isArray(item.images) && item.images.length > 0) {
-            setImagesList(item.images.map((img) => ({ url: img.url })));
+            const formatted = item.images.map((img) => ({ url: img.url }));
             const primaryIdx = item.images.findIndex((img) => img.mainImage);
-            setMainIndex(primaryIdx !== -1 ? primaryIdx : 0);
+            const selectedIdx = primaryIdx !== -1 ? primaryIdx : 0;
+
+            setImagesList(formatted);
+            setMainIndex(selectedIdx);
+
+            setInitialImages(formatted);
+            setInitialMainIndex(selectedIdx);
           }
         }
       };
@@ -70,6 +92,19 @@ export default function NewsAdd() {
       loadAnnouncement();
     }
   }, [anId, isEdit, reset, getAnnouncementById]);
+
+  const isImagesDirty = useMemo(() => {
+    if (!isEdit) {
+      return imagesList.length > 0;
+    }
+
+    if (imagesList.length !== initialImages.length) return true;
+    if (mainIndex !== initialMainIndex) return true;
+
+    return imagesList.some((img, idx) => img.url !== initialImages[idx]?.url);
+  }, [isEdit, imagesList, initialImages, mainIndex, initialMainIndex]);
+
+  const hasChanges = isEdit ? isDirty || isImagesDirty : true;
 
   const handleMultipleImageUpload = async (e) => {
     const selectedFiles = Array.from(e.target.files || []);
@@ -145,15 +180,22 @@ export default function NewsAdd() {
       : await createAnnouncement(payload);
 
     if (res.ok) {
+      showNotification(
+        "success",
+        isEdit ? "E'lon muvaffaqiyatli tahrirlandi" : "E'lon yaratildi",
+      );
       navigate("/announcements");
     } else {
-      alert(res.data?.message || res.data?.error || "Xatolik yuz berdi!");
+      showNotification("error", res.data?.message || res.data?.error);
     }
   };
+
   return (
     <div>
       <PageHeader>
-        <h1 className="font-medium text-xl leading-[110%]">E'lon qo'shish</h1>
+        <h1 className="font-medium text-xl leading-[110%]">
+          {isEdit ? "E'lonni tahrirlash" : "E'lon qo'shish"}
+        </h1>
       </PageHeader>
 
       <div className="flex items-center justify-center">
@@ -190,22 +232,13 @@ export default function NewsAdd() {
                       ))}
                     </div>
                   </div>
-                  {["uz", "ru", "en"].map((lang) => (
-                    <Controller
-                      key={lang}
-                      name={`title-${lang}`}
-                      control={control}
-                      render={() => (
-                        <input
-                          id={`title-${lang}`}
-                          type="text"
-                          placeholder={`${lang.toUpperCase()} tilida sarlavhani kiriting`}
-                          {...register(`title.${lang}`)}
-                          className={`outline-none border border-gray-300 rounded-lg p-2 bg-gray-50/50 dark:bg-dark-second focus:bg-white dark:focus:bg-dark-main focus:border-link-hover hover:bg-link-hover/10 hover:border-link-hover transition-colors duration-300 ${activeLangN === lang ? "block" : "hidden"}`}
-                        />
-                      )}
-                    />
-                  ))}
+                  <input
+                    id={`title-${activeLangN}`}
+                    type="text"
+                    placeholder={`${activeLangN.toUpperCase()} tilida sarlavhani kiriting`}
+                    {...register(`title.${activeLangN}`)}
+                    className="outline-none border border-gray-300 rounded-lg p-2 bg-gray-50/50 dark:bg-dark-second focus:bg-white dark:focus:bg-dark-main focus:border-link-hover hover:bg-link-hover/10 hover:border-link-hover transition-colors duration-300 block"
+                  />
                 </div>
                 <div className="flex flex-col col-span-6">
                   <div className="flex items-center gap-2 pb-2">
@@ -227,23 +260,21 @@ export default function NewsAdd() {
                       ))}
                     </div>
                   </div>
-                  {["uz", "ru", "en"].map((lang) => (
-                    <div
-                      key={lang}
-                      className={`border border-gray-300 rounded-lg overflow-hidden ${activeLangC === lang ? "block" : "hidden"}`}
-                    >
-                      <Controller
-                        name={`description.${lang}`}
-                        control={control}
-                        render={({ field }) => (
-                          <TextEditor
-                            value={field.value || ""}
-                            onChange={field.onChange}
-                          />
-                        )}
-                      />
-                    </div>
-                  ))}
+                  <div
+                    key={activeLangC}
+                    className="border border-gray-300 rounded-lg overflow-hidden block"
+                  >
+                    <Controller
+                      name={`description.${activeLangC}`}
+                      control={control}
+                      render={({ field }) => (
+                        <TextEditor
+                          value={field.value || ""}
+                          onChange={field.onChange}
+                        />
+                      )}
+                    />
+                  </div>
                 </div>
                 <div className="col-span-6">
                   <div className="flex items-center gap-2 mb-1.5">
@@ -371,8 +402,8 @@ export default function NewsAdd() {
               <div className="flex items-center justify-end pt-6">
                 <button
                   type="submit"
-                  disabled={isSubmitting || isUploading}
-                  className="font-medium text-white bg-link-hover hover:bg-link-hover/80 transition-colors duration-300 px-4 py-1.5 rounded-lg flex items-center gap-1"
+                  disabled={!hasChanges || isSubmitting || isUploading}
+                  className="font-medium text-white bg-link-hover hover:bg-link-hover/80 transition-colors duration-300 px-4 py-1.5 rounded-lg flex items-center gap-1 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {isSubmitting ? (
                     <Loader2 className="w-4 h-4 animate-spin" />

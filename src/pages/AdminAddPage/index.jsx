@@ -4,11 +4,13 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import PageHeader from "../../components/PageHeader";
 import { useAdminsStore } from "../../store/useAdminsStore";
+import { useNotificationStore } from "../../store/useNotificationStore";
 
 export default function AdminAddPage() {
   const navigate = useNavigate();
   const { createAdmin, submitting } = useAdminsStore();
   const [showPassword, setShowPassword] = useState(false);
+  const { showNotification } = useNotificationStore();
 
   const {
     register,
@@ -27,6 +29,7 @@ export default function AdminAddPage() {
     const res = await createAdmin(data);
 
     if (res.ok) {
+      showNotification("success", "Admin muvaffaqiyatli qo'shildi");
       navigate("/admins");
     }
   };
