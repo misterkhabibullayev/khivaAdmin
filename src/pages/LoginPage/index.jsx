@@ -58,10 +58,10 @@ export default function LoginPage() {
     }
   };
   return (
-    <div className="flex items-center justify-center w-full bg-[url('/Images/khivmuseumlogin.png')] bg-no-repeat bg-center h-screen">
-      <div className="absolute inset-0 bg-black/65 backdrop-blur-[2px]"></div>
-      <div className="w-full h-screen overflow-hidden flex items-center justify-center">
-        <div className="flex flex-col gap-4 items-center bg-white/10 backdrop-blur-md p-5 rounded-lg shadow-lg border border-white/20">
+    <div className="flex items-center justify-center w-full bg-[url('/Images/khivmuseumlogin.png')] bg-cover bg-no-repeat bg-center h-screen">
+      <div className="absolute inset-0 bg-black/40 backdrop-blur-[2px]"></div>
+      <div className="w-full h-screen overflow-hidden flex items-center justify-center px-5">
+        <div className="min-w-0 md:min-w-md flex flex-col gap-4 items-center bg-white/10 backdrop-blur-lg p-5 rounded-lg shadow-lg border border-white/20">
           <div className="flex items-center mb-5">
             <img
               src="/Images/logo.png"
@@ -85,7 +85,7 @@ export default function LoginPage() {
           {error && (
             <p className="text-red-500 text-sm max-w-xs text-center">{error}</p>
           )}
-          <div className="min-w-sm">
+          <div className="w-full">
             <form onSubmit={handleSubmit} className="flex flex-col gap-5">
               <div className="flex flex-col gap-2">
                 <label
@@ -105,7 +105,7 @@ export default function LoginPage() {
                     value={formData.email}
                     onChange={handleChange}
                     required
-                    className="min-w-full outline-none border border-black dark:border-gray-300 rounded-lg px-4 pl-10 py-2 focus:border-link-hover hover:border-link-hover text-black dark:text-white dark:placeholder:text-gray-300"
+                    className="w-full outline-none border border-black dark:border-gray-300 rounded-lg px-4 pl-10 py-2 focus:border-link-hover hover:border-link-hover text-black dark:text-white dark:placeholder:text-gray-300"
                   />
                 </div>
               </div>
@@ -122,7 +122,7 @@ export default function LoginPage() {
                     value={formData.password}
                     onChange={handleChange}
                     required
-                    className="min-w-full outline-none border border-black dark:border-gray-300 rounded-lg px-10 py-2 focus:border-link-hover hover:border-link-hover text-black dark:text-white dark:placeholder:text-gray-300"
+                    className="w-full outline-none border border-black dark:border-gray-300 rounded-lg px-10 py-2 focus:border-link-hover hover:border-link-hover text-black dark:text-white dark:placeholder:text-gray-300"
                   />
                   <button
                     type="button"
