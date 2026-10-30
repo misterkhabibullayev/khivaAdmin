@@ -111,17 +111,19 @@ export default function Aside() {
         `}
       >
         <div className="h-16 shrink-0 flex items-center justify-between border-b border-link-hover/20 md:border-b-0 px-5 overflow-hidden">
-          <div className="flex items-center">
-            <img
-              src="/Images/logo.png"
-              alt=""
-              className="w-10 h-10 object-contain shrink-0"
-            />
-            <h2
-              className={`font-bold text-base md:text-lg leading-[110%] text-link-hover pt-1.5 transition-all duration-300 ease-in-out ${isCollapse ? "md:opacity-0 md:max-w-0 md:ml-0 ml-2" : "md:opacity-100 md:max-w-40 md:ml-2"}`}
-            >
-              KhivaMuseum
-            </h2>
+          <div>
+            <Link to={"/"} className="flex items-center">
+              <img
+                src="/Images/logo.png"
+                alt=""
+                className="w-10 h-10 object-contain shrink-0"
+              />
+              <h2
+                className={`font-bold text-base md:text-lg leading-[110%] text-link-hover pt-1.5 transition-all duration-300 ease-in-out ${isCollapse ? "md:opacity-0 md:max-w-0 md:ml-0 ml-2" : "md:opacity-100 md:max-w-40 md:ml-2"}`}
+              >
+                KhivaMuseum
+              </h2>
+            </Link>
           </div>
           <button
             type="button"

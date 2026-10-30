@@ -137,17 +137,14 @@ export default function NewsPage() {
           </h2>
           <div className="flex items-center justify-end gap-3 pt-6">
             <button
-              disabled={deleteLoading}
-              onClick={handleDelete}
+              onClick={() => setConfirm(false)}
               className="border border-black dark:border-white text-black dark:text-white px-3 py-1 rounded-sm"
             >
               Yo'q
             </button>
             <button
-              onClick={async () => {
-                await deleteNews(selectedId);
-                setConfirm(false);
-              }}
+              disabled={deleteLoading}
+              onClick={handleDelete}
               className="border border-link-hover text-white bg-link-hover px-3 py-1 rounded-sm"
             >
               Ha

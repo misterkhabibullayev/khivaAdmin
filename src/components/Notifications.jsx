@@ -3,7 +3,7 @@ import { useEffect } from "react";
 
 const notificationTypes = {
   success: {
-    icon: <CircleCheck className="w-5 h-5 text-emerald-500 shrink-0" />,
+    icon: <CircleCheck className="w-5 h-5 text-green-500 shrink-0" />,
     border: "border-green-500",
   },
   error: {
@@ -29,7 +29,7 @@ export default function Notification({ message, onClose, duration = 4000 }) {
 
   return (
     <div
-      className={`fixed top-6 right-6 z-60 px-4 py-3 rounded-xl shadow-xl flex items-start gap-3 border transition-all duration-300 bg-light-main dark:bg-dark-main text-black dark:text-white ${currentType.border}`}
+      className={`fixed top-2 right-1/2 translate-x-1/2 z-60 px-3 py-2 rounded-lg shadow-lg flex items-stretch gap-3 border transition-all duration-300 bg-light-main dark:bg-dark-main text-black dark:text-white ${currentType.border}`}
     >
       <div className="pt-0.5">{currentType.icon}</div>
 

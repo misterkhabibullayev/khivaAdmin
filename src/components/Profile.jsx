@@ -26,8 +26,8 @@ export default function Profile({ isCollapse, setIsCollapse }) {
             {profile.lastName?.[0]}
           </div>
         ) : (
-          <div>
-            <img src={profile.images?.[0].url} alt="" />
+          <div className="w-full h-full">
+            <img src={profile.images?.[0].url} alt="" className="w-full h-full object-cover" />
           </div>
         )}
       </div>

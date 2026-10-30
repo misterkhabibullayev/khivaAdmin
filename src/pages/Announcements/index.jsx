@@ -1,23 +1,58 @@
 import { Plus, SquarePen, Trash } from "lucide-react";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import Loading from "../../components/Loading";
 import NoData from "../../components/NoData";
 import PageHeader from "../../components/PageHeader";
+import Pagination from "../../components/Pagination";
 import { useAnnouncementStore } from "../../store/useAnnouncementStore";
+import { useNotificationStore } from "../../store/useNotificationStore";
 
 export default function AnnouncementsPage() {
   const navigate = useNavigate();
-  const [deleteLoading] = useState(false);
+  const [deleteLoading, setDeleteLoading] = useState(false);
   const [selectedId, setSelectedId] = useState(null);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const currentPage = Number(searchParams.get("page")) || 1;
+
+  const { showNotification } = useNotificationStore();
 
   const [confirm, setConfirm] = useState(false);
-  const { announcements, loading, error, getAnnouncements, deletAnnouncement } =
-    useAnnouncementStore();
+  const {
+    announcements,
+    totalPages,
+    loading,
+    error,
+    getAnnouncements,
+    deletAnnouncement,
+  } = useAnnouncementStore();
 
   useEffect(() => {
-    getAnnouncements();
-  }, [getAnnouncements]);
+    getAnnouncements(currentPage);
+  }, [currentPage, getAnnouncements]);
+
+  const handlePageChange = (newPage) => {
+    setSearchParams({ page: newPage });
+  };
+
+  const handleDelete = async () => {
+    if (!selectedId) return;
+
+    setDeleteLoading(true);
+    const res = await deletAnnouncement(selectedId);
+    setDeleteLoading(false);
+    setConfirm(false);
+
+    if (res?.ok ?? true) {
+      showNotification("success", "Yangilik muvaffaqiyatli o'chirildi");
+      getAnnouncements(currentPage);
+    } else {
+      showNotification(
+        "error",
+        res?.data?.message || res?.message || "O'chirishda xatolik yuz berdi",
+      );
+    }
+  };
 
   if (loading) return <Loading />;
   if (error) return <p>Error</p>;
@@ -88,6 +123,13 @@ export default function AnnouncementsPage() {
           </div>
         </div>
       )}
+      <div className="flex items-center justify-center pt-6">
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onChangePage={handlePageChange}
+        />
+      </div>
       <div
         onClick={() => {
           setConfirm(false);
@@ -109,10 +151,8 @@ export default function AnnouncementsPage() {
               Yo'q
             </button>
             <button
-              onClick={async () => {
-                await deletAnnouncement(selectedId);
-                setConfirm(false);
-              }}
+              disabled={deleteLoading}
+              onClick={handleDelete}
               className="border border-link-hover text-white bg-link-hover px-3 py-1 rounded-sm"
             >
               Ha

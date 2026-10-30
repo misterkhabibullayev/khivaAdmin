@@ -24,16 +24,12 @@ export default function OrderTickets() {
   return (
     <div className="w-full">
       <div className="w-full overflow-x-auto p-3">
-        <div className="grid grid-cols-1 xl:grid-cols-2 gap-3 min-w-max">
+        <div className="grid grid-cols-1 xl:grid-cols-2 gap-3 xl:gap-7 min-w-max">
           {orders.map((item) => (
             <div
               key={item.id}
               className="flex items-stretch h-auto bg-link-hover relative text-white shadow-sm"
             >
-              <div className="w-5 h-5 bg-light-second dark:bg-dark-second absolute -top-2.5 -left-2.5 z-1 rounded-full"></div>
-              <div className="w-5 h-5 bg-light-second dark:bg-dark-second absolute -top-2.5 -right-2.5 z-1 rounded-full"></div>
-              <div className="w-5 h-5 bg-light-second dark:bg-dark-second absolute -bottom-2.5 -left-2.5 z-1 rounded-full"></div>
-              <div className="w-5 h-5 bg-light-second dark:bg-dark-second absolute -bottom-2.5 -right-2.5 z-1 rounded-full"></div>
               <div className="w-15 h-50 bg-link-hover flex items-center justify-center relative">
                 <p className="-rotate-90 whitespace-nowrap font-bold text-xl">
                   {item.ticketNumber}

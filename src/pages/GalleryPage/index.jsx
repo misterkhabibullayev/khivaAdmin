@@ -1,4 +1,5 @@
-import { Plus, Trash } from "lucide-react";
+import { Fancybox } from "@fancyapps/ui";
+import { Eye, Plus, Trash } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import Loading from "../../components/Loading";
@@ -25,6 +26,13 @@ export default function GalleryPage() {
   const handlePageChange = (newPage) => {
     setSearchParams({ page: newPage });
   };
+
+  useEffect(() => {
+    Fancybox.bind("[data-fancybox='gallery']", {});
+    return () => {
+      Fancybox.destroy();
+    };
+  }, []);
 
   if (loading) return <Loading />;
   if (error) return <p>{error}</p>;
@@ -57,18 +65,28 @@ export default function GalleryPage() {
                     className="absolute inset-0 w-full h-full object-cover origin-center"
                   />
                 </div>
-                <div className="absolute top-0 left-0 w-full h-full bg-black/50 flex items-center opacity-0 justify-center p-3 group-hover:opacity-100 transition-all duration-300">
+                <div className="absolute top-0 left-0 w-full h-full bg-black/50 flex flex-col gap-3 items-center opacity-0 justify-center p-3 group-hover:opacity-100 transition-all duration-300">
                   <button
                     onClick={() => {
                       setSelectedId(item.id);
                       setConfirm(true);
                     }}
                     disabled={deleteLoading}
-                    className="w-full lg:w-auto px-2 py-1 flex items-center justify-center gap-1 border border-red-500 text-red-500 rounded-sm font-medium text-sm hover:bg-red-500 hover:text-white transition-all duration-300"
+                    className="min-w-25 lg:w-auto px-2 py-1 flex items-center justify-center gap-1 border border-red-500 text-red-500 rounded-sm font-medium text-sm hover:bg-red-500 hover:text-white transition-all duration-300"
                   >
                     <Trash className="w-4 h-4" />
                     O'chirish
                   </button>
+                  <div>
+                    <a
+                      href={item.url}
+                      data-fancybox="gallery"
+                      className="min-w-25 lg:w-auto px-2 py-1 flex items-center justify-center gap-1 border border-link-hover text-link-hover rounded-sm font-medium text-sm hover:bg-link-hover hover:text-white transition-all duration-300"
+                    >
+                      <Eye className="w-4 h-4" />
+                      Ko'rish
+                    </a>
+                  </div>
                 </div>
               </div>
             ))}

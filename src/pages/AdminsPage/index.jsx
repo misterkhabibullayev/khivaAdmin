@@ -56,36 +56,36 @@ export default function AdminsPage() {
                   key={item.id}
                   className="hover:bg-gray-50/50 dark:hover:bg-dark-second transition-colors"
                 >
-                  <td className="py-2 px-3">{index + 1}</td>
-                  <td className="py-2 px-3">
+                  <td className="py-5 px-3 text-center">{index + 1}</td>
+                  <td className="py-5 px-3">
                     <h3 className="font-medium text-base whitespace-normal">
                       {item.firstName} {item.lastName}
                     </h3>
                   </td>
-                  <td className="py-2 px-3">
+                  <td className="py-5 px-3">
                     <span className="text-gray-500 dark:text-light-second flex items-center gap-1">
                       <Mail className="w-3.5 h-3.5" />
                       {item.email}
                     </span>
                   </td>
-                  <td className="py-2 px-3">
+                  <td className="py-5 px-3">
                     <span className="text-gray-500 dark:text-light-second flex items-center gap-1 capitalize">
                       <UserShield className="w-3.5 h-3.5" />
                       {item.role}
                     </span>
                   </td>
-                  <td className="py-2 px-3">
+                  <td className="py-5 px-3">
                     <p className="text-left whitespace-normal flex items-center gap-1">
                       <UserCheck className="w-3.5 h-3.5" />
                       {item.emailVerified ? "Tasdiqlangan" : "Tasdiqlanmagan"}
                     </p>
                   </td>
-                  <td className="py-2 px-3">
+                  <td className="py-5 px-3">
                     {item.createdAt
                       ? new Date(item.createdAt).toLocaleDateString()
                       : "-"}
                   </td>
-                  <td className="py-2 px-3">
+                  <td className="py-5 px-3">
                     <button
                       onClick={() => {
                         setSelectedId(item.id);

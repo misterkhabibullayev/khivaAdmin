@@ -6,6 +6,7 @@ import NoData from "../../components/NoData";
 import PageHeader from "../../components/PageHeader";
 import Pagination from "../../components/Pagination";
 import { useCollectionsStore } from "../../store/useCollectionsStore";
+import { useNotificationStore } from "../../store/useNotificationStore";
 
 export default function CollectionsPage() {
   const navigate = useNavigate();
@@ -18,7 +19,7 @@ export default function CollectionsPage() {
     deleteCollection,
   } = useCollectionsStore();
 
-  const [deleteLoading] = useState(false);
+  const [deleteLoading, setDeleteLoading] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
 
   const currentPage = Number(searchParams.get("page")) || 1;
@@ -26,12 +27,33 @@ export default function CollectionsPage() {
 
   const [confirm, setConfirm] = useState(false);
 
+  const { showNotification } = useNotificationStore();
+
   useEffect(() => {
     getCollections(currentPage);
   }, [currentPage, getCollections]);
 
   const handlePageChange = (newPage) => {
     setSearchParams({ page: newPage });
+  };
+
+  const handleDelete = async () => {
+    if (!selectedId) return;
+
+    setDeleteLoading(true);
+    const res = await deleteCollection(selectedId);
+    setDeleteLoading(false);
+    setConfirm(false);
+
+    if (res?.ok ?? true) {
+      showNotification("success", "Kolleksiya muvaffaqiyatli o'chirildi");
+      getCollections(currentPage);
+    } else {
+      showNotification(
+        "error",
+        res?.data?.message || res?.message || "O'chirishda xatolik yuz berdi",
+      );
+    }
   };
 
   if (loading) return <Loading />;
@@ -109,7 +131,7 @@ export default function CollectionsPage() {
       </div>
       <div
         onClick={() => {
-          setConfirm(false);
+          if (!deleteLoading) setConfirm(false);
         }}
         className={`absolute top-0 left-0 z-100 w-full h-full bg-black/70 flex items-center justify-center ${confirm ? "block" : "hidden"}`}
       >
@@ -128,10 +150,8 @@ export default function CollectionsPage() {
               Yo'q
             </button>
             <button
-              onClick={async () => {
-                await deleteCollection(selectedId);
-                setConfirm(false);
-              }}
+              disabled={deleteLoading}
+              onClick={handleDelete}
               className="border border-link-hover text-white bg-link-hover px-3 py-1 rounded-sm"
             >
               Ha
