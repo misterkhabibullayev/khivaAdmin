@@ -44,20 +44,20 @@ export default function GalleryPage() {
         <NoData />
       ) : (
         <div>
-          <div className="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-5 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 gap-4">
             {gallery.map((item) => (
               <div
                 key={item.id}
                 className="relative group w-full h-full bg-light-main dark:bg-dark-main rounded-lg shadow overflow-hidden"
               >
-                <div className="aspect-video overflow-hidden group mb-2 w-full flex items-center justify-center">
+                <div className="aspect-square overflow-hidden group mb-2 w-full flex items-center justify-center">
                   <img
                     src={item.url}
                     alt={`gallery-${item.id}`}
                     className="absolute inset-0 w-full h-full object-cover origin-center"
                   />
                 </div>
-                <div className="absolute top-0 left-0 w-full h-full bg-black/50 hidden items-center justify-center p-3 group-hover:flex transition-all duration-300">
+                <div className="absolute top-0 left-0 w-full h-full bg-black/50 flex items-center opacity-0 justify-center p-3 group-hover:opacity-100 transition-all duration-300">
                   <button
                     onClick={() => {
                       setSelectedId(item.id);
@@ -75,7 +75,7 @@ export default function GalleryPage() {
           </div>
         </div>
       )}
-      <div className="flex items-center justify-center pt-6">
+      <div className="flex items-center justify-end pt-6">
         <Pagination
           currentPage={currentPage}
           totalPages={totalPages}
