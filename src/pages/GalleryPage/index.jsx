@@ -51,7 +51,7 @@ export default function GalleryPage() {
       {gallery.length === 0 ? (
         <NoData />
       ) : (
-        <div>
+        <div className="xl:px-[10%]">
           <div className="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 gap-4">
             {gallery.map((item) => (
               <div

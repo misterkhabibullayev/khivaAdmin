@@ -1,8 +1,10 @@
+import { Fancybox } from "@fancyapps/ui";
 import {
   ArrowLeft,
   Camera,
   CircleCheck,
   CircleX,
+  Eye,
   KeyRound,
   Loader2,
   Mail,
@@ -41,7 +43,7 @@ export default function ProfilePage() {
   const [showPassword, setShowPassword] = useState(false);
   const [, setSelectedId] = useState(null);
   const [confirm, setConfirm] = useState(false);
-  
+
   const [targetEmail, setTargetEmail] = useState("");
   const showNotification = (type, text) => {
     setStatusMessage({ type, text });
@@ -88,6 +90,13 @@ export default function ProfilePage() {
       });
     }
   }, [profile, resetName]);
+
+  useEffect(() => {
+    Fancybox.bind("[data-fancybox='gallery']", {});
+    return () => {
+      Fancybox.destroy();
+    };
+  }, []);
 
   const onUpdateName = async (data) => {
     const res = await updateProfileName(data);
@@ -249,11 +258,20 @@ export default function ProfilePage() {
           <div className="relative">
             <div className="w-20 h-20 rounded-full overflow-hidden bg-link-hover border-2 border-link-hover flex items-center justify-center font-bold text-3xl text-white">
               {profile?.images?.length ? (
-                <img
-                  src={profile.images[0].url}
-                  alt="profile"
-                  className="w-full h-full object-cover"
-                />
+                <a
+                  href={profile.images[0].url}
+                  data-fancybox="gallery"
+                  className="w-full h-full relative flex group"
+                >
+                  <img
+                    src={profile.images[0].url}
+                    alt="profile"
+                    className="w-full h-full object-cover"
+                  />
+                  <div className="absolute top-0 left-0 w-full h-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center bg-black/50">
+                    <Eye className="w-5 h-5" />
+                  </div>
+                </a>
               ) : (
                 <span>
                   {profile.firstName?.[0]}

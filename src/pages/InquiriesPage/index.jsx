@@ -67,28 +67,28 @@ export default function InquiriesPage() {
                 return (
                   <React.Fragment key={item.id}>
                     <tr className="hover:bg-gray-50/50 dark:hover:bg-dark-second transition-colors">
-                      <td className="py-2 px-3">{index + 1}</td>
-                      <td className="py-2 px-3">
+                      <td className="py-4 px-3">{index + 1}</td>
+                      <td className="py-4 px-3">
                         <h3 className="font-medium text-base whitespace-nowrap">
                           {item.firstName} {item.lastName}
                         </h3>
                       </td>
-                      <td className="py-2 px-3 flex items-center gap-1">
+                      <td className="py-4 px-3 flex items-center gap-1">
                         <Mail className="w-3.5 h-3.5" />
                         {item.email}
                       </td>
-                      <td className="py-2 px-3">
+                      <td className="py-4 px-3">
                         <span className="text-gray-500 dark:text-light-second flex items-center gap-1 capitalize">
                           <Phone className="w-3.5 h-3.5" />
                           {item.phone}
                         </span>
                       </td>
-                      <td className="py-2 px-3">
+                      <td className="py-4 px-3">
                         {item.createdAt
                           ? new Date(item.createdAt).toLocaleDateString()
                           : "-"}
                       </td>
-                      <td className="py-2 px-3 flex items-center justify-center">
+                      <td className="py-4 px-3 flex items-center justify-center">
                         <button
                           type="button"
                           onClick={() => toggleAccordion(item.id)}
@@ -98,7 +98,7 @@ export default function InquiriesPage() {
                           Ko'rish
                         </button>
                       </td>
-                      <td className="py-2 px-3">
+                      <td className="py-4 px-3">
                         <button
                           onClick={() => {
                             setSelectedId(item.id);

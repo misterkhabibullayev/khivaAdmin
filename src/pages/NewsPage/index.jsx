@@ -65,8 +65,8 @@ export default function NewsPage() {
       {news.length === 0 ? (
         <NoData />
       ) : (
-        <div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 min-[1800px]:grid-cols-5! min-[2500px]:grid-cols-7! gap-4">
+        <div className="xl:px-[10%]">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4">
             {news.map((item) => (
               <div
                 key={item.id}
