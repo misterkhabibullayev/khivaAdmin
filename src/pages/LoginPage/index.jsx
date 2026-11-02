@@ -90,13 +90,13 @@ export default function LoginPage() {
               <div className="flex flex-col gap-2">
                 <label
                   htmlFor="email"
-                  className="font-medium text-base leading-[130%]"
+                  className="font-medium text-base leading-[130%] text-white"
                 >
                   Email
                 </label>
                 <div className="relative">
                   <div className="absolute left-2 top-1/2 -translate-y-1/2 p-1">
-                    <Mail className="w-5 h-5" />
+                    <Mail className="w-5 h-5 text-white" />
                   </div>
                   <input
                     type="email"
@@ -105,15 +105,20 @@ export default function LoginPage() {
                     value={formData.email}
                     onChange={handleChange}
                     required
-                    className="w-full outline-none border border-black dark:border-gray-300 rounded-lg px-4 pl-10 py-2 focus:border-link-hover hover:border-link-hover text-black dark:text-white dark:placeholder:text-gray-300"
+                    className="w-full outline-none border border-gray-300 rounded-lg px-4 pl-10 py-2 focus:border-link-hover hover:border-link-hover text-white placeholder:text-gray-300"
                   />
                 </div>
               </div>
               <div className="flex flex-col gap-2">
-                <label htmlFor="password">Parol</label>
+                <label
+                  htmlFor="password"
+                  className="font-medium text-base leading-[130%] text-white"
+                >
+                  Parol
+                </label>
                 <div className="relative">
                   <div className="absolute left-2 top-1/2 -translate-y-1/2 p-1">
-                    <Lock className="w-5 h-5" />
+                    <Lock className="w-5 h-5 text-white" />
                   </div>
                   <input
                     type={showPassword ? "text" : "password"}
@@ -122,7 +127,7 @@ export default function LoginPage() {
                     value={formData.password}
                     onChange={handleChange}
                     required
-                    className="w-full outline-none border border-black dark:border-gray-300 rounded-lg px-10 py-2 focus:border-link-hover hover:border-link-hover text-black dark:text-white dark:placeholder:text-gray-300"
+                    className="w-full outline-none border border-gray-300 rounded-lg px-10 py-2 focus:border-link-hover hover:border-link-hover text-white placeholder:text-gray-300"
                   />
                   <button
                     type="button"
@@ -131,7 +136,7 @@ export default function LoginPage() {
                       e.stopPropagation();
                       setShowPassword((prev) => !prev);
                     }}
-                    className="absolute right-2 top-1/2 -translate-y-1/2 p-1"
+                    className="absolute right-2 top-1/2 -translate-y-1/2 p-1 text-white"
                   >
                     {showPassword ? (
                       <Icons.eyeOpenIcon />
