@@ -135,7 +135,7 @@ export default function Aside() {
         </div>
         <div className="flex flex-col flex-1 min-h-0">
           <div className="w-full flex-1 min-h-0 overflow-y-auto overflow-x-hidden p-4">
-            <nav className="w-full flex flex-col gap-2 relative">
+            <nav className="w-full flex flex-col gap-1 relative">
               {navbar.map((item) => {
                 const Icon = item.icon;
 
