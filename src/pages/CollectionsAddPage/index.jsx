@@ -266,18 +266,23 @@ export default function CollectionsAdd() {
                       ))}
                     </div>
                   </div>
-                  <div className="border border-gray-300 dark:border-zinc-700 rounded-lg overflow-hidden">
-                    <Controller
-                      name={`content.${activeLangC}`}
-                      control={control}
-                      render={({ field }) => (
-                        <TextEditor
-                          value={field.value || ""}
-                          onChange={field.onChange}
-                        />
-                      )}
-                    />
-                  </div>
+                  {["uz", "ru", "en"].map((lang) => (
+                    <div
+                      key={lang}
+                      className={`border border-gray-300 dark:border-zinc-700 rounded-lg overflow-hidden ${activeLangC === lang ? "block" : "hidden"}`}
+                    >
+                      <Controller
+                        name={`content.${lang}`}
+                        control={control}
+                        render={({ field }) => (
+                          <TextEditor
+                            value={field.value || ""}
+                            onChange={field.onChange}
+                          />
+                        )}
+                      />
+                    </div>
+                  ))}
                 </div>
 
                 <div className="col-span-6">

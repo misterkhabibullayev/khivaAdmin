@@ -266,21 +266,23 @@ export default function NewsAdd() {
                       ))}
                     </div>
                   </div>
-                  <div
-                    key={activeLangC}
-                    className="border border-gray-300 rounded-lg overflow-hidden block"
-                  >
-                    <Controller
-                      name={`description.${activeLangC}`}
-                      control={control}
-                      render={({ field }) => (
-                        <TextEditor
-                          value={field.value || ""}
-                          onChange={field.onChange}
-                        />
-                      )}
-                    />
-                  </div>
+                  {["uz", "ru", "en"].map((lang) => (
+                    <div
+                      key={lang}
+                      className={`border border-gray-300 dark:border-zinc-700 rounded-lg overflow-hidden ${activeLangC === lang ? "block" : "hidden"}`}
+                    >
+                      <Controller
+                        name={`description.${lang}`}
+                        control={control}
+                        render={({ field }) => (
+                          <TextEditor
+                            value={field.value || ""}
+                            onChange={field.onChange}
+                          />
+                        )}
+                      />
+                    </div>
+                  ))}
                 </div>
                 <div className="col-span-6">
                   <div className="flex items-center gap-2 mb-1.5">
