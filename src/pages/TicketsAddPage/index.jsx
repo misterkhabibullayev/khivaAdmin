@@ -196,7 +196,7 @@ export default function TicketsAddPage() {
                       type="text"
                       placeholder={`${lang.toUpperCase()} tilida nomini kiriting`}
                       {...register(`title.${lang}`, { required: true })}
-                      className={`outline-none border border-gray-300 rounded-lg p-2 bg-gray-50/50 dark:bg-dark-second focus:bg-white dark:focus:bg-dark-main focus:border-link-hover hover:bg-link-hover/10 hover:border-link-hover transition-colors duration-300 ${activeLangN === lang ? "block" : "hidden"}`}
+                      className={`outline-none border border-gray-300 dark:border-zinc-700 rounded-lg p-2 bg-gray-50/50 dark:bg-dark-second focus:bg-white dark:focus:bg-dark-main focus:border-link-hover hover:bg-link-hover/10 hover:border-link-hover transition-colors duration-300 ${activeLangN === lang ? "block" : "hidden"}`}
                     />
                   ))}
                 </div>
@@ -209,7 +209,7 @@ export default function TicketsAddPage() {
                     type="number"
                     placeholder="Narx kiriting"
                     {...register("price", { required: true })}
-                    className="outline-none border border-gray-300 rounded-lg p-2 bg-gray-50/50 dark:bg-dark-second focus:bg-white dark:focus:bg-dark-main focus:border-link-hover hover:bg-link-hover/10 hover:border-link-hover transition-colors duration-300"
+                    className="outline-none border border-gray-300 dark:border-zinc-700 rounded-lg p-2 bg-gray-50/50 dark:bg-dark-second focus:bg-white dark:focus:bg-dark-main focus:border-link-hover hover:bg-link-hover/10 hover:border-link-hover transition-colors duration-300"
                   />
                 </div>
                 <div className="flex flex-col col-span-2">
@@ -224,7 +224,7 @@ export default function TicketsAddPage() {
                         required: true,
                         onChange: handleCategoryChange,
                       })}
-                      className="w-full appearance-none outline-none border border-gray-300 rounded-lg p-2 pl-3.5 pr-10 text-black/50 dark:text-white/50  bg-gray-50/50 dark:bg-dark-second cursor-pointer transition-all duration-300 hover:border-link-hover focus:border-link-hover focus:bg-white dark:focus:bg-dark-main"
+                      className="w-full appearance-none outline-none border border-gray-300 dark:border-zinc-700 rounded-lg p-2 pl-3.5 pr-10 text-black/50 dark:text-white/50  bg-gray-50/50 dark:bg-dark-second cursor-pointer transition-all duration-300 hover:border-link-hover focus:border-link-hover focus:bg-white dark:focus:bg-dark-main"
                     >
                       <option
                         value="ADULT"
@@ -267,7 +267,7 @@ export default function TicketsAddPage() {
                       id="validFrom"
                       onClick={(e) => e.target.showPicker?.()}
                       {...register("validFrom", { required: true })}
-                      className="min-w-full outline-none border border-gray-300 rounded-lg p-2 pr-10 bg-gray-50/50 dark:bg-dark-second focus:bg-white dark:focus:bg-dark-main focus:border-link-hover hover:bg-link-hover/10 hover:border-link-hover transition-colors duration-300 [&::-webkit-calendar-picker-indicator]:hidden [&::-webkit-inner-spin-button]:hidden"
+                      className="min-w-full outline-none border border-gray-300 dark:border-zinc-700 rounded-lg p-2 pr-10 bg-gray-50/50 dark:bg-dark-second focus:bg-white dark:focus:bg-dark-main focus:border-link-hover hover:bg-link-hover/10 hover:border-link-hover transition-colors duration-300 [&::-webkit-calendar-picker-indicator]:hidden [&::-webkit-inner-spin-button]:hidden"
                     />
                     <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3 text-black/50 dark:text-white/50">
                       <Calendar className="w-4 h-4" />
@@ -284,7 +284,7 @@ export default function TicketsAddPage() {
                       id="validTo"
                       onClick={(e) => e.target.showPicker?.()}
                       {...register("validTo", { required: true })}
-                      className="min-w-full outline-none border border-gray-300 rounded-lg p-2 pr-10 bg-gray-50/50 dark:bg-dark-second focus:bg-white dark:focus:bg-dark-main focus:border-link-hover hover:bg-link-hover/10 hover:border-link-hover transition-colors duration-300 [&::-webkit-calendar-picker-indicator]:hidden [&::-webkit-inner-spin-button]:hidden"
+                      className="min-w-full outline-none border border-gray-300 dark:border-zinc-700 rounded-lg p-2 pr-10 bg-gray-50/50 dark:bg-dark-second focus:bg-white dark:focus:bg-dark-main focus:border-link-hover hover:bg-link-hover/10 hover:border-link-hover transition-colors duration-300 [&::-webkit-calendar-picker-indicator]:hidden [&::-webkit-inner-spin-button]:hidden"
                     />
                     <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3 text-black/50 dark:text-white/50">
                       <Calendar className="w-4 h-4" />
@@ -300,7 +300,7 @@ export default function TicketsAddPage() {
                     id="visitingHours"
                     placeholder="Tashrif buyurish vaqtlari"
                     {...register("visitingHours", { required: true })}
-                    className="outline-none border border-gray-300 rounded-lg p-2 bg-gray-50/50 dark:bg-dark-second focus:bg-white dark:focus:bg-dark-main focus:border-link-hover hover:bg-link-hover/10 hover:border-link-hover transition-colors duration-300"
+                    className="outline-none border border-gray-300 dark:border-zinc-700 rounded-lg p-2 bg-gray-50/50 dark:bg-dark-second focus:bg-white dark:focus:bg-dark-main focus:border-link-hover hover:bg-link-hover/10 hover:border-link-hover transition-colors duration-300"
                   />
                 </div>
                 <div className="flex flex-col col-span-2">
@@ -312,7 +312,7 @@ export default function TicketsAddPage() {
                     id="ageRestriction"
                     placeholder="16 yoshdan yuqori"
                     {...register("ageRestriction")}
-                    className="outline-none border border-gray-300 rounded-lg p-2 bg-gray-50/50 dark:bg-dark-second focus:bg-white dark:focus:bg-dark-main focus:border-link-hover hover:bg-link-hover/10 hover:border-link-hover transition-colors duration-300"
+                    className="outline-none border border-gray-300 dark:border-zinc-700 rounded-lg p-2 bg-gray-50/50 dark:bg-dark-second focus:bg-white dark:focus:bg-dark-main focus:border-link-hover hover:bg-link-hover/10 hover:border-link-hover transition-colors duration-300"
                   />
                 </div>
                 <div className="flex flex-col col-span-8">
@@ -338,7 +338,7 @@ export default function TicketsAddPage() {
                   {["uz", "ru", "en"].map((lang) => (
                     <div
                       key={lang}
-                      className={`border border-gray-300 rounded-lg overflow-hidden ${activeLangD === lang ? "block" : "hidden"}`}
+                      className={`border border-gray-300 dark:border-zinc-700 rounded-lg overflow-hidden ${activeLangD === lang ? "block" : "hidden"}`}
                     >
                       <Controller
                         name={`rules.${lang}`}
@@ -374,7 +374,7 @@ export default function TicketsAddPage() {
                                 ? "Kamida 1 ta xizmat kiritilishi kerak"
                                 : false,
                           })}
-                          className="min-w-full outline-none border border-gray-300 rounded-lg p-2 pr-10 bg-gray-50/50 dark:bg-dark-second focus:bg-white dark:focus:bg-dark-main focus:border-link-hover hover:bg-link-hover/10 hover:border-link-hover transition-colors duration-300"
+                          className="min-w-full outline-none border border-gray-300 dark:border-zinc-700 rounded-lg p-2 pr-10 bg-gray-50/50 dark:bg-dark-second focus:bg-white dark:focus:bg-dark-main focus:border-link-hover hover:bg-link-hover/10 hover:border-link-hover transition-colors duration-300"
                         />
 
                         {fields.length > 1 && (

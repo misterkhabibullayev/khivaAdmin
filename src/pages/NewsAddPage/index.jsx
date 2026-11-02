@@ -243,7 +243,7 @@ export default function NewsAdd() {
                     type="text"
                     placeholder={`${activeLangN.toUpperCase()} tilida sarlavhani kiriting`}
                     {...register(`title.${activeLangN}`)}
-                    className="outline-none border border-gray-300 rounded-lg p-2 bg-gray-50/50 dark:bg-dark-second focus:bg-white dark:focus:bg-dark-main focus:border-link-hover hover:bg-link-hover/10 hover:border-link-hover transition-colors duration-300 block"
+                    className="outline-none border border-gray-300 dark:border-zinc-700 rounded-lg p-2 bg-gray-50/50 dark:bg-dark-second focus:bg-white dark:focus:bg-dark-main focus:border-link-hover hover:bg-link-hover/10 hover:border-link-hover transition-colors duration-300 block"
                   />
                 </div>
                 <div className="flex flex-col col-span-6">
@@ -292,7 +292,7 @@ export default function NewsAdd() {
                   </div>
                   {imagesList.length === 0 ? (
                     <label
-                      className={`flex flex-col justify-center w-full h-32 border-2 border-dashed rounded-lg cursor-pointer transition-colors overflow-hidden ${imgError ? "border-red-400 bg-red-50" : "border-gray-300 bg-gray-50/50 dark:bg-dark-second hover:border-link-hover hover:bg-link-hover/10"}`}
+                      className={`flex flex-col justify-center w-full h-32 border-2 border-dashed rounded-lg cursor-pointer transition-colors overflow-hidden ${imgError ? "border-red-400 bg-red-50" : "border-gray-300 dark:border-zinc-700 bg-gray-50/50 dark:bg-dark-second hover:border-link-hover hover:bg-link-hover/10"}`}
                     >
                       {isUploading ? (
                         <p className="text-sm text-gray-500 text-center">
