@@ -194,7 +194,7 @@ export default function HomePage() {
           <div className="">
             <h1 className="font-bold text-xl mb-2">So'nggi yangiliklar</h1>
             <div className="flex flex-col items-center gap-4">
-              {news.slice(0, 2).map((item) => (
+              {news.slice(0, 4).map((item) => (
                 <div
                   key={item.id}
                   className="w-full bg-light-main dark:bg-dark-main rounded-lg shadow-sm flex overflow-hidden"
@@ -222,7 +222,7 @@ export default function HomePage() {
           <div className="">
             <h1 className="font-bold text-xl mb-2">So'nggi e'lonlar</h1>
             <div className="flex flex-col items-center gap-4">
-              {announcements.slice(0, 2).map((item) => (
+              {announcements.slice(0, 4).map((item) => (
                 <div
                   key={item.id}
                   className="w-full bg-light-main dark:bg-dark-main rounded-lg shadow-sm flex overflow-hidden"
