@@ -77,7 +77,7 @@ export default function UsersPage() {
                     <td className="py-5 px-3">
                       <p className="text-left whitespace-normal flex items-center gap-1">
                         <UserCheck className="w-3.5 h-3.5" />
-                        {item.emailVerified ? "Tasdiqlangan" : ""}
+                        {item.emailVerified ? "Tasdiqlangan" : "Tasdiqlanmagan"}
                       </p>
                     </td>
                     <td className="py-5 px-3">

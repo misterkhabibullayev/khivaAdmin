@@ -1,6 +1,6 @@
 import { ArrowLeft, Loader2, Save, Upload } from "lucide-react";
 import { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import PageHeader from "../../components/PageHeader";
 import { useEmployeesStore } from "../../store/useEmployeesStore";
@@ -32,6 +32,7 @@ export default function EmployeesAddPage() {
     register,
     handleSubmit,
     reset,
+    control,
     formState: { isDirty },
   } = useForm({
     defaultValues: {
@@ -178,47 +179,76 @@ export default function EmployeesAddPage() {
                 <label htmlFor="name" className="pb-2">
                   Ism
                 </label>
-                <input
-                  id="name"
-                  type="text"
-                  placeholder="Masalan: Ibrohim"
-                  {...register("name", { required: true })}
-                  className="outline-none border border-gray-300 rounded-lg p-2 bg-gray-50/50 dark:bg-dark-second focus:bg-white dark:focus:bg-dark-main focus:border-link-hover hover:bg-link-hover/10 hover:border-link-hover transition-colors duration-300"
+                <Controller
+                  name="name"
+                  control={control}
+                  rules={{ required: "Ism kiritilishi shart" }}
+                  render={({ field }) => (
+                    <input
+                      {...field}
+                      id="name"
+                      type="text"
+                      placeholder="Masalan: Ibrohim"
+                      className="outline-none border border-gray-300 rounded-lg p-2 bg-gray-50/50 dark:bg-dark-second focus:bg-white dark:focus:bg-dark-main focus:border-link-hover hover:bg-link-hover/10 hover:border-link-hover transition-colors duration-300"
+                    />
+                  )}
                 />
               </div>
               <div className="flex flex-col col-span-2">
                 <label htmlFor="surName" className="pb-2">
                   Familya
                 </label>
-                <input
-                  id="surName"
-                  type="text"
-                  placeholder="Masalan: Xabibullayev"
-                  {...register("surName", { required: true })}
-                  className="outline-none border border-gray-300 rounded-lg p-2 bg-gray-50/50 dark:bg-dark-second focus:bg-white dark:focus:bg-dark-main focus:border-link-hover hover:bg-link-hover/10 hover:border-link-hover transition-colors duration-300"
+                <Controller
+                  name="surName"
+                  control={control}
+                  rules={{ required: "Familiya kiritilishi shart" }}
+                  render={({ field }) => (
+                    <input
+                      {...field}
+                      id="surName"
+                      type="text"
+                      placeholder="Masalan: Xabibullayev"
+                      className="outline-none border border-gray-300 rounded-lg p-2 bg-gray-50/50 dark:bg-dark-second focus:bg-white dark:focus:bg-dark-main focus:border-link-hover hover:bg-link-hover/10 hover:border-link-hover transition-colors duration-300"
+                    />
+                  )}
                 />
               </div>
               <div className="flex flex-col col-span-2">
                 <label htmlFor="fatherName" className="pb-2">
                   Otasining ismi
                 </label>
-                <input
-                  id="fatherName"
-                  type="text"
-                  placeholder="Masalan: Mahmujon o'g'li"
-                  {...register("fatherName", { required: true })}
-                  className="outline-none border border-gray-300 rounded-lg p-2 bg-gray-50/50 dark:bg-dark-second focus:bg-white dark:focus:bg-dark-main focus:border-link-hover hover:bg-link-hover/10 hover:border-link-hover transition-colors duration-300"
+                <Controller
+                  name="fatherName"
+                  control={control}
+                  rules={{ required: "Otasining ismi kiritilishi shart" }}
+                  render={({ field }) => (
+                    <input
+                      {...field}
+                      id="fatherName"
+                      type="text"
+                      placeholder="Masalan: Mahmujon o'g'li"
+                      className="outline-none border border-gray-300 rounded-lg p-2 bg-gray-50/50 dark:bg-dark-second focus:bg-white dark:focus:bg-dark-main focus:border-link-hover hover:bg-link-hover/10 hover:border-link-hover transition-colors duration-300"
+                    />
+                  )}
                 />
               </div>
               <div className="flex flex-col col-span-3">
                 <label htmlFor="birthDate" className="pb-2">
                   Tug'ilgan kuni
                 </label>
-                <input
-                  id="birthDate"
-                  type="date"
-                  {...register("birthDate", { required: true })}
-                  className="outline-none border border-gray-300 rounded-lg p-2 bg-gray-50/50 dark:bg-dark-second focus:bg-white dark:focus:bg-dark-main focus:border-link-hover hover:bg-link-hover/10 hover:border-link-hover transition-colors duration-300"
+                <Controller
+                  name="birthDate"
+                  control={control}
+                  rules={{ required: "Tu'g'ilgan sanasi kiritilishi shart" }}
+                  render={({ field }) => (
+                    <input
+                      {...field}
+                      id="birthDate"
+                      type="date"
+                      {...register("birthDate", { required: true })}
+                      className="outline-none border border-gray-300 rounded-lg p-2 bg-gray-50/50 dark:bg-dark-second focus:bg-white dark:focus:bg-dark-main focus:border-link-hover hover:bg-link-hover/10 hover:border-link-hover transition-colors duration-300"
+                    />
+                  )}
                 />
               </div>
               <div className="flex flex-col col-span-3">
@@ -241,13 +271,21 @@ export default function EmployeesAddPage() {
                     ))}
                   </div>
                 </div>
-                <input
-                  key={activeLang}
-                  id={`position-${activeLang}`}
-                  type="text"
-                  placeholder={`${activeLang.toUpperCase()} tilida lavozimni kiriting`}
-                  {...register(`position.${activeLang}`)}
-                  className="outline-none border border-gray-300 rounded-lg p-2 bg-gray-50/50 dark:bg-dark-second focus:bg-white dark:focus:bg-dark-main focus:border-link-hover hover:bg-link-hover/10 hover:border-link-hover transition-colors duration-300 block"
+                <Controller
+                  name={`position.${activeLang}`}
+                  control={control}
+                  rules={{ required: "Lavozimi kiritilishi shart" }}
+                  render={({ field }) => (
+                    <input
+                      {...field}
+                      key={activeLang}
+                      id={`position-${activeLang}`}
+                      type="text"
+                      placeholder={`${activeLang.toUpperCase()} tilida lavozimni kiriting`}
+                      {...register(`position.${activeLang}`)}
+                      className="outline-none border border-gray-300 rounded-lg p-2 bg-gray-50/50 dark:bg-dark-second focus:bg-white dark:focus:bg-dark-main focus:border-link-hover hover:bg-link-hover/10 hover:border-link-hover transition-colors duration-300 block"
+                    />
+                  )}
                 />
               </div>
               <div className="col-span-6">

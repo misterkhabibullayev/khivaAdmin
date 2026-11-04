@@ -190,13 +190,21 @@ export default function TicketsAddPage() {
                     </div>
                   </div>
                   {["uz", "ru", "en"].map((lang) => (
-                    <input
+                    <Controller
                       key={lang}
-                      id={`title-${lang}`}
-                      type="text"
-                      placeholder={`${lang.toUpperCase()} tilida nomini kiriting`}
-                      {...register(`title.${lang}`, { required: true })}
-                      className={`outline-none border border-gray-300 dark:border-zinc-700 rounded-lg p-2 bg-gray-50/50 dark:bg-dark-second focus:bg-white dark:focus:bg-dark-main focus:border-link-hover hover:bg-link-hover/10 hover:border-link-hover transition-colors duration-300 ${activeLangN === lang ? "block" : "hidden"}`}
+                      name={`title.${lang}`}
+                      control={control}
+                      rules={{ required: "Sarlavha kiritilishi shart" }}
+                      render={({ field }) => (
+                        <input
+                          {...field}
+                          id={`title-${lang}`}
+                          type="text"
+                          placeholder={`${lang.toUpperCase()} tilida nomini kiriting`}
+                          {...register(`title.${lang}`, { required: true })}
+                          className={`outline-none border border-gray-300 dark:border-zinc-700 rounded-lg p-2 bg-gray-50/50 dark:bg-dark-second focus:bg-white dark:focus:bg-dark-main focus:border-link-hover hover:bg-link-hover/10 hover:border-link-hover transition-colors duration-300 ${activeLangN === lang ? "block" : "hidden"}`}
+                        />
+                      )}
                     />
                   ))}
                 </div>
@@ -204,12 +212,20 @@ export default function TicketsAddPage() {
                   <label htmlFor="price" className="pb-2">
                     Narxi
                   </label>
-                  <input
-                    id="price"
-                    type="number"
-                    placeholder="Narx kiriting"
-                    {...register("price", { required: true })}
-                    className="outline-none border border-gray-300 dark:border-zinc-700 rounded-lg p-2 bg-gray-50/50 dark:bg-dark-second focus:bg-white dark:focus:bg-dark-main focus:border-link-hover hover:bg-link-hover/10 hover:border-link-hover transition-colors duration-300"
+                  <Controller
+                    name="price"
+                    control={control}
+                    rules={{ required: "Narx kiritilishi shart" }}
+                    render={({ field }) => (
+                      <input
+                        {...field}
+                        id="price"
+                        type="number"
+                        placeholder="Narx kiriting"
+                        {...register("price", { required: true })}
+                        className="outline-none border border-gray-300 dark:border-zinc-700 rounded-lg p-2 bg-gray-50/50 dark:bg-dark-second focus:bg-white dark:focus:bg-dark-main focus:border-link-hover hover:bg-link-hover/10 hover:border-link-hover transition-colors duration-300"
+                      />
+                    )}
                   />
                 </div>
                 <div className="flex flex-col col-span-2">
@@ -217,40 +233,48 @@ export default function TicketsAddPage() {
                     Kategoriya
                   </label>
                   <div className="relative w-full">
-                    <select
+                    <Controller
                       name="category"
-                      id="category"
-                      {...register("category", {
-                        required: true,
-                        onChange: handleCategoryChange,
-                      })}
-                      className="w-full appearance-none outline-none border border-gray-300 dark:border-zinc-700 rounded-lg p-2 pl-3.5 pr-10 text-black/50 dark:text-white/50  bg-gray-50/50 dark:bg-dark-second cursor-pointer transition-all duration-300 hover:border-link-hover focus:border-link-hover focus:bg-white dark:focus:bg-dark-main"
-                    >
-                      <option
-                        value="ADULT"
-                        className="bg-light-second dark:bg-dark-second"
-                      >
-                        Voyaga yetgan
-                      </option>
-                      <option
-                        value="CHILD"
-                        className="bg-light-second dark:bg-dark-second"
-                      >
-                        Yosh bola
-                      </option>
-                      <option
-                        value="STUDENT"
-                        className="bg-light-second dark:bg-dark-second"
-                      >
-                        Talaba
-                      </option>
-                      <option
-                        value="PENSIONER"
-                        className="bg-light-second dark:bg-dark-second"
-                      >
-                        Pensioner
-                      </option>
-                    </select>
+                      control={control}
+                      rules={{ required: "Categoriya kiritilishi shart" }}
+                      render={({ field }) => (
+                        <select
+                          {...field}
+                          name="category"
+                          id="category"
+                          {...register("category", {
+                            required: true,
+                            onChange: handleCategoryChange,
+                          })}
+                          className="w-full appearance-none outline-none border border-gray-300 dark:border-zinc-700 rounded-lg p-2 pl-3.5 pr-10 text-black/50 dark:text-white/50  bg-gray-50/50 dark:bg-dark-second cursor-pointer transition-all duration-300 hover:border-link-hover focus:border-link-hover focus:bg-white dark:focus:bg-dark-main"
+                        >
+                          <option
+                            value="ADULT"
+                            className="bg-light-second dark:bg-dark-second"
+                          >
+                            Voyaga yetgan
+                          </option>
+                          <option
+                            value="CHILD"
+                            className="bg-light-second dark:bg-dark-second"
+                          >
+                            Yosh bola
+                          </option>
+                          <option
+                            value="STUDENT"
+                            className="bg-light-second dark:bg-dark-second"
+                          >
+                            Talaba
+                          </option>
+                          <option
+                            value="PENSIONER"
+                            className="bg-light-second dark:bg-dark-second"
+                          >
+                            Pensioner
+                          </option>
+                        </select>
+                      )}
+                    />
 
                     <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3 text-black/50 dark:text-white/50">
                       <ChevronDown className="w-4 h-4" />
@@ -262,12 +286,22 @@ export default function TicketsAddPage() {
                     Kuchga kirishi
                   </label>
                   <div className="relative w-full">
-                    <input
-                      type="date"
-                      id="validFrom"
-                      onClick={(e) => e.target.showPicker?.()}
-                      {...register("validFrom", { required: true })}
-                      className="min-w-full outline-none border border-gray-300 dark:border-zinc-700 rounded-lg p-2 pr-10 bg-gray-50/50 dark:bg-dark-second focus:bg-white dark:focus:bg-dark-main focus:border-link-hover hover:bg-link-hover/10 hover:border-link-hover transition-colors duration-300 [&::-webkit-calendar-picker-indicator]:hidden [&::-webkit-inner-spin-button]:hidden"
+                    <Controller
+                      name="validFrom"
+                      control={control}
+                      rules={{
+                        required: "Kuchga kirish kuni kiritilishi shart",
+                      }}
+                      render={({ field }) => (
+                        <input
+                          {...field}
+                          type="date"
+                          id="validFrom"
+                          onClick={(e) => e.target.showPicker?.()}
+                          {...register("validFrom", { required: true })}
+                          className="min-w-full outline-none border border-gray-300 dark:border-zinc-700 rounded-lg p-2 pr-10 bg-gray-50/50 dark:bg-dark-second focus:bg-white dark:focus:bg-dark-main focus:border-link-hover hover:bg-link-hover/10 hover:border-link-hover transition-colors duration-300 [&::-webkit-calendar-picker-indicator]:hidden [&::-webkit-inner-spin-button]:hidden"
+                        />
+                      )}
                     />
                     <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3 text-black/50 dark:text-white/50">
                       <Calendar className="w-4 h-4" />
@@ -279,12 +313,20 @@ export default function TicketsAddPage() {
                     Tugash muddati
                   </label>
                   <div className="relative w-full">
-                    <input
-                      type="date"
-                      id="validTo"
-                      onClick={(e) => e.target.showPicker?.()}
-                      {...register("validTo", { required: true })}
-                      className="min-w-full outline-none border border-gray-300 dark:border-zinc-700 rounded-lg p-2 pr-10 bg-gray-50/50 dark:bg-dark-second focus:bg-white dark:focus:bg-dark-main focus:border-link-hover hover:bg-link-hover/10 hover:border-link-hover transition-colors duration-300 [&::-webkit-calendar-picker-indicator]:hidden [&::-webkit-inner-spin-button]:hidden"
+                    <Controller
+                      name="validTo"
+                      control={control}
+                      rules={{ required: "Tugash muddati kiritilishi shart" }}
+                      render={({ field }) => (
+                        <input
+                          {...field}
+                          type="date"
+                          id="validTo"
+                          onClick={(e) => e.target.showPicker?.()}
+                          {...register("validTo", { required: true })}
+                          className="min-w-full outline-none border border-gray-300 dark:border-zinc-700 rounded-lg p-2 pr-10 bg-gray-50/50 dark:bg-dark-second focus:bg-white dark:focus:bg-dark-main focus:border-link-hover hover:bg-link-hover/10 hover:border-link-hover transition-colors duration-300 [&::-webkit-calendar-picker-indicator]:hidden [&::-webkit-inner-spin-button]:hidden"
+                        />
+                      )}
                     />
                     <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3 text-black/50 dark:text-white/50">
                       <Calendar className="w-4 h-4" />
@@ -293,26 +335,42 @@ export default function TicketsAddPage() {
                 </div>
                 <div className="flex flex-col col-span-2">
                   <label htmlFor="visitingHours" className="pb-2">
-                    Aylanish vaqti
+                    Tashrif vaqti
                   </label>
-                  <input
-                    type="text"
-                    id="visitingHours"
-                    placeholder="Tashrif buyurish vaqtlari"
-                    {...register("visitingHours", { required: true })}
-                    className="outline-none border border-gray-300 dark:border-zinc-700 rounded-lg p-2 bg-gray-50/50 dark:bg-dark-second focus:bg-white dark:focus:bg-dark-main focus:border-link-hover hover:bg-link-hover/10 hover:border-link-hover transition-colors duration-300"
+                  <Controller
+                    name="visitingHours"
+                    control={control}
+                    rules={{ required: "Tashrif vaqti kiritilishi shart" }}
+                    render={({ field }) => (
+                      <input
+                        {...field}
+                        type="text"
+                        id="visitingHours"
+                        placeholder="Tashrif buyurish vaqtlari"
+                        {...register("visitingHours", { required: true })}
+                        className="outline-none border border-gray-300 dark:border-zinc-700 rounded-lg p-2 bg-gray-50/50 dark:bg-dark-second focus:bg-white dark:focus:bg-dark-main focus:border-link-hover hover:bg-link-hover/10 hover:border-link-hover transition-colors duration-300"
+                      />
+                    )}
                   />
                 </div>
                 <div className="flex flex-col col-span-2">
                   <label htmlFor="ageRestriction" className="pb-2">
                     Yosh cheklanishi
                   </label>
-                  <input
-                    type="text"
-                    id="ageRestriction"
-                    placeholder="16 yoshdan yuqori"
-                    {...register("ageRestriction")}
-                    className="outline-none border border-gray-300 dark:border-zinc-700 rounded-lg p-2 bg-gray-50/50 dark:bg-dark-second focus:bg-white dark:focus:bg-dark-main focus:border-link-hover hover:bg-link-hover/10 hover:border-link-hover transition-colors duration-300"
+                  <Controller
+                    name="ageRestriction"
+                    control={control}
+                    rules={{ required: "Yosh cheklanishi kiritilishi shart" }}
+                    render={({ field }) => (
+                      <input
+                        {...field}
+                        type="text"
+                        id="ageRestriction"
+                        placeholder="16 yoshdan yuqori"
+                        {...register("ageRestriction")}
+                        className="outline-none border border-gray-300 dark:border-zinc-700 rounded-lg p-2 bg-gray-50/50 dark:bg-dark-second focus:bg-white dark:focus:bg-dark-main focus:border-link-hover hover:bg-link-hover/10 hover:border-link-hover transition-colors duration-300"
+                      />
+                    )}
                   />
                 </div>
                 <div className="flex flex-col col-span-8">

@@ -206,12 +206,20 @@ export default function CollectionsAdd() {
                       ))}
                     </div>
                   </div>
-                  <input
-                    id={`title-${activeLangN}`}
-                    type="text"
-                    placeholder={`${activeLangN.toUpperCase()} tilida nomini kiriting`}
-                    {...register(`title.${activeLangN}`)}
-                    className="outline-none border border-gray-300 dark:border-zinc-700 rounded-lg p-2 bg-gray-50/50 dark:bg-dark-second focus:bg-white dark:focus:bg-dark-main focus:border-link-hover hover:border-link-hover transition-colors"
+                  <Controller
+                    name={`title.${activeLangN}`}
+                    control={control}
+                    rules={{ required: "Sarlavha kiritilishi shart" }}
+                    render={({ field }) => (
+                      <input
+                        {...field}
+                        id={`title-${activeLangN}`}
+                        type="text"
+                        placeholder={`${activeLangN.toUpperCase()} tilida nomini kiriting`}
+                        {...register(`title.${activeLangN}`)}
+                        className="outline-none border border-gray-300 dark:border-zinc-700 rounded-lg p-2 bg-gray-50/50 dark:bg-dark-second focus:bg-white dark:focus:bg-dark-main focus:border-link-hover hover:border-link-hover transition-colors"
+                      />
+                    )}
                   />
                 </div>
 
@@ -237,12 +245,20 @@ export default function CollectionsAdd() {
                       ))}
                     </div>
                   </div>
-                  <input
-                    id={`description-${activeLangD}`}
-                    type="text"
-                    placeholder={`${activeLangD.toUpperCase()} tilida tavsifni kiriting`}
-                    {...register(`description.${activeLangD}`)}
-                    className="outline-none border border-gray-300 dark:border-zinc-700 rounded-lg p-2 bg-gray-50/50 dark:bg-dark-second focus:bg-white dark:focus:bg-dark-main focus:border-link-hover hover:border-link-hover transition-colors"
+                  <Controller
+                    name={`description.${activeLangD}`}
+                    control={control}
+                    rules={{ required: "Tavsif kiritilishi shart" }}
+                    render={({ field }) => (
+                      <input
+                        {...field}
+                        id={`description-${activeLangD}`}
+                        type="text"
+                        placeholder={`${activeLangD.toUpperCase()} tilida tavsifni kiriting`}
+                        {...register(`description.${activeLangD}`)}
+                        className="outline-none border border-gray-300 dark:border-zinc-700 rounded-lg p-2 bg-gray-50/50 dark:bg-dark-second focus:bg-white dark:focus:bg-dark-main focus:border-link-hover hover:border-link-hover transition-colors"
+                      />
+                    )}
                   />
                 </div>
 

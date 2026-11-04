@@ -35,7 +35,6 @@ export default function AnnouncementAdd() {
   } = useAnnouncementStore();
 
   const {
-    register,
     handleSubmit,
     reset,
     control,
@@ -232,12 +231,19 @@ export default function AnnouncementAdd() {
                       ))}
                     </div>
                   </div>
-                  <input
-                    id={`title-${activeLangN}`}
-                    type="text"
-                    placeholder={`${activeLangN.toUpperCase()} tilida sarlavhani kiriting`}
-                    {...register(`title.${activeLangN}`)}
-                    className="outline-none border border-gray-300 dark:border-zinc-700 rounded-lg p-2 bg-gray-50/50 dark:bg-dark-second focus:bg-white dark:focus:bg-dark-main focus:border-link-hover hover:bg-link-hover/10 hover:border-link-hover transition-colors duration-300 block"
+                  <Controller
+                    name={`title.${activeLangN}`}
+                    control={control}
+                    rules={{ required: "Sarlavha kiritilishi shart" }}
+                    render={({ field }) => (
+                      <input
+                        {...field}
+                        id={`title-${activeLangN}`}
+                        type="text"
+                        placeholder={`${activeLangN.toUpperCase()} tilida sarlavhani kiriting`}
+                        className="outline-none border border-gray-300 dark:border-zinc-700 rounded-lg p-2 bg-gray-50/50 dark:bg-dark-second focus:bg-white dark:focus:bg-dark-main focus:border-link-hover hover:bg-link-hover/10 hover:border-link-hover transition-colors duration-300 block"
+                      />
+                    )}
                   />
                 </div>
                 <div className="flex flex-col col-span-6">

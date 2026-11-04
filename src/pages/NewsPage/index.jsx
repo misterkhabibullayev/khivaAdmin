@@ -80,12 +80,12 @@ export default function NewsPage() {
                   />
                 </div>
                 <div className="px-2 pb-2 flex-1">
-                  <h1 className="font-medium text-lg leading-[110%] line-clamp-2">
+                  <h1 className="font-medium text-lg leading-[110%] line-clamp-2 min-h-10">
                     {item.title.uz}
                   </h1>
                   <div
                     dangerouslySetInnerHTML={{ __html: item.description.uz }}
-                    className="line-clamp-3 text-sm leading-[130%] my-2"
+                    className="line-clamp-3 text-sm leading-[130%] my-2 min-h-13.5"
                   ></div>
                   <div className="flex items-center">
                     <div className="w-full grid grid-cols-1 lg:grid-cols-2 gap-2">
