@@ -1,4 +1,12 @@
-import { Hash, Mail, Plus, Trash, UserCheck, UserShield } from "lucide-react";
+import {
+  CircleX,
+  Hash,
+  Mail,
+  Plus,
+  Trash,
+  UserCheck,
+  UserShield,
+} from "lucide-react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Loading from "../../components/Loading";
@@ -76,8 +84,14 @@ export default function AdminsPage() {
                       </span>
                     </td>
                     <td className="py-5 px-3">
-                      <p className="text-left whitespace-normal flex items-center gap-1">
-                        <UserCheck className="w-3.5 h-3.5" />
+                      <p
+                        className={`whitespace-normal flex items-center gap-1 py-1 justify-center rounded-lg text-base ${item.emailVerified ? "bg-[#003710] text-[#00ff00]" : "bg-[#6912163d] text-[#ff0000]"}`}
+                      >
+                        {item.emailVerified ? (
+                          <UserCheck className="w-3.5 h-3.5" />
+                        ) : (
+                          <CircleX className="w-3.5 h-3.5" />
+                        )}
                         {item.emailVerified ? "Tasdiqlangan" : "Tasdiqlanmagan"}
                       </p>
                     </td>

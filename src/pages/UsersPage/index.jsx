@@ -1,4 +1,4 @@
-import { Hash, Mail, Shield, UserCheck } from "lucide-react";
+import { CircleX, Hash, Mail, Shield, UserCheck } from "lucide-react";
 import { useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import Loading from "../../components/Loading";
@@ -50,7 +50,7 @@ export default function UsersPage() {
                   <th className="py-2 px-3">Ro'yxatdan o'tgan</th>
                 </tr>
               </thead>
-              <tbody className="w-full divide-y divide-link-hover text-sm text-gray-700 dark:text-white">
+              <tbody className="w-full divide-y divide-link-hover text-sm text-black dark:text-white">
                 {users.map((item, index) => (
                   <tr
                     key={item.id}
@@ -75,8 +75,8 @@ export default function UsersPage() {
                       </span>
                     </td>
                     <td className="py-5 px-3">
-                      <p className="text-left whitespace-normal flex items-center gap-1">
-                        <UserCheck className="w-3.5 h-3.5" />
+                      <p className={`whitespace-normal flex items-center gap-1 py-1 justify-center rounded-lg text-base ${item.emailVerified ? "bg-[#003710] text-[#00ff00]" : "bg-[#6912163d] text-[#ff0000]"}`}>
+                        {item.emailVerified ? <UserCheck className="w-3.5 h-3.5" /> : <CircleX className="w-3.5 h-3.5" />}
                         {item.emailVerified ? "Tasdiqlangan" : "Tasdiqlanmagan"}
                       </p>
                     </td>
